@@ -4,5 +4,5 @@
 /**
  * 
  */
-module Proyecto {
+module CañonesYFogones {
 }
