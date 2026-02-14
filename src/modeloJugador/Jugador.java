@@ -1,10 +1,43 @@
 package modeloJugador;
 
 public class Jugador {
-	//atributos
+	// atributos
 	private String nombre;
+	private Inventario inventario;
 	private int oro;
 	private Barco barco;
 	private Diario diario;
 
+	// constructor
+	public Jugador(String nombre) {
+		this.nombre = nombre;
+		oro = 5;
+		inventario = new Inventario();
+	}
+
+	// getters y setters
+	public Inventario getInventario() {
+		return inventario;
+	}
+
+	public int getOro() {
+		return oro;
+	}
+
+	public void setOro(int oro) {
+		this.oro = oro;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	// metodos propios
+	public void sumarOro(int cantidad) {
+		oro = oro += cantidad;
+	}
+
+	public void restarOro(int cantidad) {
+		oro = oro -= cantidad;
+	}
 }

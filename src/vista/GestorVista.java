@@ -1,37 +1,47 @@
 package vista;
+
 import java.util.InputMismatchException;
+
 import java.util.Scanner;
+
 public class GestorVista {
-	//atributos
-	private static final Scanner TECLADO=new Scanner(System.in);
-	
-	//metodos propios
-	public void imprimir (String msg) {
-		System.out.println(msg);
-	}
-	
-	public int leerInt(String prompt) {
-		int opcion=-1;
-		boolean hayError=true;
-		System.out.println(prompt);
+	// atributos
+	private final Scanner TECLADO = new Scanner(System.in);
+
+	// metodos
+	public int pedirNum() {
+		int num = -1;
+		boolean hayError = true;
 		while (hayError) {
 			try {
-				opcion=TECLADO.nextInt();
+				num = TECLADO.nextInt();
 				TECLADO.nextLine();
-				hayError=false;
+				hayError = false;
 			} catch (InputMismatchException e) {
+				System.err.println("Introduce un numero valido:");
 				TECLADO.nextLine();
-				System.out.println("Introduce un número válido:");
-				hayError=true;
+				hayError = true;
 			}
 		}
-		return opcion;
+		return num;
 	}
-	
-	public String pedirNombre() {
-		String nombre;
-		System.out.println("Cuál es tu nombre, capitán?");
-		nombre=TECLADO.nextLine();
-		return nombre;
+
+	public String pedirString() {
+		String texto;
+		texto = TECLADO.nextLine();
+		return texto;
 	}
+
+	public void imprimirMensaje(String msg) {
+		System.out.println(msg);
+	}
+
+	public void imprimirMensajePegado(String msg) {
+		System.out.print(msg);
+	}
+
+	public void imprimirError(String msg) {
+		System.err.println(msg);
+	}
+
 }
