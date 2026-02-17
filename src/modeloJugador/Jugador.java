@@ -11,7 +11,7 @@ public class Jugador {
 	// constructor
 	public Jugador(String nombre) {
 		this.nombre = nombre;
-		oro = 5;
+		oro = 50000000;
 		inventario = new Inventario();
 	}
 

@@ -16,8 +16,8 @@ public class VistaTienda {
 		gestorVista.imprimirMensaje("");
 		gestorVista.imprimirMensaje("=== STOCK ===");
 		Map<String, Item> stock = t.getStock().getItems();
+		int contador = 1;
 		for (String i : stock.keySet()) {
-			int contador = 1;
 			gestorVista.imprimirMensaje(contador + ". " + stock.get(i).getNombre() + ":");
 			gestorVista.imprimirMensaje("\tPrecio: " + stock.get(i).getPrecio() + "g");
 			gestorVista.imprimirMensaje("\tCantidad: " + stock.get(i).getCantidad());
@@ -38,7 +38,7 @@ public class VistaTienda {
 				.imprimirMensaje("Esto es lo que quieres comprar?\n" + i.getNombre() + " por " + i.getPrecio() + "g?");
 		gestorVista.imprimirMensaje("1. Si\n2. No");
 		opcion = gestorVista.pedirNum();
-		while (opcion != 1 || opcion != 2) {
+		while (opcion < 1 || opcion > 2) {
 			gestorVista.imprimirError("Introduce una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}

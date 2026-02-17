@@ -3,8 +3,8 @@ package controlador;
 import java.util.Map;
 
 import modeloJugador.Inventario;
-import modeloObjetos.Item;
 import modeloJugador.Jugador;
+import modeloObjetos.Item;
 import modeloPersonajes.NPC;
 import vista.VistaTienda;
 
@@ -58,7 +58,7 @@ public class GestorTienda {
 		Map<String, Item> itemsALaVenta = stock.getItems();
 		for (String i : itemsALaVenta.keySet()) {
 			if (opcion == contador) {
-				if (j.getOro() - itemsALaVenta.get(i).getPrecio() <= 0) {
+				if (j.getOro() - itemsALaVenta.get(i).getPrecio() < 0) {
 					vistaTienda.imprimirMensaje("No tienes suficiente dinero para comprar eso!");
 				} else {
 					confirmacion = vistaTienda.menuConfirmacion(itemsALaVenta.get(i));
