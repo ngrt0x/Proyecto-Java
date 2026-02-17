@@ -3,8 +3,8 @@ package controlador;
 import java.util.Map;
 import java.util.Random;
 
-import modeloObjetos.Item;
 import modeloJugador.Jugador;
+import modeloObjetos.Item;
 import modeloObjetos.Pez;
 import vista.VistaPesca;
 
@@ -17,7 +17,7 @@ public class MinijuegoPesca implements Minijuego {
 	// peces disponibles
 	private Pez tiburon = new Pez("Tiburón", "tiburon", 100, 1, 10, 40);
 	private Pez pezGlobo = new Pez("Pez globo", "pez_globo", 15, 1, 25, 15);
-	private Pez ballena = new Pez("Ballena", "ballena", 200, 5, 1, 75);
+	private Pez ballena = new Pez("Ballena", "ballena", 200, 1, 5, 75);
 	private Pez gallo = new Pez("Gallo", "gallo", 15, 1, 40, 15);
 	private Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 1, 15, 20);
 	private Pez dorada = new Pez("Dorada", "dorada", 25, 1, 40, 15);

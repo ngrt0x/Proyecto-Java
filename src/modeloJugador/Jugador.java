@@ -10,6 +10,7 @@ public class Jugador {
 
 	// constructor
 	public Jugador(String nombre) {
+		barco = new Barco();
 		this.nombre = nombre;
 		oro = 50000000;
 		inventario = new Inventario();
@@ -30,6 +31,10 @@ public class Jugador {
 
 	public String getNombre() {
 		return nombre;
+	}
+
+	public Barco getBarco() {
+		return barco;
 	}
 
 	// metodos propios

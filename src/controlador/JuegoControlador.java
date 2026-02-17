@@ -9,6 +9,7 @@ public class JuegoControlador {
 	private Jugador jugador = new Jugador(vistaJuego.pedirNombre());
 	private final GestorTienda TIENDA = new GestorTienda(jugador);
 	private final MinijuegoPesca PESCA = new MinijuegoPesca(jugador);
+	private final GestorCombate COMBATE = new GestorCombate(jugador.getBarco());
 
 	// metodos
 	public void iniciarJuego() {
@@ -25,6 +26,8 @@ public class JuegoControlador {
 			case 3:
 				TIENDA.entrarTienda();
 				break;
+			case 4:
+				COMBATE.comenzar();
 			}
 			opcion = vistaJuego.menuInicio();
 		}

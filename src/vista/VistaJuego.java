@@ -2,8 +2,8 @@ package vista;
 
 import java.util.Map;
 
-import modeloObjetos.Item;
 import modeloJugador.Jugador;
+import modeloObjetos.Item;
 
 public class VistaJuego {
 	// atributos
@@ -13,9 +13,9 @@ public class VistaJuego {
 		int opcion;
 
 		gestorVista.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n"
-				+ "2. Ver inventario\n" + "3. Entrar a la tienda\n" + "0. Salir");
+				+ "2. Ver inventario\n" + "3. Entrar a la tienda\n" + "4. Combate\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 3 || opcion < 0) {
+		while (opcion > 4 || opcion < 0) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}

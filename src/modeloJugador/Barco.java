@@ -1,18 +1,31 @@
 package modeloJugador;
-import java.util.List;
 
+import modeloObjetos.Armamento;
 import modeloPersonajes.Tripulante;
 
-import java.util.ArrayList;
 public class Barco {
-	//atributos
-	private int integridadActual;
-	private int integridadTope;
-	private List<Tripulante> tripulacion;
+	// atributos
+	private Tripulante[] tripulacion;
 	private Inventario equipamiento;
-	
-	//metodos propios
-	public void reparar() {
-		
+	private Armamento armamento;
+
+	// constructor
+	public Barco() {
+		Armamento armamentoBasico = new Armamento("Armamento Básico", "arma_base", 20, 1, 15);
+		armamento = armamentoBasico;
+		tripulacion = new Tripulante[4];
+	}
+
+	// getters y setters
+	public Tripulante[] getTripulacion() {
+		return tripulacion;
+	}
+
+	public Inventario getEquipamiento() {
+		return equipamiento;
+	}
+
+	public Armamento getArmamento() {
+		return armamento;
 	}
 }
