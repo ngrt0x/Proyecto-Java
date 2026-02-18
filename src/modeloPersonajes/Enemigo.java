@@ -5,10 +5,11 @@ import java.util.Random;
 public class Enemigo implements ICombatiente {
 	private final Random ALEATORIO = new Random();
 	// atributos
-	protected String nombre;
-	protected int saludActual;
-	protected int saludTope;
-	protected int fuerza;
+	private String nombre;
+	private int saludActual;
+	private int saludTope;
+	private int fuerza;
+	private int iniciativa;
 
 	// constructor
 	public Enemigo(String nombre, int saludTope, int fuerza) {
@@ -19,10 +20,6 @@ public class Enemigo implements ICombatiente {
 	}
 
 	// getters y setters
-	public String getNombre() {
-		return nombre;
-	}
-
 	public int getSaludActual() {
 		return saludActual;
 	}
@@ -35,9 +32,23 @@ public class Enemigo implements ICombatiente {
 		return fuerza;
 	}
 
+	public int getIniciativa() {
+		return iniciativa;
+	}
+
+	public void setIniciativa(int iniciativa) {
+		this.iniciativa = iniciativa;
+	}
+
+	// metodos propios
+	public int atacar() {
+		return fuerza;
+	}
+
 	// metodos de la interfaz
-	public void atacar(ICombatiente objetivo) {
-		objetivo.recibirDanio(fuerza);
+	@Override
+	public String getNombre() {
+		return nombre;
 	}
 
 	@Override

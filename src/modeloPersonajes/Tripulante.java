@@ -9,31 +9,56 @@ public class Tripulante extends Persona implements ICombatiente {
 	// atributos propios
 	private int saludActual;
 	private int saludTope;
-	private boolean estaDefendiendo = false;
+	private int fuerza;
+	private boolean defendiendo = false;
+	private int iniciativa;
 
 	// constructor
-	public Tripulante(String nombre, int saludTope) {
+	public Tripulante(String nombre, int saludTope, int fuerza) {
 		this.nombre = nombre;
 		this.saludTope = saludTope;
 		saludActual = saludTope;
+		this.fuerza = fuerza;
 	}
 
-	// metodos de la interfaz
-	public void atacar(ICombatiente objetivo, Barco barco) {
-		objetivo.recibirDanio(barco.getArmamento().getDanio());
+	// getters y setters
+	public boolean isDefendiendo() {
+		return defendiendo;
+	}
+
+	public int getSaludActual() {
+		return saludActual;
+	}
+
+	public int getSaludTope() {
+		return saludTope;
+	}
+	
+	public int getIniciativa() {
+		return iniciativa;
+	}
+	
+	public void setIniciativa(int iniciativa) {
+		this.iniciativa = iniciativa;
+	}
+
+	// metodos propios
+	public int atacar(Barco barco) {
+		return barco.getArmamento().getDanio() + fuerza;
 	}
 
 	public void defender() {
-		estaDefendiendo = true;
+		defendiendo = true;
 	}
 
+	public void recuperarSalud(int saludRecuperada) {
+		saludActual = Math.min(saludTope, saludActual + saludRecuperada);
+	}
+
+	// metodos de la interfaz
 	@Override
 	public void recibirDanio(int danio) {
-		if (!estaDefendiendo) {
-			saludActual = Math.max(0, saludActual - danio);
-		} else {
-			saludActual = Math.max(0, saludActual - (danio / 2));
-		}
+		saludActual = Math.max(0, saludActual - danio);
 	}
 
 	@Override

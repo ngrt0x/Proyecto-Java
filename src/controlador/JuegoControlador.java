@@ -9,7 +9,7 @@ public class JuegoControlador {
 	private Jugador jugador = new Jugador(vistaJuego.pedirNombre());
 	private final GestorTienda TIENDA = new GestorTienda(jugador);
 	private final MinijuegoPesca PESCA = new MinijuegoPesca(jugador);
-	private final GestorCombate COMBATE = new GestorCombate(jugador.getBarco());
+	private final GestorCombate COMBATE = new GestorCombate(jugador);
 
 	// metodos
 	public void iniciarJuego() {
