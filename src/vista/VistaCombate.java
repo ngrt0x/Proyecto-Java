@@ -21,10 +21,9 @@ public class VistaCombate {
 		for (int i = 0; i < enemigos.length; i++) {
 			gestorVista.imprimirMensaje((i + 1) + ". " + enemigos[i].getNombre());
 		}
-		gestorVista.imprimirMensaje("0. Atrás");
 		gestorVista.imprimirMensaje("A qué enemigo quieres que ataque " + t.getNombre() + "?");
 		opcion = gestorVista.pedirNum();
-		while (opcion < 0 || opcion > enemigos.length || !enemigos[opcion - 1].estaVivo()) {
+		while (opcion < 1 || opcion > enemigos.length || !enemigos[opcion - 1].estaVivo()) {
 			if (opcion < 0 || opcion > enemigos.length) {
 				gestorVista.imprimirError("Selecciona una opción válda: ");
 			} else if (!enemigos[opcion - 1].estaVivo()) {
@@ -126,6 +125,10 @@ public class VistaCombate {
 				+ objetivo.getNombre() + mensajeEsquiva[ALEATORIO.nextInt(3)]);
 	}
 
+	public void mensajeEsquivaCanones(ICombatiente objetivo) {
+		gestorVista.imprimirMensaje(objetivo.getNombre() + " milagrosamente no recibe daño!");
+	}
+
 	public void mensajeDefensa(Tripulante t) {
 		gestorVista.imprimirMensaje(t.getNombre() + " se prepara para bloquear el siguiente ataque.");
 	}
@@ -149,8 +152,11 @@ public class VistaCombate {
 		gestorVista.imprimirMensaje(c.getNombre() + " ha sido derrotado!");
 	}
 
-	public void turnoEnemigo(Enemigo e) {
-		gestorVista.imprimirMensaje("");
-		gestorVista.imprimirMensaje("=== Turno de " + e.getNombre() + " ===");
+	public void mensajeCanones() {
+		gestorVista.imprimirMensaje("Tu barco dispara sus cañones!");
+	}
+
+	public void mensajeRecibirCanon(ICombatiente c, int danio) {
+		gestorVista.imprimirMensaje(c.getNombre() + " recibe " + danio + " de la descarga de los cañones!");
 	}
 }

@@ -1,11 +1,11 @@
 package modeloObjetos;
 
-public class Armamento extends Item {
+public class ArmamentoBarco extends Item {
 	// atributos propios
 	private int danio;
 
 	// constructor
-	public Armamento(String nombre, String id, int precio, int cantidad, int danio) {
+	public ArmamentoBarco(String nombre, String id, int precio, int cantidad, int danio) {
 		super(nombre, id, precio, cantidad);
 		this.danio = danio;
 	}

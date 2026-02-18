@@ -1,14 +1,13 @@
 package modeloJugador;
 
-import modeloObjetos.Armamento;
+import modeloObjetos.ArmamentoBarco;
 import modeloPersonajes.Tripulante;
 
 public class Barco {
 	// atributos
-	private Inventario equipamiento;
+	private InventarioBarco inventarioB = new InventarioBarco();
 	// armamento basico con el que empiezas
-	private Armamento armamentoBasico = new Armamento("Armamento Básico", "arma_base", 20, 1, 15);
-	private Armamento armamento = armamentoBasico;
+	private ArmamentoBarco armamentoBasico = new ArmamentoBarco("Armamento Básico", "arma_base", 20, 1, 15);
 	// tripulantes
 	private Tripulante charlie = new Tripulante("Charlie Kirky", 110, 18); // rol medio
 	private Tripulante godofredo = new Tripulante("Godofredo Epsparrow", 80, 28); // dps
@@ -16,16 +15,17 @@ public class Barco {
 	private Tripulante jesus = new Tripulante("Jesús Cristo García", 100, 16); // rol medio
 	private Tripulante[] tripulacion = { charlie, godofredo, john, jesus };
 
+	// constructor
+	public Barco() {
+		inventarioB.anadirArmamento(armamentoBasico);
+	}
+
 	// getters y setters
 	public Tripulante[] getTripulacion() {
 		return tripulacion;
 	}
 
-	public Inventario getEquipamiento() {
-		return equipamiento;
-	}
-
-	public Armamento getArmamento() {
-		return armamento;
+	public InventarioBarco getInventarioB() {
+		return inventarioB;
 	}
 }

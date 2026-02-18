@@ -2,6 +2,9 @@ package controlador;
 
 import modeloJugador.Barco;
 import modeloJugador.Jugador;
+import modeloObjetos.ArmamentoBarco;
+import modeloObjetos.Canon;
+import modeloObjetos.Item;
 import modeloPersonajes.Enemigo;
 import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
@@ -10,6 +13,7 @@ import vista.VistaCombate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class GestorCombate implements Minijuego {
@@ -31,6 +35,7 @@ public class GestorCombate implements Minijuego {
 	// metodos de la interfaz
 	@Override
 	public void comenzar() {
+		int contadorRondas = 1;
 		// genera un grupo de enemigos aleatorio
 		enemigos = generarEncuentro();
 
@@ -55,10 +60,13 @@ public class GestorCombate implements Minijuego {
 
 		// comienza el bucle de combate
 		while (aliadosVivos() && enemigosVivos()) {
+			// comprueba que el barco tiene canones y que el turno es divisible entre 4,
+			// entonces los canones atacan
+			if (tieneCanones() && contadorRondas % 4 == 0) {
+				canonesAtacar(enemigos);
+			}
+			// turnos infividuales de cada combatiente
 			for (int i = 0; i < combatientes.size(); i++) {
-				if (combatientes.get(i) instanceof Enemigo) {
-					vistaCombate.turnoEnemigo((Enemigo) combatientes.get(i));
-				}
 				turno(combatientes.get(i));
 				if (!aliadosVivos() || !enemigosVivos()) {
 					if (!aliadosVivos()) {
@@ -71,6 +79,7 @@ public class GestorCombate implements Minijuego {
 					break;
 				}
 			}
+			contadorRondas++;
 		}
 	}
 
@@ -183,7 +192,8 @@ public class GestorCombate implements Minijuego {
 				int danio = dispersion(atacante.atacar());
 				// si el objetivo se encuentra en estado defensivo recibira la mitad del dano
 				if (objetivo.isDefendiendo()) {
-					objetivo.recibirDanio(danio / 2);
+					danio = danio / 2;
+					objetivo.recibirDanio(danio);
 					vistaCombate.mensajeAtaque(atacante, objetivo, danio);
 					if (!objetivo.estaVivo()) {
 						vistaCombate.mensajeMuerte(objetivo);
@@ -196,6 +206,35 @@ public class GestorCombate implements Minijuego {
 					}
 				}
 			}
+		}
+	}
+
+	// metodo para comprobar que el barco tiene canones
+	private boolean tieneCanones() {
+		return barco.getInventarioB().getArmamentos().values().stream().anyMatch(a -> a instanceof Canon);
+	}
+
+	// metodo atacar de los canones
+	private void canonesAtacar(Enemigo[] enemigos) {
+		int danioCanones = 0;
+		Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
+		for (String i : equipamientoBarco.keySet()) {
+			if (equipamientoBarco.get(i) instanceof Canon) {
+				danioCanones = equipamientoBarco.get(i).getDanio();
+			}
+		}
+		vistaCombate.mensajeCanones();
+		for (Enemigo e : enemigos) {
+			if (e.estaVivo()) {
+				if (e.intentarEsquivar()) {
+					vistaCombate.mensajeEsquivaCanones(e);
+				} else {
+					danioCanones = dispersion(danioCanones);
+					e.recibirDanio(danioCanones);
+					vistaCombate.mensajeRecibirCanon(e, danioCanones);
+				}
+			}
+
 		}
 	}
 
@@ -234,8 +273,6 @@ public class GestorCombate implements Minijuego {
 	// existen varias pools de enmigos las cuales pueden salir por chances, despues
 	// de eso se genera un array de tamano aleatorio entre 2 y 4 y lo rellena con
 	// enemigos de la pool que haya salido. Devuelve ese array.
-	// HACER ALGO PARA QUE SI SE GENERAN DOS O MAS ENEMIGOS IGUALES EN UN ENCUENTRO
-	// SALGAN CON SU NOMBRE Y NUMERADOS
 	private Enemigo[] generarEncuentro() {
 		int random;
 		Enemigo[] encuentro;

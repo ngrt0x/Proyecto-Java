@@ -59,8 +59,12 @@ public class Enemigo implements ICombatiente {
 
 	@Override
 	public boolean intentarEsquivar() {
-		int aleatorio = ALEATORIO.nextInt(10);
-		return aleatorio == 1;
+		int aleatorio = ALEATORIO.nextInt(100);
+		if (aleatorio < iniciativa) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

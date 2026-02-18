@@ -4,6 +4,9 @@ import java.util.Map;
 
 import modeloJugador.Inventario;
 import modeloJugador.Jugador;
+import modeloObjetos.ArmamentoBarco;
+import modeloObjetos.Consumible;
+import modeloObjetos.Canon;
 import modeloObjetos.Item;
 import modeloPersonajes.NPC;
 import vista.VistaTienda;
@@ -19,6 +22,11 @@ public class GestorTienda {
 	private Item canaFlexible = new Item("Caña flexible", "cana_flexible", 100, 1);
 	private Item canaMaestra = new Item("Caña maestra", "cana_maestra", 300, 1);
 	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50, 5);
+	private Item canones = new Canon("Cañones de banda", "canones_base", 300, 1, 20);
+	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 175, 1, 20);
+	private Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, 5, "curar");
+	private Item brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, 5, "defensa");
+	private Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, 5, "iniciativa");
 
 	// constructor
 	public GestorTienda(Jugador jugador) {
@@ -28,6 +36,11 @@ public class GestorTienda {
 		stock.anadirItem(canaReforzada);
 		stock.anadirItem(canaMaestra);
 		stock.anadirItem(ceboBueno);
+		stock.anadirItem(canones);
+		stock.anadirItem(armamentoReforzado);
+		stock.anadirItem(brebajeSalud);
+		stock.anadirItem(brebajeDefensa);
+		stock.anadirItem(brebajeIniciativa);
 	}
 
 	// getters y setters
@@ -56,17 +69,28 @@ public class GestorTienda {
 		int confirmacion;
 		int contador = 1;
 		Map<String, Item> itemsALaVenta = stock.getItems();
+		// busca el item que el usuario ha seleccionado en el menu previamente, inicia
+		// un contador y compara ese contador hasta que la opcion indica el item
+		// seleccionado
 		for (String i : itemsALaVenta.keySet()) {
 			if (opcion == contador) {
+				// comprueba que el jugador tenga suficiente dinero para comprar el item
 				if (j.getOro() - itemsALaVenta.get(i).getPrecio() < 0) {
 					vistaTienda.imprimirMensaje("No tienes suficiente dinero para comprar eso!");
 				} else {
+					// muestra un mensaje de confirmacion de la compra
 					confirmacion = vistaTienda.menuConfirmacion(itemsALaVenta.get(i));
-					switch (confirmacion) {
-					case 1:
-						j.getInventario().anadirItem(itemsALaVenta.get(i));
+					if (confirmacion != 1) {
+						return;
+					} else {
+						// comprueba a ver si el item comprado es equipamiento de barco u otro tipo de
+						// item, para anadirlo al inventario del barco o al del jugador
+						if (itemsALaVenta.get(i) instanceof ArmamentoBarco) {
+							j.getBarco().getInventarioB().anadirArmamento((ArmamentoBarco) itemsALaVenta.get(i));
+						} else {
+							j.getInventario().anadirItem(itemsALaVenta.get(i));
+						}
 						vistaTienda.mensajeCompra(this);
-						break;
 					}
 				}
 			}
