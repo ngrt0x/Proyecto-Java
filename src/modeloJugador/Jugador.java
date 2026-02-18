@@ -1,5 +1,8 @@
 package modeloJugador;
 
+import modeloObjetos.CanaPescar;
+import modeloObjetos.Item;
+
 public class Jugador {
 	// atributos
 	private String nombre;
@@ -14,6 +17,8 @@ public class Jugador {
 		this.nombre = nombre;
 		oro = 50000000;
 		inventario = new Inventario();
+		Item canaBase = new CanaPescar("Caña de pescar básica", "cana_base", 5, 10);
+		inventario.anadirItem(canaBase);
 	}
 
 	// getters y setters

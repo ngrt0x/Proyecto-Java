@@ -6,8 +6,8 @@ public class Pez extends Item {
 	private int fuerza;
 
 	// constructor
-	public Pez(String nombre, String id, int precio, int cantidad, int rareza, int fuerza) {
-		super(nombre, id, precio, cantidad);
+	public Pez(String nombre, String id, int precio, int rareza, int fuerza) {
+		super(nombre, id, precio);
 		this.rareza = rareza;
 		this.fuerza = fuerza;
 	}

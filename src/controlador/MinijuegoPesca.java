@@ -1,9 +1,12 @@
 package controlador;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import modeloJugador.Jugador;
+import modeloObjetos.CanaPescar;
 import modeloObjetos.Item;
 import modeloObjetos.Pez;
 import vista.VistaPesca;
@@ -15,47 +18,45 @@ public class MinijuegoPesca implements Minijuego {
 	private int resistenciaLinea;
 	private Jugador j;
 	// peces disponibles
-	private Pez tiburon = new Pez("Tiburón", "tiburon", 100, 1, 10, 40);
-	private Pez pezGlobo = new Pez("Pez globo", "pez_globo", 15, 1, 25, 15);
-	private Pez ballena = new Pez("Ballena", "ballena", 200, 1, 5, 75);
-	private Pez gallo = new Pez("Gallo", "gallo", 15, 1, 40, 15);
-	private Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 1, 15, 20);
-	private Pez dorada = new Pez("Dorada", "dorada", 25, 1, 40, 15);
-	private Pez calamar = new Pez("Calamar", "calamar", 20, 1, 30, 20);
-	private Pez boqueron = new Pez("Boquerón", "boqueron", 5, 1, 45, 10);
-	private Pez atun = new Pez("Atún", "atun", 85, 1, 10, 35);
-	private Pez jurel = new Pez("Jurel", "jurel", 5, 1, 45, 10);
+	private Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 40);
+	private Pez pezGlobo = new Pez("Pez globo", "pez_globo", 15, 25, 15);
+	private Pez ballena = new Pez("Ballena", "ballena", 200, 5, 75);
+	private Pez gallo = new Pez("Gallo", "gallo", 15, 40, 15);
+	private Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 20);
+	private Pez dorada = new Pez("Dorada", "dorada", 25, 40, 15);
+	private Pez calamar = new Pez("Calamar", "calamar", 20, 30, 20);
+	private Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 10);
+	private Pez atun = new Pez("Atún", "atun", 85, 10, 35);
+	private Pez jurel = new Pez("Jurel", "jurel", 5, 45, 10);
 
 	// constructor
 	public MinijuegoPesca(Jugador jugador) {
 		j = jugador;
-		Map<String, Item> inventario = j.getInventario().getItems();
-		if (inventario.containsKey("cana_flexible")) {
-			resistenciaLinea = 15;
-		} else if (inventario.containsKey("cana_reforzada")) {
-			resistenciaLinea = 17;
-		} else if (inventario.containsKey("cana_maestra")) {
-			resistenciaLinea = 20;
-		} else {
-			resistenciaLinea = 10;
-		}
 	}
 
 	// metodos
 	@Override
 	public void comenzar() {
+		// muestra el menu inicial
 		int opcion;
 		opcion = vistaPesca.menuInicial();
+
+		// comprueba las cañas de pescar que tenga el jugador
+		resistenciaLinea = comprobarCana();
 		while (opcion != 0) {
 			switch (opcion) {
 			case 1:
-				lanzarAnzuelo();
-				try {
-					if (esperar()) {
-						lucha(generarPezRandom());
+				if (resistenciaLinea == 0) {
+					vistaPesca.mensajeNoCana();
+				} else {
+					lanzarAnzuelo();
+					try {
+						if (esperar()) {
+							lucha(generarPezRandom());
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
 				}
 				break;
 			case 2:
@@ -65,6 +66,18 @@ public class MinijuegoPesca implements Minijuego {
 
 			opcion = vistaPesca.menuInicial();
 		}
+	}
+
+	private int comprobarCana() {
+		Map<String, Item> inventario = j.getInventario().getItems();
+		List<CanaPescar> canas = new ArrayList<>();
+		for (String i : inventario.keySet()) {
+			if (inventario.get(i) instanceof CanaPescar) {
+				canas.add((CanaPescar) inventario.get(i));
+			}
+		}
+		canas.sort((a, b) -> b.getLinea() - a.getLinea());
+		return canas.get(0).getLinea();
 	}
 
 	private Pez generarPezRandom() {
@@ -167,6 +180,7 @@ public class MinijuegoPesca implements Minijuego {
 			if (energiaPActual == 0 && distanciaActual == 0 && lineaActual != 0) {
 				finalizado = true;
 				vistaPesca.resultadoPesca(pez.getNombre());
+				pez.setCantidad(1);
 				j.getInventario().anadirItem(pez);
 			}
 		}

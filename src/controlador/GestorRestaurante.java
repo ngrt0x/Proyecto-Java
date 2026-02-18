@@ -12,12 +12,6 @@ public class GestorRestaurante implements Minijuego {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void finalizar() {
-		// TODO Auto-generated method stub
-
-	}
 	
 	//metodos propios
 	public void mostrarPreparaciones() {

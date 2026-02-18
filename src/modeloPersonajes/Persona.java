@@ -19,4 +19,8 @@ public abstract class Persona {
 		return primeraFrase;
 	}
 
+	public void setPrimeraFrase(String primeraFrase) {
+		this.primeraFrase = primeraFrase;
+	}
+
 }

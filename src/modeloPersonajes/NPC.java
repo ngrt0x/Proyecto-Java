@@ -17,8 +17,7 @@ public class NPC extends Persona {
 
 	// constructor para los tenderos, clientes u otros NPCs sin pistas ni tantas
 	// interacciones
-	public NPC(String nombre, String primeraFrase) {
+	public NPC(String nombre) {
 		this.nombre = nombre;
-		this.primeraFrase = primeraFrase;
 	}
 }

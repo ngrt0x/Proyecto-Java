@@ -5,8 +5,8 @@ public class Consumible extends Item {
 	private String efecto;
 
 	// constructor
-	public Consumible(String nombre, String id, int precio, int cantidad, String efecto) {
-		super(nombre, id, precio, cantidad);
+	public Consumible(String nombre, String id, int precio, String efecto) {
+		super(nombre, id, precio);
 		this.efecto = efecto;
 	}
 

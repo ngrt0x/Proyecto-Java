@@ -7,7 +7,7 @@ public class Barco {
 	// atributos
 	private InventarioBarco inventarioB = new InventarioBarco();
 	// armamento basico con el que empiezas
-	private ArmamentoBarco armamentoBasico = new ArmamentoBarco("Armamento Básico", "arma_base", 20, 1, 15);
+	private ArmamentoBarco armamentoBasico = new ArmamentoBarco("Armamento Básico", "arma_base", 20, 15);
 	// tripulantes
 	private Tripulante charlie = new Tripulante("Charlie Kirky", 110, 18); // rol medio
 	private Tripulante godofredo = new Tripulante("Godofredo Epsparrow", 80, 28); // dps

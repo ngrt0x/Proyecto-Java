@@ -5,8 +5,8 @@ public class ArmamentoBarco extends Item {
 	private int danio;
 
 	// constructor
-	public ArmamentoBarco(String nombre, String id, int precio, int cantidad, int danio) {
-		super(nombre, id, precio, cantidad);
+	public ArmamentoBarco(String nombre, String id, int precio, int danio) {
+		super(nombre, id, precio);
 		this.danio = danio;
 	}
 

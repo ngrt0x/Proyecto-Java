@@ -129,6 +129,10 @@ public class VistaPesca {
 		return gestorVista.pedirString();
 	}
 
+	public void mensajeNoCana() {
+		gestorVista.imprimirMensaje("No tienes una caña de pescar en tu inventario! Cómo vas a pescar así?");
+	}
+
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
 	}
