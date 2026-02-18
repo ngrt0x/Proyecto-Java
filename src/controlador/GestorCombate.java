@@ -8,6 +8,8 @@ import modeloPersonajes.Tripulante;
 import vista.VistaCombate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class GestorCombate implements Minijuego {
@@ -29,90 +31,44 @@ public class GestorCombate implements Minijuego {
 	// metodos de la interfaz
 	@Override
 	public void comenzar() {
-		int opcion;
-		int enemigoSeleccionado;
 		// genera un grupo de enemigos aleatorio
 		enemigos = generarEncuentro();
 
 		// mostrar los enemigos que te encuentras
 		vistaCombate.mostrarEnemigos(enemigos);
-		while (aliadosVivos() && enemigosVivos()) {
-			// turno de los aliados
-			for (int i = 0; i < aliados.length; i++) {
-				Tripulante atacante = aliados[i];
-				// comprueba que el tripulante del que es el turno esta vivo
-				if (!atacante.estaVivo()) {
-					continue;
-				}
-				// muestra el menu de combate con las opciones
-				opcion = vistaCombate.menuCombate(atacante);
-				while (opcion == 4 || opcion == 5) {
-					switch (opcion) {
-					case 4:
-						vistaCombate.estadoAliados(aliados);
-						break;
-					case 5:
-						vistaCombate.estadoEnemigos(enemigos);
-						break;
-					}
-					opcion = vistaCombate.menuCombate(atacante);
-				}
-				switch (opcion) {
-				// atacar, te muestra los enemigos y te da a elegir uno
-				case 1:
-					enemigoSeleccionado = vistaCombate.elegirEnemigo(enemigos, atacante);
-					Enemigo objetivo = enemigos[enemigoSeleccionado - 1];
-					// intenta esquivar, si devuelve true el personaje esquiva, sino recibe el dano
-					if (objetivo.intentarEsquivar()) {
-						vistaCombate.mensajeEsquiva(atacante, objetivo);
-					} else {
-						int danio = dispersion(atacante.atacar(barco));
-						objetivo.recibirDanio(danio);
-						vistaCombate.mensajeAtaque(atacante, objetivo, danio);
-						if (!objetivo.estaVivo()) {
-							vistaCombate.mensajeMuerte(objetivo);
-						}
-					}
-					break;
-				// defender, el tripulante del que sea turno defiende
-				case 2:
-					atacante.defender();
-					vistaCombate.mensajeDefensa(atacante);
-					break;
-				// usar objeto, muestra menu de objetos a usar
-				case 3:
-					break;
-				}
-			}
 
-			// turno de los enemigos
-			for (int i = 0; i < enemigos.length; i++) {
-				Enemigo atacante = enemigos[i];
-				// comprueba que el enemigo del que es el turno esta vivo
-				if (!atacante.estaVivo()) {
-					continue;
+		// determinar la iniciativa de cada tripulante dentro de un rango determinado
+		// para el rol de dicho tripulante
+		aliados[0].setIniciativa(generarAleatorioEntre(12, 15)); // rol medio
+		aliados[1].setIniciativa(generarAleatorioEntre(15, 18)); // dps
+		aliados[2].setIniciativa(generarAleatorioEntre(7, 10)); // tanque
+		aliados[3].setIniciativa(generarAleatorioEntre(10, 13)); // rol medio
+
+		// crear array conjunto de combatientes
+		List<ICombatiente> combatientes = new ArrayList<>();
+		combatientes.addAll(Arrays.asList(aliados));
+		combatientes.addAll(Arrays.asList(enemigos));
+
+		// ordenar por iniciativa
+		combatientes.sort((a, b) -> b.getIniciativa() - a.getIniciativa() != 0 ? b.getIniciativa() - a.getIniciativa()
+				: ALEATORIO.nextInt(3) - 1);
+
+		// comienza el bucle de combate
+		while (aliadosVivos() && enemigosVivos()) {
+			for (int i = 0; i < combatientes.size(); i++) {
+				if (combatientes.get(i) instanceof Enemigo) {
+					vistaCombate.turnoEnemigo((Enemigo) combatientes.get(i));
 				}
-				// el enemigo selecciona un tripulante vivo aleatorio
-				Tripulante objetivo = seleccionarAliado(aliados);
-				// intenta esquivar, si devuelve true el personaje esquiva, sino recibe el dano
-				if (objetivo.intentarEsquivar()) {
-					vistaCombate.mensajeEsquiva(atacante, objetivo);
-				} else {
-					int danio = dispersion(atacante.atacar());
-					// si el objetivo se encuentra en estado defensivo recibira la mitad del dano
-					if (objetivo.isDefendiendo()) {
-						objetivo.recibirDanio(danio / 2);
-						vistaCombate.mensajeAtaque(atacante, objetivo, danio);
-						if (!objetivo.estaVivo()) {
-							vistaCombate.mensajeMuerte(objetivo);
-						}
-					} else {
-						objetivo.recibirDanio(danio);
-						vistaCombate.mensajeAtaque(atacante, objetivo, danio);
-						if (!objetivo.estaVivo()) {
-							vistaCombate.mensajeMuerte(objetivo);
-						}
+				turno(combatientes.get(i));
+				if (!aliadosVivos() || !enemigosVivos()) {
+					if (!aliadosVivos()) {
+						vistaCombate.mensajeDerrota();
+					} else if (!enemigosVivos()) {
+						int oro = generarGaussOro();
+						jugador.sumarOro(oro);
+						vistaCombate.mensajeVictoria(oro);
 					}
+					break;
 				}
 			}
 		}
@@ -130,7 +86,6 @@ public class GestorCombate implements Minijuego {
 		if (contadorVivos > 0) {
 			return true;
 		} else {
-			vistaCombate.mensajeDerrota();
 			return false;
 		}
 	}
@@ -146,22 +101,24 @@ public class GestorCombate implements Minijuego {
 		if (contadorVivos > 0) {
 			return true;
 		} else {
-			int oro = generarGaussOro();
-			jugador.sumarOro(oro);
-			vistaCombate.mensajeVictoria(oro);
 			return false;
 		}
 	}
-	
-	/*private void turno(ICombatiente c) {
+
+	private void turno(ICombatiente c) {
 		if (c instanceof Tripulante) {
 			int opcion;
 			int enemigoSeleccionado;
 			Tripulante atacante = (Tripulante) c;
+
+			// al inicio del turno del personaje desactivar la posicion defensiva SIEMPRE
+			atacante.setDefendiendo(false);
+
 			// comprueba que el tripulante del que es el turno esta vivo
 			if (!atacante.estaVivo()) {
 				return;
 			}
+
 			// muestra el menu de combate con las opciones
 			opcion = vistaCombate.menuCombate(atacante);
 			while (opcion == 4 || opcion == 5) {
@@ -175,6 +132,7 @@ public class GestorCombate implements Minijuego {
 				}
 				opcion = vistaCombate.menuCombate(atacante);
 			}
+
 			switch (opcion) {
 			// atacar, te muestra los enemigos y te da a elegir uno
 			case 1:
@@ -201,14 +159,23 @@ public class GestorCombate implements Minijuego {
 			case 3:
 				break;
 			}
-		} else if(c instanceof Enemigo) {
+		} else if (c instanceof Enemigo) {
 			Enemigo atacante = (Enemigo) c;
+			Tripulante objetivo;
+
 			// comprueba que el enemigo del que es el turno esta vivo
 			if (!atacante.estaVivo()) {
 				return;
 			}
-			// el enemigo selecciona un tripulante vivo aleatorio
-			Tripulante objetivo = seleccionarAliado(aliados);
+
+			// el enemigo tiene 1/3 chances de elegir al aliado mas debil para atacarlo,
+			// sino simplemente selecciona a alguien aleatorio
+			if (ALEATORIO.nextInt(3) == 0) {
+				objetivo = seleccionarDebil(aliados);
+			} else {
+				objetivo = seleccionarAliado(aliados);
+			}
+
 			// intenta esquivar, si devuelve true el personaje esquiva, sino recibe el dano
 			if (objetivo.intentarEsquivar()) {
 				vistaCombate.mensajeEsquiva(atacante, objetivo);
@@ -230,7 +197,7 @@ public class GestorCombate implements Minijuego {
 				}
 			}
 		}
-	}*/
+	}
 
 	// el enemigo selecciona un tripulante aleatorio al que atacar de entre los
 	// tripulantes vivos
@@ -248,6 +215,15 @@ public class GestorCombate implements Minijuego {
 		return aliadosVivos.get(aliadoVivoAleatorio);
 	}
 
+	// el enemigo selecciona al tripulante mas debil de entre los tripulantes vivos
+	private Tripulante seleccionarDebil(Tripulante[] aliados) {
+		// STREAM PARA FILTRAR LOS ALIADOS VIVOS Y DE AHI SACAR EL MAS BAJO DE VIDA
+		// OLEEEEEEE
+		Tripulante aliadoDebil = Arrays.stream(aliados).filter(Tripulante::estaVivo)
+				.min((a, b) -> a.getSaludActual() - b.getSaludActual()).orElse(null);
+		return aliadoDebil;
+	}
+
 	// generar una cantidad de oro con una dispersion gaussiana
 	private int generarGaussOro() {
 		int oro = (int) Math.round(ALEATORIO.nextGaussian() * 3 + 15);
@@ -258,6 +234,8 @@ public class GestorCombate implements Minijuego {
 	// existen varias pools de enmigos las cuales pueden salir por chances, despues
 	// de eso se genera un array de tamano aleatorio entre 2 y 4 y lo rellena con
 	// enemigos de la pool que haya salido. Devuelve ese array.
+	// HACER ALGO PARA QUE SI SE GENERAN DOS O MAS ENEMIGOS IGUALES EN UN ENCUENTRO
+	// SALGAN CON SU NOMBRE Y NUMERADOS
 	private Enemigo[] generarEncuentro() {
 		int random;
 		Enemigo[] encuentro;
@@ -265,10 +243,10 @@ public class GestorCombate implements Minijuego {
 		if (random >= 0 && random < 10) {
 			encuentro = new Enemigo[1];
 			if (ALEATORIO.nextBoolean()) {
-				Enemigo cangrejoAcorazado = new Enemigo("Cangrejo Acorazado", 250, 50);
+				Enemigo cangrejoAcorazado = new Enemigo("Cangrejo Acorazado", 260, 45, generarAleatorioEntre(6, 9));
 				encuentro[0] = cangrejoAcorazado;
 			} else {
-				Enemigo leviatan = new Enemigo("Leviatán", 235, 60);
+				Enemigo leviatan = new Enemigo("Leviatán", 230, 55, generarAleatorioEntre(8, 11));
 				encuentro[0] = leviatan;
 			}
 		} else if (random >= 10 && random <= 35) {
@@ -277,15 +255,15 @@ public class GestorCombate implements Minijuego {
 				random = generarAleatorioEntre(1, 3);
 				switch (random) {
 				case 1:
-					Enemigo sirena = new Enemigo("Sirena", 75, 25);
+					Enemigo sirena = new Enemigo("Sirena", 70, 22, generarAleatorioEntre(14, 17));
 					encuentro[i] = sirena;
 					break;
 				case 2:
-					Enemigo hombrePez = new Enemigo("Hombre Pez", 75, 20);
+					Enemigo hombrePez = new Enemigo("Hombre Pez", 85, 18, generarAleatorioEntre(10, 13));
 					encuentro[i] = hombrePez;
 					break;
 				case 3:
-					Enemigo calamarGigante = new Enemigo("Calamar Gigante", 125, 40);
+					Enemigo calamarGigante = new Enemigo("Calamar Gigante", 120, 35, generarAleatorioEntre(6, 9));
 					encuentro[i] = calamarGigante;
 
 				}
@@ -296,15 +274,15 @@ public class GestorCombate implements Minijuego {
 				random = generarAleatorioEntre(1, 3);
 				switch (random) {
 				case 1:
-					Enemigo pirataEspectral = new Enemigo("Pirata Espectral", 75, 35);
+					Enemigo pirataEspectral = new Enemigo("Pirata Espectral", 80, 32, generarAleatorioEntre(13, 16));
 					encuentro[i] = pirataEspectral;
 					break;
 				case 2:
-					Enemigo capitanEspectral = new Enemigo("Capitán Espectral", 125, 40);
+					Enemigo capitanEspectral = new Enemigo("Capitán Espectral", 130, 38, generarAleatorioEntre(10, 13));
 					encuentro[i] = capitanEspectral;
 					break;
 				case 3:
-					Enemigo loroEspectral = new Enemigo("Loro Espectral", 30, 15);
+					Enemigo loroEspectral = new Enemigo("Loro Espectral", 35, 15, generarAleatorioEntre(18, 20));
 					encuentro[i] = loroEspectral;
 					break;
 				}
@@ -315,15 +293,15 @@ public class GestorCombate implements Minijuego {
 				random = generarAleatorioEntre(1, 3);
 				switch (random) {
 				case 1:
-					Enemigo pirataNormal = new Enemigo("Pirata", 50, 20);
+					Enemigo pirataNormal = new Enemigo("Pirata", 55, 20, generarAleatorioEntre(10, 13));
 					encuentro[i] = pirataNormal;
 					break;
 				case 2:
-					Enemigo canonero = new Enemigo("Cañonero", 40, 35);
+					Enemigo canonero = new Enemigo("Cañonero", 45, 35, generarAleatorioEntre(14, 17));
 					encuentro[i] = canonero;
 					break;
 				case 3:
-					Enemigo capitan = new Enemigo("Capitán", 75, 30);
+					Enemigo capitan = new Enemigo("Capitán", 85, 28, generarAleatorioEntre(11, 14));
 					encuentro[i] = capitan;
 					break;
 				}
@@ -334,14 +312,8 @@ public class GestorCombate implements Minijuego {
 
 	// aplicar dispersion de daño
 	private int dispersion(int danio) {
-		int variacion = ALEATORIO.nextInt(11) - 5;
+		int variacion = (int) (danio * (ALEATORIO.nextDouble() * 0.3 - 0.15));
 		return danio + variacion;
-	}
-
-	// determinar la iniciativa de cada combatiente al principio del combate
-	private void determinarIniciativa(ICombatiente c) {
-		int random = generarAleatorioEntre(1, 20);
-		c.setIniciativa(random);
 	}
 
 	// genera un numero aleatorio entre num min y num max

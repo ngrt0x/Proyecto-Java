@@ -123,7 +123,7 @@ public class VistaCombate {
 		String[] mensajeEsquiva = { " esquiva el ataque con gracia.", " ha esquivado el ataque!",
 				" ha evadido el ataque por los pelos.", " esquiva el ataque como si nada." };
 		gestorVista.imprimirMensaje(atacante.getNombre() + " ataca a " + objetivo.getNombre() + " pero "
-				+ mensajeEsquiva[ALEATORIO.nextInt(3)]);
+				+ objetivo.getNombre() + mensajeEsquiva[ALEATORIO.nextInt(3)]);
 	}
 
 	public void mensajeDefensa(Tripulante t) {
@@ -131,8 +131,8 @@ public class VistaCombate {
 	}
 
 	public void mensajeAtaque(ICombatiente atacante, ICombatiente objetivo, int danio) {
-		gestorVista.imprimirMensaje(atacante.getNombre() + " ataca a " + objetivo.getNombre() + " y éste recibe "
-				+ danio + " puntos de daño!");
+		gestorVista.imprimirMensaje(atacante.getNombre() + " ataca a " + objetivo.getNombre() + " que recibe " + danio
+				+ " puntos de daño!");
 	}
 
 	public void mensajeDerrota() {
@@ -142,10 +142,15 @@ public class VistaCombate {
 	public void mensajeVictoria(int oro) {
 		gestorVista.imprimirMensaje(
 				"Tu tripulación ha resultado victoriosa! Rebuscáis enntre los enemigos derrotados y encontráis " + oro
-						+ "g!");
+						+ " monedas de oro!");
 	}
 
 	public void mensajeMuerte(ICombatiente c) {
 		gestorVista.imprimirMensaje(c.getNombre() + " ha sido derrotado!");
+	}
+
+	public void turnoEnemigo(Enemigo e) {
+		gestorVista.imprimirMensaje("");
+		gestorVista.imprimirMensaje("=== Turno de " + e.getNombre() + " ===");
 	}
 }

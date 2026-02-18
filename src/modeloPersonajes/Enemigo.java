@@ -12,11 +12,12 @@ public class Enemigo implements ICombatiente {
 	private int iniciativa;
 
 	// constructor
-	public Enemigo(String nombre, int saludTope, int fuerza) {
+	public Enemigo(String nombre, int saludTope, int fuerza, int iniciativa) {
 		this.nombre = nombre;
 		this.saludTope = saludTope;
 		saludActual = saludTope;
 		this.fuerza = fuerza;
+		this.iniciativa = iniciativa;
 	}
 
 	// getters y setters

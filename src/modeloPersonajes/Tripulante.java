@@ -26,6 +26,10 @@ public class Tripulante extends Persona implements ICombatiente {
 		return defendiendo;
 	}
 
+	public void setDefendiendo(boolean defendiendo) {
+		this.defendiendo = defendiendo;
+	}
+
 	public int getSaludActual() {
 		return saludActual;
 	}
@@ -33,11 +37,11 @@ public class Tripulante extends Persona implements ICombatiente {
 	public int getSaludTope() {
 		return saludTope;
 	}
-	
+
 	public int getIniciativa() {
 		return iniciativa;
 	}
-	
+
 	public void setIniciativa(int iniciativa) {
 		this.iniciativa = iniciativa;
 	}

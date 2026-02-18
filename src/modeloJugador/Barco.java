@@ -10,10 +10,10 @@ public class Barco {
 	private Armamento armamentoBasico = new Armamento("Armamento Básico", "arma_base", 20, 1, 15);
 	private Armamento armamento = armamentoBasico;
 	// tripulantes
-	private Tripulante charlie = new Tripulante("Charlie Kirky", 100, 15);
-	private Tripulante godofredo = new Tripulante("Godofredo Epsparrow", 75, 25);
-	private Tripulante john = new Tripulante("John Patapalo", 125, 10);
-	private Tripulante jesus = new Tripulante("Jesús Cristo García", 100, 15);
+	private Tripulante charlie = new Tripulante("Charlie Kirky", 110, 18); // rol medio
+	private Tripulante godofredo = new Tripulante("Godofredo Epsparrow", 80, 28); // dps
+	private Tripulante john = new Tripulante("John Patapalo", 150, 12); // tanque
+	private Tripulante jesus = new Tripulante("Jesús Cristo García", 100, 16); // rol medio
 	private Tripulante[] tripulacion = { charlie, godofredo, john, jesus };
 
 	// getters y setters
