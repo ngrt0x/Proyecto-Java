@@ -26,6 +26,14 @@ public class Inventario {
 		return itemsYPescados;
 	}
 	
+	public HashMap<String, Item> getItem(){
+		return inventario.get("Items");
+	}
+	
+	public HashMap<String, Item> getPeces(){
+		return inventario.get("Peces");
+	}
+	
 	// metodos propios
 	public void anadirItem(Item nuevoItem) {
 		boolean yaEsta = false;

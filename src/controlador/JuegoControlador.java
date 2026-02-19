@@ -14,25 +14,17 @@ public class JuegoControlador {
 
 	// metodos
 	public void iniciarJuego() {
-		int opcion;
-		opcion = vistaJuego.menuInicio();
+		int opcion = vistaJuego.menuInicio();
 		while (opcion != 0) {
 			switch (opcion) {
-			case 1:
-				PESCA.comenzar();
-				break;
-			case 2:
-				vistaJuego.mostrarInventario(jugador);
-				break;
-			case 3:
-				TIENDA.entrarTienda();
-				break;
-			case 4:
-				COMBATE.comenzar();
-				break;
-			case 5:
-				COMIDAS.comenzar();
-				break;
+			case 1 -> PESCA.comenzar();
+			case 2 -> {
+				int opcionInventario = vistaJuego.menuInventarios();
+				vistaJuego.mostrarInventario(jugador, opcionInventario);
+			}
+			case 3 -> TIENDA.entrarTienda();
+			case 4 -> COMBATE.comenzar();
+			case 5 -> COMIDAS.comenzar();
 			}
 			opcion = vistaJuego.menuInicio();
 		}
