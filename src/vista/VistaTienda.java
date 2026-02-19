@@ -10,6 +10,20 @@ public class VistaTienda {
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
+	public int hablarTendero(GestorTienda t) {
+		int opcion;
+		gestorVista.imprimirMensaje("Hola " + t.getJugador().getNombre() + ", veo que estas en mi tienda, pasa a que charlemos un rato!\n"
+				+ "1. Comprar\n"
+				+ "2. Vender\n"
+				+ "0. Salir");
+		opcion = gestorVista.pedirNum();
+		while(opcion < 0 || opcion > 2) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+	
 	public int mostrarStock(GestorTienda t) {
 		int opcion;
 		gestorVista.imprimirMensaje(t.getTendero().getPrimeraFrase());

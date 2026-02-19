@@ -63,10 +63,14 @@ public class GestorTienda {
 
 	// metodos propios
 	public void entrarTienda() {
-		int opcion = vistaTienda.mostrarStock(this);
-		while (opcion != 0) {
-			comprarItem(opcion);
-			opcion = vistaTienda.mostrarStock(this);
+		int opcion = vistaTienda.hablarTendero(this);
+		while(opcion != 0) {
+			
+		}
+		int opcionCompra = vistaTienda.mostrarStock(this);
+		while (opcionCompra != 0) {
+			comprarItem(opcionCompra);
+			opcionCompra = vistaTienda.mostrarStock(this);
 		}
 	}
 
@@ -111,8 +115,7 @@ public class GestorTienda {
 		}
 	}
 
-	// hay que crear un menu en vistaTienda que te de la opcion de hablar con el
-	// tendero, comprar o vender items, imprimir ese menu desde entrarTienda(), de
+	// imprimir ese menu desde entrarTienda(), de
 	// ahi con la opcion que introduzca el usuario empezar con la logica de mostrar
 	// stock para comprar, mostrar el inventario del jugador para vender, y hacer lo
 	// correspondiente. Hablar con el tendero por lo pronto nos lo podemos ahorrar.
