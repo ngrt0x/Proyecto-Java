@@ -12,10 +12,11 @@ public class VistaJuego {
 	public int menuInicio() {
 		int opcion;
 
-		gestorVista.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n"
-				+ "2. Ver inventario\n" + "3. Entrar a la tienda\n" + "4. Combate\n" + "0. Salir");
+		gestorVista
+				.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n" + "2. Ver inventario\n"
+						+ "3. Entrar a la tienda\n" + "4. Combate\n" + "5. Abrir el restaurante\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 4 || opcion < 0) {
+		while (opcion > 5 || opcion < 0) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}

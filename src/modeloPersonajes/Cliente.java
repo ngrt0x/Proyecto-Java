@@ -1,30 +1,40 @@
 package modeloPersonajes;
 
+import modeloObjetos.Plato;
+
 public class Cliente extends NPC {
 	// atributos propios
-	private String[] pedidos;
-	private String[] posiblesDialogos;
+	private Plato[] pedido;
+	private int pacienciaActual;
+	private int pacienciaTope;
 
 	// constructor
-	public Cliente(String nombre) {
+	public Cliente(String nombre, Plato[] pedido) {
 		super(nombre);
+		this.pedido = pedido;
+		pacienciaTope = 6;
+		pacienciaActual = pacienciaTope;
 	}
 
 	// gettes y setters
-	public String[] getPedidos() {
-		return pedidos;
+	public Plato[] getPedido() {
+		return pedido;
 	}
 
-	public void setPedidos(String[] pedidos) {
-		this.pedidos = pedidos;
+	public void setPedido(Plato[] pedido) {
+		this.pedido = pedido;
 	}
 
-	public String[] getPosiblesDialogos() {
-		return posiblesDialogos;
+	public int getPacienciaActual() {
+		return pacienciaActual;
 	}
 
-	public void setPosiblesDialogos(String[] posiblesDialogos) {
-		this.posiblesDialogos = posiblesDialogos;
+	public int getPacienciaTope() {
+		return pacienciaTope;
 	}
 
+	// metodos propios
+	public void restarPaciencia(int cantidad) {
+		pacienciaActual = Math.max(pacienciaActual - cantidad, 0);
+	}
 }

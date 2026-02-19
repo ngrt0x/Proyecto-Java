@@ -125,10 +125,6 @@ public class VistaCombate {
 				+ objetivo.getNombre() + mensajeEsquiva[ALEATORIO.nextInt(3)]);
 	}
 
-	public void mensajeEsquivaCanones(ICombatiente objetivo) {
-		gestorVista.imprimirMensaje(objetivo.getNombre() + " milagrosamente no recibe daño!");
-	}
-
 	public void mensajeDefensa(Tripulante t) {
 		gestorVista.imprimirMensaje(t.getNombre() + " se prepara para bloquear el siguiente ataque.");
 	}

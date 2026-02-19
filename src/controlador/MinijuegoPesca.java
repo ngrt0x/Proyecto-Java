@@ -17,17 +17,6 @@ public class MinijuegoPesca implements Minijuego {
 	private final Random ALEATORIO = new Random();
 	private int resistenciaLinea;
 	private Jugador j;
-	// peces disponibles
-	private Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 40);
-	private Pez pezGlobo = new Pez("Pez globo", "pez_globo", 15, 25, 15);
-	private Pez ballena = new Pez("Ballena", "ballena", 200, 5, 75);
-	private Pez gallo = new Pez("Gallo", "gallo", 15, 40, 15);
-	private Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 20);
-	private Pez dorada = new Pez("Dorada", "dorada", 25, 40, 15);
-	private Pez calamar = new Pez("Calamar", "calamar", 20, 30, 20);
-	private Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 10);
-	private Pez atun = new Pez("Atún", "atun", 85, 10, 35);
-	private Pez jurel = new Pez("Jurel", "jurel", 5, 45, 10);
 
 	// constructor
 	public MinijuegoPesca(Jugador jugador) {
@@ -81,6 +70,18 @@ public class MinijuegoPesca implements Minijuego {
 	}
 
 	private Pez generarPezRandom() {
+		// peces disponibles, para añadir mas peces simplemente crea un pez nuevo y
+		// añádelo a la lista de peces
+		Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 40);
+		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 15, 25, 15);
+		Pez ballena = new Pez("Ballena", "ballena", 200, 5, 75);
+		Pez gallo = new Pez("Gallo", "gallo", 15, 40, 15);
+		Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 20);
+		Pez dorada = new Pez("Dorada", "dorada", 25, 40, 15);
+		Pez calamar = new Pez("Calamar", "calamar", 20, 30, 20);
+		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 10);
+		Pez atun = new Pez("Atún", "atun", 85, 10, 35);
+		Pez jurel = new Pez("Jurel", "jurel", 5, 45, 10);
 		int totalRareza = 0;
 		int random;
 		int rarezaAcumulada = 0;

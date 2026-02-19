@@ -23,8 +23,8 @@ public class GestorTienda {
 	private Item canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 17);
 	private Item canaMaestra = new CanaPescar("Caña maestra", "cana_maestra", 300, 20);
 	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
-	private Item canones = new Canon("Cañones de banda", "canones_base", 300, 20);
-	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 175, 20);
+	private Item canones = new Canon("Cañones oxidados", "canones_base", 300, 15, 1);
+	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 175, 20, 2);
 	private Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
 	private Item brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
 	private Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");

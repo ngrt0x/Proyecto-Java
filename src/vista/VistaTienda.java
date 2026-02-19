@@ -14,7 +14,7 @@ public class VistaTienda {
 		int opcion;
 		gestorVista.imprimirMensaje(t.getTendero().getPrimeraFrase());
 		gestorVista.imprimirMensaje("");
-		gestorVista.imprimirMensaje("=== STOCK ===");
+		gestorVista.imprimirMensaje("======================== STOCK ========================");
 		Map<String, Item> stock = t.getStock().getItems();
 		int contador = 1;
 		for (String i : stock.keySet()) {
@@ -23,6 +23,7 @@ public class VistaTienda {
 			gestorVista.imprimirMensaje("\tCantidad: " + stock.get(i).getCantidad());
 			contador++;
 		}
+		gestorVista.imprimirMensaje("=======================================================");
 		gestorVista.imprimirMensaje("0. Salir de la tienda");
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > stock.size()) {

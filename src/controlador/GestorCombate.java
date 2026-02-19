@@ -4,7 +4,6 @@ import modeloJugador.Barco;
 import modeloJugador.Jugador;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.Canon;
-import modeloObjetos.Item;
 import modeloPersonajes.Enemigo;
 import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
@@ -36,6 +35,11 @@ public class GestorCombate implements Minijuego {
 	@Override
 	public void comenzar() {
 		int contadorRondas = 1;
+
+		// gestiona la salud de los tripulantes en base al armamento equipado en el
+		// barco
+		prepararTripulantes();
+
 		// genera un grupo de enemigos aleatorio
 		enemigos = generarEncuentro();
 
@@ -216,25 +220,46 @@ public class GestorCombate implements Minijuego {
 
 	// metodo atacar de los canones
 	private void canonesAtacar(Enemigo[] enemigos) {
-		int danioCanones = 0;
+		int danioCanones;
 		Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
+		List<Canon> canones = new ArrayList<>();
 		for (String i : equipamientoBarco.keySet()) {
 			if (equipamientoBarco.get(i) instanceof Canon) {
-				danioCanones = equipamientoBarco.get(i).getDanio();
+				canones.add((Canon) equipamientoBarco.get(i));
 			}
 		}
+		canones.sort((a, b) -> b.getTier() - a.getTier());
+		danioCanones = canones.get(0).getDanio();
 		vistaCombate.mensajeCanones();
 		for (Enemigo e : enemigos) {
 			if (e.estaVivo()) {
-				if (e.intentarEsquivar()) {
-					vistaCombate.mensajeEsquivaCanones(e);
-				} else {
-					danioCanones = dispersion(danioCanones);
-					e.recibirDanio(danioCanones);
-					vistaCombate.mensajeRecibirCanon(e, danioCanones);
-				}
+				danioCanones = dispersion(danioCanones);
+				e.recibirDanio(danioCanones);
+				vistaCombate.mensajeRecibirCanon(e, danioCanones);
 			}
 
+		}
+	}
+
+	// comprueba si el barco tiene Armamento lo cual siempre va a ser cierto, a raiz
+	// de los Armamentos que haya crea una lista y la ordena en base al tier del
+	// armamento. Entonces coge los stats del armamento con mayor tier y aplica esos
+	// stats a los tripulantes.
+	private void prepararTripulantes() {
+		if (!barco.getInventarioB().getArmamentos().values().stream().anyMatch(a -> a instanceof Canon)) {
+			Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
+			List<ArmamentoBarco> armamentos = new ArrayList<>();
+			for (String i : equipamientoBarco.keySet()) {
+				if (!(equipamientoBarco.get(i) instanceof Canon)) {
+					armamentos.add(equipamientoBarco.get(i));
+				}
+			}
+			armamentos.sort((a, b) -> b.getTier() - a.getTier());
+			for (Tripulante t : aliados) {
+				t.setSaludTope(t.getSaludBase());
+				t.setSaludTope(t.getSaludTope() + (armamentos.get(0).getTier() * 10));
+				t.setSaludActual(t.getSaludTope());
+			}
 		}
 	}
 

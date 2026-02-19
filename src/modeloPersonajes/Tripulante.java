@@ -1,5 +1,7 @@
 package modeloPersonajes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -10,6 +12,7 @@ import modeloObjetos.Canon;
 public class Tripulante extends Persona implements ICombatiente {
 	private final Random ALEATORIO = new Random();
 	// atributos propios
+	private int saludBase;
 	private int saludActual;
 	private int saludTope;
 	private int fuerza;
@@ -18,10 +21,9 @@ public class Tripulante extends Persona implements ICombatiente {
 	private String estado;
 
 	// constructor
-	public Tripulante(String nombre, int saludTope, int fuerza) {
+	public Tripulante(String nombre, int saludBase, int fuerza) {
 		this.nombre = nombre;
-		this.saludTope = saludTope;
-		saludActual = saludTope;
+		this.saludBase = saludBase;
 		this.fuerza = fuerza;
 	}
 
@@ -42,6 +44,18 @@ public class Tripulante extends Persona implements ICombatiente {
 		return saludTope;
 	}
 
+	public void setSaludTope(int saludTope) {
+		this.saludTope = saludTope;
+	}
+
+	public void setSaludActual(int saludActual) {
+		this.saludActual = saludActual;
+	}
+
+	public int getSaludBase() {
+		return saludBase;
+	}
+
 	public int getIniciativa() {
 		return iniciativa;
 	}
@@ -59,16 +73,21 @@ public class Tripulante extends Persona implements ICombatiente {
 	}
 
 	// metodos propios
+	// metodo atacar de la clase Tripulante. Comprueba que el Barco tenga Armamento,
+	// crea una lista con esos Armamentos y la ordena en base al tier del armamento.
+	// El danio que se aplica al ataque de los tripulantes es el del armamento de
+	// mayor tier.
 	public int atacar(Barco barco) {
-		// si el barco no tiene NINGUN ARMAMENTO que es practicamente imposible creo el
-		// danio seria 0, osea que los tripulantes solo pegarian por su stat de fuerza
-		int danio = 0;
+		int danio;
 		Map<String, ArmamentoBarco> inventarioB = barco.getInventarioB().getArmamentos();
+		List<ArmamentoBarco> armamentos = new ArrayList<>();
 		for (String i : inventarioB.keySet()) {
 			if (!(inventarioB.get(i) instanceof Canon)) {
-				danio = inventarioB.get(i).getDanio();
+				armamentos.add(inventarioB.get(i));
 			}
 		}
+		armamentos.sort((a, b) -> b.getTier() - a.getTier());
+		danio = armamentos.get(0).getDanio();
 		return danio + fuerza;
 	}
 
