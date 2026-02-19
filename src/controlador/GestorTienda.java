@@ -6,8 +6,8 @@ import modeloJugador.Inventario;
 import modeloJugador.Jugador;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.CanaPescar;
-import modeloObjetos.Consumible;
 import modeloObjetos.Canon;
+import modeloObjetos.Consumible;
 import modeloObjetos.Item;
 import modeloPersonajes.NPC;
 import vista.VistaTienda;
@@ -44,7 +44,7 @@ public class GestorTienda {
 		stock.anadirItem(brebajeDefensa);
 		stock.anadirItem(brebajeIniciativa);
 		for (String i : stock.getItems().keySet()) {
-			stock.getItems().get(i).setCantidad(1);
+			stock.getItems().get(i).setCantidad(2);
 		}
 	}
 

@@ -12,6 +12,7 @@ public class Item {
 		this.nombre = nombre;
 		this.id = id;
 		this.precio = precio;
+		this.cantidad = 1;
 	}
 
 	// constructor para crear copias

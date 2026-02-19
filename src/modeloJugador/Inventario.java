@@ -1,41 +1,69 @@
 package modeloJugador;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import modeloObjetos.Item;
-
-import java.util.HashMap;
+import modeloObjetos.Pez;
 
 public class Inventario {
 	// atributos
-	Map<String, Item> items;
+	HashMap<String, HashMap<String, Item>> inventario;
 
 	public Inventario() {
-		items = new HashMap<>();
+		inventario = new HashMap<String, HashMap<String, Item>>();
+		inventario.put("Items", new HashMap<>());
+		inventario.put("Peces", new HashMap<>());
 	}
 
 	// getters y setters
-	public Map<String, Item> getItems() {
-		return items;
+	public HashMap<String, HashMap<String, Item>> getInventario() {
+		return inventario;
 	}
-
+	
+	public HashMap<String, Item> getItems(){
+		HashMap<String, Item> itemsYPescados = inventario.get("Items");
+		itemsYPescados.putAll(inventario.get("Peces"));
+		return itemsYPescados;
+	}
+	
 	// metodos propios
 	public void anadirItem(Item nuevoItem) {
-		String id = nuevoItem.getId();
-
-		if (items.containsKey(id)) {
-			items.get(id).sumarCantidad(1);
-		} else {
-			items.put(id, nuevoItem);
+		boolean yaEsta = false;
+		for(HashMap<String, Item> grupo : inventario.values()) {
+			for(Item item : grupo.values()) {
+				if(item.getId().equals(nuevoItem.getId())) {
+					yaEsta = true;
+				}
+			}
 		}
+		
+		if(yaEsta) {
+			for(HashMap<String, Item> grupo : inventario.values()) {
+				for(Item item : grupo.values()) {
+					if(item.getId().equals(nuevoItem.getId())) {
+						item.sumarCantidad(1);
+					}
+				}
+			}
+		}else if(nuevoItem instanceof Pez) {
+			inventario.get("Peces").put(nuevoItem.getId(), nuevoItem);
+		}else {
+			inventario.get("Items").put(nuevoItem.getId(), nuevoItem);
+		}
+		
+		
 	}
-
+	
 	public void restarItem(String id, int cantidad) {
-		Item item = items.get(id);
-
-		item.restarCantidad(cantidad);
-		if (item.getCantidad() <= 0) {
-			items.remove(id);
+		for(HashMap<String, Item> grupo : inventario.values()) {
+			for(Item item : grupo.values()) {
+				if(item.getId().equals(id)) {
+					item.restarCantidad(cantidad);
+					if(item.getCantidad() <= 1) {
+						grupo.remove(item.getId());
+					}
+				}
+			}
 		}
 	}
 
