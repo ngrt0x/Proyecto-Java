@@ -155,4 +155,10 @@ public class VistaCombate {
 	public void mensajeRecibirCanon(ICombatiente c, int danio) {
 		gestorVista.imprimirMensaje(c.getNombre() + " recibe " + danio + " de la descarga de los cañones!");
 	}
+
+	public void mensajeCombateRestaurante() {
+		gestorVista.imprimirMensaje(
+				"Oh oh capitán, esos clientes no parecen muy contentos. Parece que nos va a tocar pelear!");
+		gestorVista.imprimirMensaje("=== Se te abalanzan unos clientes enfadados! ===");
+	}
 }

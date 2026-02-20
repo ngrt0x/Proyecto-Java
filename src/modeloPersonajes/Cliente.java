@@ -1,15 +1,18 @@
 package modeloPersonajes;
 
+import java.util.ArrayList;
+
 import modeloObjetos.Plato;
 
 public class Cliente extends NPC {
 	// atributos propios
-	private Plato[] pedido;
+	private ArrayList<Plato> pedido = new ArrayList<>();
+	private ArrayList<Plato> platosRecibidos = new ArrayList<>();
 	private int pacienciaActual;
 	private int pacienciaTope;
 
 	// constructor
-	public Cliente(String nombre, Plato[] pedido) {
+	public Cliente(String nombre, ArrayList<Plato> pedido) {
 		super(nombre);
 		this.pedido = pedido;
 		pacienciaTope = 6;
@@ -17,12 +20,12 @@ public class Cliente extends NPC {
 	}
 
 	// gettes y setters
-	public Plato[] getPedido() {
+	public ArrayList<Plato> getPedido() {
 		return pedido;
 	}
 
-	public void setPedido(Plato[] pedido) {
-		this.pedido = pedido;
+	public ArrayList<Plato> getPlatosRecibidos() {
+		return platosRecibidos;
 	}
 
 	public int getPacienciaActual() {
@@ -36,5 +39,9 @@ public class Cliente extends NPC {
 	// metodos propios
 	public void restarPaciencia(int cantidad) {
 		pacienciaActual = Math.max(pacienciaActual - cantidad, 0);
+	}
+
+	public void addPlatosRecibidos(Plato p) {
+		platosRecibidos.add(p);
 	}
 }
