@@ -3,7 +3,11 @@ package vista;
 import modeloPersonajes.Enemigo;
 import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
+
+import java.util.ArrayList;
 import java.util.Random;
+
+import modeloObjetos.Consumible;
 
 public class VistaCombate {
 	// atributos
@@ -160,5 +164,75 @@ public class VistaCombate {
 		gestorVista.imprimirMensaje(
 				"Oh oh capitán, esos clientes no parecen muy contentos. Parece que nos va a tocar pelear!");
 		gestorVista.imprimirMensaje("=== Se te abalanzan unos clientes enfadados! ===");
+	}
+
+	public Consumible elegirConsumible(ArrayList<Consumible> consumiblesJ) {
+		int opcion;
+		Consumible itemAConsumir;
+		for (int i = 0; i < consumiblesJ.size(); i++) {
+			gestorVista.imprimirMensaje(
+					(i + 1) + ". " + consumiblesJ.get(i).getNombre() + ": " + consumiblesJ.get(i).getCantidad());
+		}
+
+		opcion = gestorVista.pedirNum();
+		while (opcion < 0 || opcion > consumiblesJ.size()) {
+			gestorVista.imprimirError("Selecciona una opción válda: ");
+			opcion = gestorVista.pedirNum();
+		}
+
+		itemAConsumir = consumiblesJ.get(opcion - 1);
+		return itemAConsumir;
+	}
+
+	public Tripulante seleccionAliado(Tripulante[] aliados) {
+		int opcion;
+		int longitudBarra = 20;
+		Tripulante tripulanteAfect;
+		gestorVista.imprimirMensaje("");
+		for (int i = 0; i < aliados.length; i++) {
+			int saludActual = aliados[i].getSaludActual();
+			int saludTope = aliados[i].getSaludTope();
+			int bloquesLlenos = (int) ((double) saludActual / saludTope * longitudBarra);
+			int bloquesVacios = longitudBarra - bloquesLlenos;
+
+			gestorVista.imprimirMensaje((i + 1) + ". " + aliados[i].getNombre());
+			for (int j = 0; j < bloquesLlenos; j++) {
+				gestorVista.imprimirMensajePegado("█");
+			}
+			for (int j = 0; j < bloquesVacios; j++) {
+				gestorVista.imprimirMensajePegado("░");
+			}
+			gestorVista.imprimirMensajePegado(" " + saludActual + "/" + saludTope);
+			gestorVista.imprimirMensaje("");
+		}
+
+		gestorVista.imprimirMensaje("Sobre qué tripulante quieres usar el brebaje?");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 1 || opcion > aliados.length) {
+			gestorVista.imprimirError("Selecciona una opción válda: ");
+			opcion = gestorVista.pedirNum();
+		}
+
+		tripulanteAfect = aliados[opcion - 1];
+		return tripulanteAfect;
+	}
+
+	public void mensajeCurar(Tripulante t, int curacion) {
+		gestorVista.imprimirMensaje(
+				t.getNombre() + " se ve afectado por el Brebaje de Salud y recupera " + curacion + " puntos de vida!");
+	}
+
+	public void mensajeConsumible(Tripulante t, Consumible c) {
+		if (c.getEfecto() == "defensa") {
+			gestorVista.imprimirMensaje(
+					t.getNombre() + " se ve afectado por el " + c.getNombre() + " y aumenta su defensa!");
+		} else if (c.getEfecto() == "iniciativa") {
+			gestorVista.imprimirMensaje(
+					t.getNombre() + " se ve afectado por el " + c.getNombre() + " y aumenta su iniciativa!");
+		}
+	}
+	
+	public void mensajeSinConsumibles () {
+		gestorVista.imprimirMensaje("No tienes ningún objeto consumible!");
 	}
 }

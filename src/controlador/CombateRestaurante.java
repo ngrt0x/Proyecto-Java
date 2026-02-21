@@ -10,6 +10,8 @@ import modeloJugador.Barco;
 import modeloJugador.Jugador;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.Canon;
+import modeloObjetos.Consumible;
+import modeloObjetos.Item;
 import modeloPersonajes.Enemigo;
 import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
@@ -23,12 +25,22 @@ public class CombateRestaurante implements Minijuego {
 	private Enemigo[] enemigos;
 	private Barco barco;
 	private Tripulante[] aliados;
+	private ArrayList<Consumible> consumiblesJ = new ArrayList<>();
 
 	// constructor
 	public CombateRestaurante(Jugador jugador) {
 		this.jugador = jugador;
+		// referencia al barco del jugador
 		barco = jugador.getBarco();
+		// referencia a los tripulantes del barco
 		aliados = jugador.getBarco().getTripulacion();
+		// referencia a los consumibles del inventario del jugador
+		Map<String, Item> inventarioJ = jugador.getInventario().getItem();
+		for (String i : inventarioJ.keySet()) {
+			if (inventarioJ.get(i) instanceof Consumible) {
+				consumiblesJ.add((Consumible) inventarioJ.get(i));
+			}
+		}
 	}
 
 	// metodos de la interfaz
@@ -58,12 +70,14 @@ public class CombateRestaurante implements Minijuego {
 		combatientes.addAll(Arrays.asList(aliados));
 		combatientes.addAll(Arrays.asList(enemigos));
 
-		// ordenar por iniciativa
-		combatientes.sort((a, b) -> b.getIniciativa() - a.getIniciativa() != 0 ? b.getIniciativa() - a.getIniciativa()
-				: ALEATORIO.nextInt(3) - 1);
-
 		// comienza el bucle de combate
 		while (aliadosVivos() && enemigosVivos()) {
+			// ordenar por iniciativa a cada turno por si la iniciativa cambia en medio del
+			// combate
+			combatientes
+					.sort((a, b) -> b.getIniciativa() - a.getIniciativa() != 0 ? b.getIniciativa() - a.getIniciativa()
+							: ALEATORIO.nextInt(3) - 1);
+
 			// turnos infividuales de cada combatiente
 			for (int i = 0; i < combatientes.size(); i++) {
 				turno(combatientes.get(i));
@@ -128,8 +142,11 @@ public class CombateRestaurante implements Minijuego {
 
 			// muestra el menu de combate con las opciones
 			opcion = vistaCombate.menuCombate(atacante);
-			while (opcion == 4 || opcion == 5) {
+			while (opcion == 4 || opcion == 5 || (opcion == 3 && consumiblesJ.isEmpty())) {
 				switch (opcion) {
+				case 3:
+					vistaCombate.mensajeSinConsumibles();
+					break;
 				case 4:
 					vistaCombate.estadoAliados(aliados);
 					break;
@@ -139,7 +156,6 @@ public class CombateRestaurante implements Minijuego {
 				}
 				opcion = vistaCombate.menuCombate(atacante);
 			}
-
 			switch (opcion) {
 			// atacar, te muestra los enemigos y te da a elegir uno
 			case 1:
@@ -164,8 +180,13 @@ public class CombateRestaurante implements Minijuego {
 				break;
 			// usar objeto, muestra menu de objetos a usar
 			case 3:
+				Consumible itemAConsumir = vistaCombate.elegirConsumible(consumiblesJ);
+				Tripulante tripulanteAfect = vistaCombate.seleccionAliado(aliados);
+				gestionarConsumibles(itemAConsumir, tripulanteAfect);
 				break;
 			}
+			opcion = vistaCombate.menuCombate(atacante);
+
 		} else if (c instanceof Enemigo) {
 			Enemigo atacante = (Enemigo) c;
 			Tripulante objetivo;
@@ -188,20 +209,16 @@ public class CombateRestaurante implements Minijuego {
 				vistaCombate.mensajeEsquiva(atacante, objetivo);
 			} else {
 				int danio = dispersion(atacante.atacar());
-				// si el objetivo se encuentra en estado defensivo recibira la mitad del dano
+				// si el objetivo esta defendiendo recibira un 20% menos de danio, INDEPENDIENTE
+				// DEL ESTADO DE LOS CONSUMIBLES
 				if (objetivo.isDefendiendo()) {
-					danio = danio / 2;
-					objetivo.recibirDanio(danio);
-					vistaCombate.mensajeAtaque(atacante, objetivo, danio);
-					if (!objetivo.estaVivo()) {
-						vistaCombate.mensajeMuerte(objetivo);
-					}
-				} else {
-					objetivo.recibirDanio(danio);
-					vistaCombate.mensajeAtaque(atacante, objetivo, danio);
-					if (!objetivo.estaVivo()) {
-						vistaCombate.mensajeMuerte(objetivo);
-					}
+					danio = (int) ((double) danio * 80 / 100);
+				}
+
+				objetivo.recibirDanio(danio);
+				vistaCombate.mensajeAtaque(atacante, objetivo, danio);
+				if (!objetivo.estaVivo()) {
+					vistaCombate.mensajeMuerte(objetivo);
 				}
 			}
 		}
@@ -222,6 +239,7 @@ public class CombateRestaurante implements Minijuego {
 			}
 			armamentos.sort((a, b) -> b.getTier() - a.getTier());
 			for (Tripulante t : aliados) {
+				t.setEstado("");
 				t.setSaludTope(t.getSaludBase());
 				t.setSaludTope(t.getSaludTope() + (armamentos.get(0).getTier() * 10));
 				t.setSaludActual(t.getSaludTope());
@@ -274,6 +292,29 @@ public class CombateRestaurante implements Minijuego {
 		encuentro[3] = pirataNormal2;
 
 		return encuentro;
+	}
+
+	// gestiona el aplicar los efectos correspondientes de los consumibles y
+	// restarlos del inventario del jugador
+	private void gestionarConsumibles(Consumible c, Tripulante t) {
+		if (c.getEfecto() == "curar") {
+			int curacion = (int) ((double) t.getSaludTope() * 20 / 100);
+			t.recuperarSalud(curacion);
+			jugador.getInventario().restarItem(c.getId(), 1);
+			vistaCombate.mensajeCurar(t, curacion);
+		} else if (c.getEfecto() == "defensa") {
+			t.setEstado("defendiendo");
+			jugador.getInventario().restarItem(c.getId(), 1);
+			vistaCombate.mensajeConsumible(t, c);
+		} else if (c.getEfecto() == "iniciativa") {
+			t.setIniciativa(t.getIniciativa() + 5);
+			jugador.getInventario().restarItem(c.getId(), 1);
+			vistaCombate.mensajeConsumible(t, c);
+		}
+
+		if (c.getCantidad() <= 0) {
+			consumiblesJ.remove(c);
+		}
 	}
 
 	// aplicar dispersion de daño

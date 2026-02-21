@@ -1,6 +1,7 @@
 package modeloJugador;
 
 import modeloObjetos.CanaPescar;
+import modeloObjetos.Consumible;
 import modeloObjetos.Item;
 
 public class Jugador {
@@ -18,7 +19,11 @@ public class Jugador {
 		oro = 50000000;
 		inventario = new Inventario();
 		Item canaBase = new CanaPescar("Caña de pescar básica", "cana_base", 5, 10);
+		Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
+		Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
 		inventario.anadirItem(canaBase);
+		inventario.anadirItem(brebajeIniciativa);
+		inventario.anadirItem(brebajeSalud);
 	}
 
 	// getters y setters

@@ -165,11 +165,6 @@ public class MinijuegoRestaurante implements Minijuego {
 		}
 	}
 
-	// metodos propios
-	public void mostrarPreparaciones() {
-
-	}
-
 	private Plato prepararPlato() {
 		ArrayList<String> preparacion = new ArrayList<>();
 		int opcionI;
@@ -329,6 +324,7 @@ public class MinijuegoRestaurante implements Minijuego {
 				if (p.getCantidad() <= 0) {
 					it.remove();
 				}
+				return;
 			}
 		}
 	}

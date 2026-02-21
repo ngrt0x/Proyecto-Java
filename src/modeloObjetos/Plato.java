@@ -15,7 +15,6 @@ public class Plato extends Item {
 	// contructor para hacer copias
 	public Plato(Item otro) {
 		super(otro);
-		cantidad = 1;
 	}
 
 	// getters y setters

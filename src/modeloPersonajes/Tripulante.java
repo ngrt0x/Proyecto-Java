@@ -102,6 +102,11 @@ public class Tripulante extends Persona implements ICombatiente {
 	// metodos de la interfaz
 	@Override
 	public void recibirDanio(int danio) {
+		// si ha consumido una pocion de defensa recibe un 20% menos de danio durante el
+		// resto del combate
+		if (estado.equals("defendiendo")) {
+			danio = (int) ((double) danio * 80 / 100);
+		}
 		saludActual = Math.max(0, saludActual - danio);
 	}
 

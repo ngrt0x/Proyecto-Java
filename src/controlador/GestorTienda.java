@@ -64,8 +64,8 @@ public class GestorTienda {
 	// metodos propios
 	public void entrarTienda() {
 		int opcion = vistaTienda.hablarTendero(this);
-		while(opcion != 0) {
-			
+		while (opcion != 0) {
+
 		}
 		int opcionCompra = vistaTienda.mostrarStock(this);
 		while (opcionCompra != 0) {
@@ -107,7 +107,7 @@ public class GestorTienda {
 						}
 						vistaTienda.mensajeCompra(this);
 						// tras la compra se resta 1 al stock
-						itemOriginal.restarCantidad(1);
+						stock.restarItem(itemOriginal.getId(), 1);
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 package modeloJugador;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import modeloObjetos.Item;
 import modeloObjetos.Pez;
@@ -19,57 +20,62 @@ public class Inventario {
 	public HashMap<String, HashMap<String, Item>> getInventario() {
 		return inventario;
 	}
-	
-	public HashMap<String, Item> getItems(){
+
+	public HashMap<String, Item> getItems() {
 		HashMap<String, Item> itemsYPescados = inventario.get("Items");
 		itemsYPescados.putAll(inventario.get("Peces"));
 		return itemsYPescados;
 	}
-	
-	public HashMap<String, Item> getItem(){
+
+	public HashMap<String, Item> getItem() {
 		return inventario.get("Items");
 	}
-	
-	public HashMap<String, Item> getPeces(){
+
+	public HashMap<String, Item> getPeces() {
 		return inventario.get("Peces");
 	}
-	
+
 	// metodos propios
 	public void anadirItem(Item nuevoItem) {
 		boolean yaEsta = false;
-		for(HashMap<String, Item> grupo : inventario.values()) {
-			for(Item item : grupo.values()) {
-				if(item.getId().equals(nuevoItem.getId())) {
+		for (HashMap<String, Item> grupo : inventario.values()) {
+			for (Item item : grupo.values()) {
+				if (item.getId().equals(nuevoItem.getId())) {
 					yaEsta = true;
 				}
 			}
 		}
-		
-		if(yaEsta) {
-			for(HashMap<String, Item> grupo : inventario.values()) {
-				for(Item item : grupo.values()) {
-					if(item.getId().equals(nuevoItem.getId())) {
+
+		if (yaEsta) {
+			for (HashMap<String, Item> grupo : inventario.values()) {
+				for (Item item : grupo.values()) {
+					if (item.getId().equals(nuevoItem.getId())) {
 						item.sumarCantidad(1);
 					}
 				}
 			}
-		}else if(nuevoItem instanceof Pez) {
+		} else if (nuevoItem instanceof Pez) {
 			inventario.get("Peces").put(nuevoItem.getId(), nuevoItem);
-		}else {
+		} else {
 			inventario.get("Items").put(nuevoItem.getId(), nuevoItem);
 		}
-		
-		
+
 	}
-	
+
+	// modificado la funcion restarItem porque me he dado cuenta que para restar el
+	// item bien hay que hacerlo mientras recorres la colecion con un iterator, que
+	// sino peta de vez en cuando. perdon jesus
 	public void restarItem(String id, int cantidad) {
-		for(HashMap<String, Item> grupo : inventario.values()) {
-			for(Item item : grupo.values()) {
-				if(item.getId().equals(id)) {
+		for (HashMap<String, Item> grupo : inventario.values()) {
+			Iterator<Item> it = grupo.values().iterator();
+			while (it.hasNext()) {
+				Item item = it.next();
+				if (item.getId().equals(id)) {
 					item.restarCantidad(cantidad);
-					if(item.getCantidad() <= 1) {
-						grupo.remove(item.getId());
+					if (item.getCantidad() <= 0) {
+						it.remove();
 					}
+					return;
 				}
 			}
 		}
