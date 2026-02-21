@@ -185,8 +185,6 @@ public class CombateRestaurante implements Minijuego {
 				gestionarConsumibles(itemAConsumir, tripulanteAfect);
 				break;
 			}
-			opcion = vistaCombate.menuCombate(atacante);
-
 		} else if (c instanceof Enemigo) {
 			Enemigo atacante = (Enemigo) c;
 			Tripulante objetivo;

@@ -77,6 +77,7 @@ public class GestorCombate implements Minijuego {
 			combatientes
 					.sort((a, b) -> b.getIniciativa() - a.getIniciativa() != 0 ? b.getIniciativa() - a.getIniciativa()
 							: ALEATORIO.nextInt(3) - 1);
+
 			// comprueba que el barco tiene canones y que el turno es divisible entre 4,
 			// entonces los canones atacan
 			if (tieneCanones() && contadorRondas % 4 == 0) {
@@ -190,8 +191,6 @@ public class GestorCombate implements Minijuego {
 				gestionarConsumibles(itemAConsumir, tripulanteAfect);
 				break;
 			}
-			opcion = vistaCombate.menuCombate(atacante);
-
 		} else if (c instanceof Enemigo) {
 			Enemigo atacante = (Enemigo) c;
 			Tripulante objetivo;
