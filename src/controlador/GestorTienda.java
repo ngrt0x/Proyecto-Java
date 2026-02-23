@@ -1,5 +1,7 @@
 package controlador;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import modeloJugador.Inventario;
@@ -10,10 +12,12 @@ import modeloObjetos.Canon;
 import modeloObjetos.Consumible;
 import modeloObjetos.Item;
 import modeloPersonajes.NPC;
+import vista.VistaJuego;
 import vista.VistaTienda;
 
 public class GestorTienda {
 	// atributos
+	private VistaJuego vistaJuego = new VistaJuego();
 	private VistaTienda vistaTienda = new VistaTienda();
 	private Inventario stock;
 	private NPC tendero = new NPC("Alexander el Tendero");
@@ -65,13 +69,18 @@ public class GestorTienda {
 	public void entrarTienda() {
 		int opcion = vistaTienda.hablarTendero(this);
 		while (opcion != 0) {
-
+			switch (opcion) {
+			case 1 -> { // OPCION COMPRAR AL TENDERO
+				int opcionCompra = vistaTienda.mostrarStock(this);
+				while (opcionCompra != 0) {
+					comprarItem(opcionCompra);
+					opcionCompra = vistaTienda.mostrarStock(this);
+				}
+			}
+			case 2 -> venderItem();
+			}
 		}
-		int opcionCompra = vistaTienda.mostrarStock(this);
-		while (opcionCompra != 0) {
-			comprarItem(opcionCompra);
-			opcionCompra = vistaTienda.mostrarStock(this);
-		}
+		
 	}
 
 	private void comprarItem(int opcion) {
@@ -114,12 +123,30 @@ public class GestorTienda {
 			contador++;
 		}
 	}
-
-	// imprimir ese menu desde entrarTienda(), de
-	// ahi con la opcion que introduzca el usuario empezar con la logica de mostrar
-	// stock para comprar, mostrar el inventario del jugador para vender, y hacer lo
-	// correspondiente. Hablar con el tendero por lo pronto nos lo podemos ahorrar.
+	
 	private void venderItem() {
+		int opcionInventario = vistaJuego.menuInventarios(); // ELIGE ENTRE ITEMS O PECES
+		vistaJuego.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
+		
+		int opcionVenta = vistaTienda.ventanaVenta(this, opcionInventario);
+	    Item itemVender = null;
+		
+		// Obtenemos el mapa correspondiente según la elección
+	    Map<String, Item> mapaSeleccionado = (opcionInventario == 1) 
+	                                         ? j.getInventario().getItem() 
+	                                         : j.getInventario().getPeces();
 
+	    // Validación de seguridad
+	    if (opcionVenta >= 0 && opcionVenta < mapaSeleccionado.size()) {
+	        // Convertimos los VALORES del mapa a una lista para acceder por posición
+	        List<Item> listaTemporal = new ArrayList<>(mapaSeleccionado.values());
+	        itemVender = listaTemporal.get(opcionVenta);
+	    }
+
+	    // Lógica de venta (si se encontró el ítem)
+	    if (itemVender != null) {
+	        j.sumarOro(itemVender.getPrecio()); // sumamos el oro al jugador
+	        mapaSeleccionado.remove(itemVender.getId()); // eliminamos el item del inventario
+	    }
 	}
 }
