@@ -223,7 +223,18 @@ public class VistaRestaurante {
 	}
 
 	public void mostrarRecetas() {
-		gestorVista.imprimirMensaje("Recetas jeje");
+		gestorVista.imprimirMensaje("================== Libro de Recetas ===================");
+		gestorVista.imprimirMensaje(
+				"En este libro se muestran los ingredientes de cada plato que servimos en el restaurante.");
+		gestorVista.imprimirMensaje(
+				"➤ Estofado del Capitán: Especialidad de la casa.\n\t➣ Se prepara con agua, carne, patatas y especias.\n"
+						+ "➤ Arroz Marinero: Es como un arroz tres delicias, solo que con una delicia, y es pescado.\n\t➣ Se prepara con arroz y pescado.\n"
+						+ "➤ Sopa de Pescado y Algas: Dicen que viene genial para la resaca.\n\t➣ Se prepara con agua, pescado y algas.\n"
+						+ "➤ Kraken a la Gallega: En verdad no es carne del legendario Kraken, es pulpo con pimentón. Está increible igualmente.\n\t➣ Se prepara con patatas, pulpo y especias.\n"
+						+ "➤ Nigiri Pirata: Receta traída de los mares del Este. Es caro para lo pequeño que es.\n\t➣ Se prepara con arroz, pescado y alga.\n"
+						+ "➤ Bocadillo de Carne sin Identificar: Será cordero? Ternera? Cerdo? Perro quizás? Nadie lo sabe pero está rico.\n\t➣ Se prepara con pan y carne.");
+		gestorVista.imprimirMensaje("=======================================================");
+		gestorVista.imprimirMensaje("");
 	}
 
 	public void mensajePlatoCocinado(Plato p) {
