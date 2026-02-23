@@ -104,19 +104,17 @@ public class MinijuegoPesca implements Minijuego {
 	}
 
 	private boolean esperar() throws InterruptedException {
-		int turnosAEsperar = generarAleatorioEntre(2, 8);
+		int turnosAEsperar = generarAleatorioEntre(2, 6);
 		// chequea si el jugador ha comprado cebo bueno, si es verdad reduce los turnos
 		// de espera para que pique algo
 		if (j.getInventario().getItems().containsKey("cebo_bueno")) {
 			turnosAEsperar = generarAleatorioEntre(1, 4);
 		}
 		for (int i = 0; i < turnosAEsperar; i++) {
-			Thread.sleep(4000);
-			vistaPesca.limpiarBuffer();
+			Thread.sleep(3000);
 			vistaPesca.imprimirMensaje(vistaPesca.getMensajeEspera()[generarAleatorioEntre(0, 4)]);
 		}
-		Thread.sleep(4000);
-		vistaPesca.limpiarBuffer();
+		Thread.sleep(3000);
 		vistaPesca.imprimirMensaje(vistaPesca.getMensajePicada()[generarAleatorioEntre(0, 2)]);
 		String texto = vistaPesca.tirarCana();
 		// devuelve true si el usuario consigue tirar bien del pez, sino el pez de va y

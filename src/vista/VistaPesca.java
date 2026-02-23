@@ -97,28 +97,42 @@ public class VistaPesca {
 
 	public void hudLucha(int lineaTope, int lineaActual, int pezTope, int pezActual, int distanciaTope,
 			int distanciaActual) {
+		int longitudBarra = 20;
+		int bloquesLlenos;
+		int bloquesVacios;
 		gestorVista.imprimirMensaje("=======================================================");
+		// resistencia de linea
 		gestorVista.imprimirMensajePegado("Resistencia de linea: \t");
-		for (int i = 0; i < lineaActual; i++) {
+		bloquesLlenos = (int) ((double) lineaActual / lineaTope * longitudBarra);
+		bloquesVacios = longitudBarra - bloquesLlenos;
+		for (int j = 0; j < bloquesLlenos; j++) {
 			gestorVista.imprimirMensajePegado("█");
 		}
-		for (int i = 0; i < lineaTope - lineaActual; i++) {
+		for (int j = 0; j < bloquesVacios; j++) {
 			gestorVista.imprimirMensajePegado("░");
 		}
 		gestorVista.imprimirMensaje("");
+
+		// energia del pez
 		gestorVista.imprimirMensajePegado("Energía del pez: \t");
-		for (int i = 0; i < pezActual; i++) {
+		bloquesLlenos = (int) ((double) pezActual / pezTope * longitudBarra);
+		bloquesVacios = longitudBarra - bloquesLlenos;
+		for (int j = 0; j < bloquesLlenos; j++) {
 			gestorVista.imprimirMensajePegado("█");
 		}
-		for (int i = 0; i < pezTope - pezActual; i++) {
+		for (int j = 0; j < bloquesVacios; j++) {
 			gestorVista.imprimirMensajePegado("░");
 		}
 		gestorVista.imprimirMensaje("");
+
+		// distancia del pez
 		gestorVista.imprimirMensajePegado("Distancia del pez: \t");
-		for (int i = 0; i < distanciaActual; i++) {
+		bloquesLlenos = (int) ((double) distanciaActual / distanciaTope * longitudBarra);
+		bloquesVacios = longitudBarra - bloquesLlenos;
+		for (int j = 0; j < bloquesLlenos; j++) {
 			gestorVista.imprimirMensajePegado("█");
 		}
-		for (int i = 0; i < distanciaTope - distanciaActual; i++) {
+		for (int j = 0; j < bloquesVacios; j++) {
 			gestorVista.imprimirMensajePegado("░");
 		}
 		gestorVista.imprimirMensaje("");
@@ -135,9 +149,5 @@ public class VistaPesca {
 
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
-	}
-	
-	public void limpiarBuffer() {
-		gestorVista.limpiarBuffer();
 	}
 }

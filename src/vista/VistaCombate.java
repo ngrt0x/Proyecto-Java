@@ -16,9 +16,24 @@ public class VistaCombate {
 	// metodos propios
 	public int elegirEnemigo(Enemigo[] enemigos, Tripulante t) {
 		int opcion;
+		int longitudBarra = 20;
+
 		gestorVista.imprimirMensaje("");
 		for (int i = 0; i < enemigos.length; i++) {
+			int saludActual = enemigos[i].getSaludActual();
+			int saludTope = enemigos[i].getSaludTope();
+			int bloquesLlenos = (int) ((double) saludActual / saludTope * longitudBarra);
+			int bloquesVacios = longitudBarra - bloquesLlenos;
+
 			gestorVista.imprimirMensaje((i + 1) + ". " + enemigos[i].getNombre());
+			for (int j = 0; j < bloquesLlenos; j++) {
+				gestorVista.imprimirMensajePegado("█");
+			}
+			for (int j = 0; j < bloquesVacios; j++) {
+				gestorVista.imprimirMensajePegado("░");
+			}
+			gestorVista.imprimirMensajePegado(" " + saludActual + "/" + saludTope);
+			gestorVista.imprimirMensaje("");
 		}
 		gestorVista.imprimirMensaje("A qué enemigo quieres que ataque " + t.getNombre() + "?");
 		opcion = gestorVista.pedirNum();
@@ -119,7 +134,7 @@ public class VistaCombate {
 
 	public void mensajeEsquiva(ICombatiente atacante, ICombatiente objetivo) {
 		String[] mensajeEsquiva = { " esquiva el ataque con gracia.", " ha esquivado el ataque!",
-				" ha evadido el ataque por los pelos.", " esquiva el ataque como si nada." };
+				" ha evitado el ataque por los pelos.", " esquiva el ataque como si nada." };
 		gestorVista.imprimirMensaje(atacante.getNombre() + " ataca a " + objetivo.getNombre() + " pero "
 				+ objetivo.getNombre() + mensajeEsquiva[ALEATORIO.nextInt(3)]);
 	}
@@ -226,8 +241,8 @@ public class VistaCombate {
 					t.getNombre() + " se ve afectado por el " + c.getNombre() + " y aumenta su iniciativa!");
 		}
 	}
-	
-	public void mensajeSinConsumibles () {
+
+	public void mensajeSinConsumibles() {
 		gestorVista.imprimirMensaje("No tienes ningún objeto consumible!");
 	}
 }

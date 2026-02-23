@@ -43,8 +43,4 @@ public class GestorVista {
 		System.err.println(msg);
 	}
 
-	public void limpiarBuffer() {
-		TECLADO.nextLine();
-	}
-
 }
