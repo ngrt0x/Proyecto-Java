@@ -52,27 +52,21 @@ public class VistaTienda {
 	
 	public int ventanaVenta(GestorTienda t, int opcionInventario) {
 		Jugador j = t.getJugador();
-		HashMap<String, Item> items = j.getInventario().getItem();
-		HashMap<String, Item> peces = j.getInventario().getPeces();
 		
 		gestorVista.imprimirMensaje("Que quiere vender capitan?");
 		int opcionVenta = gestorVista.pedirNum(); // PEDIR EL NUMERO DEL ITEM EN LA LISTA DEL INVENTARIO
 		
-		if(opcionInventario == 1) { // 2 INVENTARIO SEPARADOS 2 WHILES PARA 2 size DISTINTOS
-			while(opcionVenta < 1 || opcionVenta > items.size()) {
-				gestorVista.imprimirError("Elija un valor valido");
-				opcionVenta = gestorVista.pedirNum();
-			}
-		}else {
-			while(opcionVenta < 1 || opcionVenta > peces.size()) {
-				gestorVista.imprimirError("Elija un valor valido");
-				opcionVenta = gestorVista.pedirNum();
-			}
+		HashMap<String, Item> inventario = (opcionInventario == 1)
+										? j.getInventario().getItem() // SI OPCION INVENTARIO ES 1
+										: j.getInventario().getPeces(); // SI OPCION INVENTARIO ES 2
+		
+		
+		while(opcionVenta < 1 || opcionVenta > inventario.size()) {
+			gestorVista.imprimirError("Elija un valor valido");
+			opcionVenta = gestorVista.pedirNum();
 		}
 		
 		return opcionVenta; // return DEL NUMERO DE ITEM
-		
-		//opcion para que el jugador eliga el item a vender
 	}
 
 	public int menuConfirmacion(Item i) {

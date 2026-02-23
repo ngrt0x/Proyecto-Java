@@ -77,7 +77,12 @@ public class GestorTienda {
 					opcionCompra = vistaTienda.mostrarStock(this);
 				}
 			}
-			case 2 -> venderItem();
+			case 2 -> {
+				int opcionVenta = venderItem();
+				while(opcionVenta != 0) {
+					opcionVenta = venderItem();
+				}
+			}
 			}
 		}
 		
@@ -124,11 +129,12 @@ public class GestorTienda {
 		}
 	}
 	
-	private void venderItem() {
+	private int venderItem() {
 		int opcionInventario = vistaJuego.menuInventarios(); // ELIGE ENTRE ITEMS O PECES
 		vistaJuego.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
 		
 		int opcionVenta = vistaTienda.ventanaVenta(this, opcionInventario);
+		opcionVenta--;
 	    Item itemVender = null;
 		
 		// Obtenemos el mapa correspondiente según la elección
@@ -148,5 +154,7 @@ public class GestorTienda {
 	        j.sumarOro(itemVender.getPrecio()); // sumamos el oro al jugador
 	        mapaSeleccionado.remove(itemVender.getId()); // eliminamos el item del inventario
 	    }
+	    
+	    return opcionVenta;
 	}
 }
