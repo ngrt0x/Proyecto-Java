@@ -10,8 +10,6 @@ import modeloObjetos.Item;
 public class VistaTienda {
 	// atributos
 	private GestorVista gestorVista = new GestorVista();
-	private VistaJuego vistaJuego = new VistaJuego();
-
 	// metodos propios
 	public int hablarTendero(GestorTienda t) {
 		int opcion;
