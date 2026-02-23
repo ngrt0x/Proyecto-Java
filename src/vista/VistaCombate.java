@@ -1,13 +1,12 @@
 package vista;
 
-import modeloPersonajes.Enemigo;
-import modeloPersonajes.ICombatiente;
-import modeloPersonajes.Tripulante;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 import modeloObjetos.Consumible;
+import modeloPersonajes.Enemigo;
+import modeloPersonajes.ICombatiente;
+import modeloPersonajes.Tripulante;
 
 public class VistaCombate {
 	// atributos
@@ -15,10 +14,6 @@ public class VistaCombate {
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
-	public void hudCombate() {
-
-	}
-
 	public int elegirEnemigo(Enemigo[] enemigos, Tripulante t) {
 		int opcion;
 		gestorVista.imprimirMensaje("");
@@ -27,8 +22,8 @@ public class VistaCombate {
 		}
 		gestorVista.imprimirMensaje("A qué enemigo quieres que ataque " + t.getNombre() + "?");
 		opcion = gestorVista.pedirNum();
-		while (opcion < 1 || opcion > enemigos.length || !enemigos[opcion - 1].estaVivo()) {
-			if (opcion < 0 || opcion > enemigos.length) {
+		while (opcion <= 0 || opcion > enemigos.length || !enemigos[opcion - 1].estaVivo()) {
+			if (opcion <= 0 || opcion > enemigos.length) {
 				gestorVista.imprimirError("Selecciona una opción válda: ");
 			} else if (!enemigos[opcion - 1].estaVivo()) {
 				gestorVista.imprimirError("No puedes atacar a un enemigo que ya ha sido derrotado!");

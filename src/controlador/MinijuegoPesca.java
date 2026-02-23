@@ -112,9 +112,11 @@ public class MinijuegoPesca implements Minijuego {
 		}
 		for (int i = 0; i < turnosAEsperar; i++) {
 			Thread.sleep(4000);
+			vistaPesca.limpiarBuffer();
 			vistaPesca.imprimirMensaje(vistaPesca.getMensajeEspera()[generarAleatorioEntre(0, 4)]);
 		}
 		Thread.sleep(4000);
+		vistaPesca.limpiarBuffer();
 		vistaPesca.imprimirMensaje(vistaPesca.getMensajePicada()[generarAleatorioEntre(0, 2)]);
 		String texto = vistaPesca.tirarCana();
 		// devuelve true si el usuario consigue tirar bien del pez, sino el pez de va y

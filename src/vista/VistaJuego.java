@@ -25,9 +25,9 @@ public class VistaJuego {
 	
 	public int menuInventarios() {
 		int opcion;
-		gestorVista.imprimirMensaje("1. Items\n" + "2. Peces");
+		gestorVista.imprimirMensaje("1. Items\n" + "2. Peces\n" + "0. Atrás");
 		opcion = gestorVista.pedirNum();
-		while(opcion > 2 || opcion < 1) {
+		while(opcion > 2 || opcion < 0) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}
@@ -35,7 +35,7 @@ public class VistaJuego {
 	}
 
 	public void mostrarInventario(Jugador j, int opcion) {
-		gestorVista.imprimirMensaje("=== INVENTARIO ===");
+		gestorVista.imprimirMensaje("===================== INVENTARIO =====================");
 		gestorVista.imprimirMensaje("Tu oro: " + j.getOro());
 		Map<String, Item> inventario = j.getInventario().getItems();
 		if(opcion == 1) {

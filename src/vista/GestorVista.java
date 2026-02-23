@@ -1,7 +1,6 @@
 package vista;
 
 import java.util.InputMismatchException;
-
 import java.util.Scanner;
 
 public class GestorVista {
@@ -42,6 +41,10 @@ public class GestorVista {
 
 	public void imprimirError(String msg) {
 		System.err.println(msg);
+	}
+
+	public void limpiarBuffer() {
+		TECLADO.nextLine();
 	}
 
 }

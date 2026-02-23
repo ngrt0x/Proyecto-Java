@@ -136,4 +136,8 @@ public class VistaPesca {
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
 	}
+	
+	public void limpiarBuffer() {
+		gestorVista.limpiarBuffer();
+	}
 }

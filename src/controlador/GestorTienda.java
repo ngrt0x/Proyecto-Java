@@ -79,13 +79,14 @@ public class GestorTienda {
 			}
 			case 2 -> {
 				int opcionVenta = venderItem();
-				while(opcionVenta != 0) {
+				while (opcionVenta != -1) {
 					opcionVenta = venderItem();
 				}
 			}
 			}
+			opcion = vistaTienda.hablarTendero(this);
 		}
-		
+
 	}
 
 	private void comprarItem(int opcion) {
@@ -128,33 +129,39 @@ public class GestorTienda {
 			contador++;
 		}
 	}
-	
+
 	private int venderItem() {
 		int opcionInventario = vistaJuego.menuInventarios(); // ELIGE ENTRE ITEMS O PECES
+		
+		if (opcionInventario == 0) {
+			return opcionInventario;
+		}
+		
 		vistaJuego.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
 		
 		int opcionVenta = vistaTienda.ventanaVenta(this, opcionInventario);
 		opcionVenta--;
-	    Item itemVender = null;
-		
+		Item itemVender = null;
+
 		// Obtenemos el mapa correspondiente según la elección
-	    Map<String, Item> mapaSeleccionado = (opcionInventario == 1) 
-	                                         ? j.getInventario().getItem() 
-	                                         : j.getInventario().getPeces();
+		Map<String, Item> mapaSeleccionado = (opcionInventario == 1) ? j.getInventario().getItem()
+				: j.getInventario().getPeces();
 
-	    // Validación de seguridad
-	    if (opcionVenta >= 0 && opcionVenta < mapaSeleccionado.size()) {
-	        // Convertimos los VALORES del mapa a una lista para acceder por posición
-	        List<Item> listaTemporal = new ArrayList<>(mapaSeleccionado.values());
-	        itemVender = listaTemporal.get(opcionVenta);
-	    }
+		// Validación de seguridad
+		if (opcionVenta >= 0 && opcionVenta < mapaSeleccionado.size()) {
+			// Convertimos los VALORES del mapa a una lista para acceder por posición
+			List<Item> listaTemporal = new ArrayList<>(mapaSeleccionado.values());
+			itemVender = listaTemporal.get(opcionVenta);
+		}
 
-	    // Lógica de venta (si se encontró el ítem)
-	    if (itemVender != null) {
-	        j.sumarOro(itemVender.getPrecio()); // sumamos el oro al jugador
-	        mapaSeleccionado.remove(itemVender.getId()); // eliminamos el item del inventario
-	    }
-	    
-	    return opcionVenta;
+		// Lógica de venta (si se encontró el ítem)
+		if (itemVender != null) {
+			j.sumarOro(itemVender.getPrecio()); // sumamos el oro al jugador
+			mapaSeleccionado.remove(itemVender.getId()); // eliminamos el item del inventario
+		}
+
+		return opcionVenta;
 	}
+	
+	
 }
