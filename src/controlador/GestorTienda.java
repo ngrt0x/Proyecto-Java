@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import modeloJugador.Inventario;
 import modeloJugador.Jugador;
+import modeloMundo.Tienda;
 import modeloObjetos.ArmamentoBarco;
-import modeloObjetos.CanaPescar;
-import modeloObjetos.Canon;
-import modeloObjetos.Consumible;
 import modeloObjetos.Item;
-import modeloPersonajes.NPC;
 import vista.VistaJuego;
 import vista.VistaTienda;
 
@@ -19,48 +15,16 @@ public class GestorTienda {
 	// atributos
 	private VistaJuego vistaJuego = new VistaJuego();
 	private VistaTienda vistaTienda = new VistaTienda();
-	private Inventario stock;
-	private NPC tendero = new NPC("Alexander el Tendero");
 	private Jugador j;
-	// Items disponibles
-	private Item canaReforzada = new CanaPescar("Caña reforzada", "cana_reforzada", 150, 15);
-	private Item canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 17);
-	private Item canaMaestra = new CanaPescar("Caña maestra", "cana_maestra", 300, 20);
-	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
-	private Item canones = new Canon("Cañones oxidados", "canones_base", 300, 15, 1);
-	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 175, 20, 2);
-	private Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
-	private Item brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
-	private Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
+	private Tienda t;
 
 	// constructor
-	public GestorTienda(Jugador jugador) {
+	public GestorTienda(Jugador jugador, Tienda tienda) {
 		j = jugador;
-		tendero.setPrimeraFrase("Buenas tarde capitán, qué le puedo ofrecer hoy?");
-		stock = new Inventario();
-		stock.anadirItem(canaFlexible);
-		stock.anadirItem(canaReforzada);
-		stock.anadirItem(canaMaestra);
-		stock.anadirItem(ceboBueno);
-		stock.anadirItem(canones);
-		stock.anadirItem(armamentoReforzado);
-		stock.anadirItem(brebajeSalud);
-		stock.anadirItem(brebajeDefensa);
-		stock.anadirItem(brebajeIniciativa);
-		for (String i : stock.getItems().keySet()) {
-			stock.getItems().get(i).setCantidad(2);
-		}
+		t = tienda;
 	}
 
 	// getters y setters
-	public Inventario getStock() {
-		return stock;
-	}
-
-	public NPC getTendero() {
-		return tendero;
-	}
-
 	public Jugador getJugador() {
 		return j;
 	}
@@ -71,10 +35,10 @@ public class GestorTienda {
 		while (opcion != 0) {
 			switch (opcion) {
 			case 1 -> { // OPCION COMPRAR AL TENDERO
-				int opcionCompra = vistaTienda.mostrarStock(this);
+				int opcionCompra = vistaTienda.mostrarStock(this, t);
 				while (opcionCompra != 0) {
 					comprarItem(opcionCompra);
-					opcionCompra = vistaTienda.mostrarStock(this);
+					opcionCompra = vistaTienda.mostrarStock(this, t);
 				}
 			}
 			case 2 -> {
@@ -92,7 +56,7 @@ public class GestorTienda {
 	private void comprarItem(int opcion) {
 		int confirmacion;
 		int contador = 1;
-		Map<String, Item> itemsALaVenta = stock.getItems();
+		Map<String, Item> itemsALaVenta = t.getStock().getItems();
 		// busca el item que el usuario ha seleccionado en el menu previamente, inicia
 		// un contador y compara ese contador hasta que la opcion indica el item
 		// seleccionado
@@ -109,7 +73,7 @@ public class GestorTienda {
 							"No nos quedan existencias de " + itemOriginal.getNombre() + ", mil disculpas!");
 				} else {
 					// muestra un mensaje de confirmacion de la compra
-					confirmacion = vistaTienda.menuConfirmacion(itemOriginal);
+					confirmacion = vistaTienda.menuConfirmacionCompra(itemOriginal);
 					if (confirmacion != 1) {
 						return;
 					} else {
@@ -122,7 +86,7 @@ public class GestorTienda {
 						}
 						vistaTienda.mensajeCompra(this);
 						// tras la compra se resta 1 al stock
-						stock.restarItem(itemOriginal.getId(), 1);
+						t.getStock().restarItem(itemOriginal.getId(), 1);
 					}
 				}
 			}
@@ -134,7 +98,17 @@ public class GestorTienda {
 		int opcionInventario = vistaJuego.menuInventarios(); // ELIGE ENTRE ITEMS O PECES
 		
 		if (opcionInventario == 0) {
-			return opcionInventario;
+			return -1;
+		}
+		
+		// Obtenemos el mapa correspondiente según la elección
+		Map<String, Item> mapaSeleccionado = (opcionInventario == 1) ? j.getInventario().getItem()
+																	 : j.getInventario().getPeces();
+		
+		//Si no tienes items disponibles para vender
+		if(mapaSeleccionado.isEmpty()) {
+			vistaTienda.imprimirMensaje("==== No tiene items disponibles para la venta  ====");
+			return 0; // cancela todo
 		}
 		
 		vistaJuego.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
@@ -143,21 +117,23 @@ public class GestorTienda {
 		opcionVenta--;
 		Item itemVender = null;
 
-		// Obtenemos el mapa correspondiente según la elección
-		Map<String, Item> mapaSeleccionado = (opcionInventario == 1) ? j.getInventario().getItem()
-				: j.getInventario().getPeces();
-
 		// Validación de seguridad
 		if (opcionVenta >= 0 && opcionVenta < mapaSeleccionado.size()) {
 			// Convertimos los VALORES del mapa a una lista para acceder por posición
 			List<Item> listaTemporal = new ArrayList<>(mapaSeleccionado.values());
 			itemVender = listaTemporal.get(opcionVenta);
 		}
+		
+		// Menu de confirmación de venta (Ultima forma de cancelar la venta)
+		if(vistaTienda.menuConfirmacionVenta(itemVender) == 2) {
+			return 0;
+		}
 
 		// Lógica de venta (si se encontró el ítem)
 		if (itemVender != null) {
 			j.sumarOro(itemVender.getPrecio()); // sumamos el oro al jugador
 			mapaSeleccionado.remove(itemVender.getId()); // eliminamos el item del inventario
+			vistaTienda.mensajeVenta(this, itemVender); // imprimimos el mensaje de item vendido
 		}
 
 		return opcionVenta;

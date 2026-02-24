@@ -5,6 +5,7 @@ import java.util.Map;
 
 import controlador.GestorTienda;
 import modeloJugador.Jugador;
+import modeloMundo.Tienda;
 import modeloObjetos.Item;
 
 public class VistaTienda {
@@ -25,7 +26,7 @@ public class VistaTienda {
 		return opcion;
 	}
 	
-	public int mostrarStock(GestorTienda t) {
+	public int mostrarStock(GestorTienda gt, Tienda t) {
 		int opcion;
 		gestorVista.imprimirMensaje(t.getTendero().getPrimeraFrase());
 		gestorVista.imprimirMensaje("");
@@ -39,6 +40,7 @@ public class VistaTienda {
 			contador++;
 		}
 		gestorVista.imprimirMensaje("=======================================================");
+		gestorVista.imprimirMensaje("Tu oro: " + gt.getJugador().getOro() + "g");
 		gestorVista.imprimirMensaje("0. Salir de la tienda");
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > stock.size()) {
@@ -59,6 +61,7 @@ public class VistaTienda {
 										: j.getInventario().getPeces(); // SI OPCION INVENTARIO ES 2
 		
 		
+		
 		while(opcionVenta < 1 || opcionVenta > inventario.size()) {
 			gestorVista.imprimirError("Elija un valor valido");
 			opcionVenta = gestorVista.pedirNum();
@@ -67,7 +70,7 @@ public class VistaTienda {
 		return opcionVenta; // return DEL NUMERO DE ITEM
 	}
 
-	public int menuConfirmacion(Item i) {
+	public int menuConfirmacionCompra(Item i) {
 		int opcion;
 		gestorVista
 				.imprimirMensaje("Esto es lo que quieres comprar?\n" + i.getNombre() + " por " + i.getPrecio() + "g?");
@@ -80,9 +83,25 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	public int menuConfirmacionVenta(Item i) {
+		int opcion;
+		gestorVista.imprimirMensaje("Seguro que quieres vender " + i.getNombre() + " por " + i.getPrecio() + "g?");
+		gestorVista.imprimirMensaje("1. Si\n2. No");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 1 || opcion > 2) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+	
 	public void mensajeCompra(GestorTienda t) {
 		gestorVista.imprimirMensaje(
 				"Gracias por su compra " + t.getJugador().getNombre() + ". Espero volver a verle pronto!");
+	}
+	
+	public void mensajeVenta(GestorTienda t, Item itemVendido) {
+		gestorVista.imprimirMensaje("Has vendido x1 " + itemVendido.getNombre() + ", por " + itemVendido.getPrecio());
 	}
 
 	public void imprimirMensaje(String msg) {
