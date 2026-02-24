@@ -19,12 +19,12 @@ public class Tripulante extends Persona implements ICombatiente {
 	private boolean defendiendo = false;
 	private int iniciativa;
 	private String estado;
+	private int rol;
 
 	// constructor
-	public Tripulante(String nombre, int saludBase, int fuerza) {
+	public Tripulante(String nombre, int rol) {
 		this.nombre = nombre;
-		this.saludBase = saludBase;
-		this.fuerza = fuerza;
+		this.rol = rol;
 	}
 
 	// getters y setters
@@ -34,6 +34,14 @@ public class Tripulante extends Persona implements ICombatiente {
 
 	public void setDefendiendo(boolean defendiendo) {
 		this.defendiendo = defendiendo;
+	}
+
+	public int getRol() {
+		return rol;
+	}
+
+	public void setRol(int rol) {
+		this.rol = rol;
 	}
 
 	public int getSaludActual() {
@@ -56,6 +64,10 @@ public class Tripulante extends Persona implements ICombatiente {
 		return saludBase;
 	}
 
+	public void setSaludBase(int saludBase) {
+		this.saludBase = saludBase;
+	}
+
 	public int getIniciativa() {
 		return iniciativa;
 	}
@@ -70,6 +82,10 @@ public class Tripulante extends Persona implements ICombatiente {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public void setFuerza(int fuerza) {
+		this.fuerza = fuerza;
 	}
 
 	// metodos propios

@@ -60,10 +60,22 @@ public class GestorCombate implements Minijuego {
 
 		// determinar la iniciativa de cada tripulante dentro de un rango determinado
 		// para el rol de dicho tripulante
-		aliados[0].setIniciativa(generarAleatorioEntre(12, 15)); // rol medio
-		aliados[1].setIniciativa(generarAleatorioEntre(15, 18)); // dps
-		aliados[2].setIniciativa(generarAleatorioEntre(7, 10)); // tanque
-		aliados[3].setIniciativa(generarAleatorioEntre(10, 13)); // rol medio
+		for (Tripulante t : aliados) {
+			switch (t.getRol()) {
+			case 1:
+				t.setIniciativa(generarAleatorioEntre(7, 10));
+				break;
+			case 2:
+				t.setIniciativa(generarAleatorioEntre(12, 15));
+				break;
+			case 3:
+				t.setIniciativa(generarAleatorioEntre(15, 18));
+				break;
+			case 4:
+				t.setIniciativa(generarAleatorioEntre(10, 13));
+				break;
+			}
+		}
 
 		// crear array conjunto de combatientes
 		List<ICombatiente> combatientes = new ArrayList<>();

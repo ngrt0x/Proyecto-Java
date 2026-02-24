@@ -9,11 +9,7 @@ public class Barco {
 	// armamento basico con el que empiezas
 	private ArmamentoBarco armamentoBasico = new ArmamentoBarco("Armamento Básico", "arma_base", 20, 15, 1);
 	// tripulantes
-	private Tripulante charlie = new Tripulante("Charlie Kirky", 110, 18); // rol medio
-	private Tripulante godofredo = new Tripulante("Godofredo Epsparrow", 80, 28); // dps
-	private Tripulante john = new Tripulante("John Patapalo", 150, 12); // tanque
-	private Tripulante jesus = new Tripulante("Jesús Cristo García", 100, 16); // rol medio
-	private Tripulante[] tripulacion = { charlie, godofredo, john, jesus };
+	private Tripulante[] tripulacion = new Tripulante[4];
 
 	// constructor
 	public Barco() {
@@ -23,6 +19,10 @@ public class Barco {
 	// getters y setters
 	public Tripulante[] getTripulacion() {
 		return tripulacion;
+	}
+
+	public void setTripulacion(Tripulante[] tripulacion) {
+		this.tripulacion = tripulacion;
 	}
 
 	public InventarioBarco getInventarioB() {
