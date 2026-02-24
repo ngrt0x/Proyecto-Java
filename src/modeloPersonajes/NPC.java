@@ -2,6 +2,7 @@ package modeloPersonajes;
 
 public class NPC extends Persona {
 	// atributos propios
+	protected boolean conocido;
 	protected boolean tienePista;
 	protected String pista;
 
@@ -13,6 +14,7 @@ public class NPC extends Persona {
 		this.primeraFrase = primeraFrase;
 		this.tienePista = tienePista;
 		this.pista = pista;
+		this.conocido = false;
 	}
 
 	// constructor para los NPCs normales habitantes de la isla sin pistas y con dialogos normales
@@ -27,4 +29,15 @@ public class NPC extends Persona {
 	public NPC(String nombre) {
 		this.nombre = nombre;
 	}
+
+	//getters y setters
+	public boolean isConocido() {
+		return conocido;
+	}
+
+	public void setConocido(boolean conocido) {
+		this.conocido = conocido;
+	}
+	
+	
 }

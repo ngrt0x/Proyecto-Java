@@ -14,7 +14,33 @@ public class Isla {
 		this.habitantes = habitantes;
 		this.tiendaLocal = tienda;
 	}
-	
-	
 
+	//getters y setters
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public NPC[] getHabitantes() {
+		return habitantes;
+	}
+
+	public void setHabitantes(NPC[] habitantes) {
+		this.habitantes = habitantes;
+	}
+
+	public Tienda getTiendaLocal() {
+		return tiendaLocal;
+	}
+
+	public void setTiendaLocal(Tienda tiendaLocal) {
+		this.tiendaLocal = tiendaLocal;
+	}
+	
+	
+	
 }
