@@ -15,6 +15,13 @@ public class NPC extends Persona {
 		this.pista = pista;
 	}
 
+	// constructor para los NPCs normales habitantes de la isla sin pistas y con dialogos normales
+	public NPC(String nombre, String[] dialogos, String primeraFrase) {
+		this.nombre = nombre;
+		this.dialogos = dialogos;
+		this.primeraFrase = primeraFrase;
+	}
+	
 	// constructor para los tenderos, clientes u otros NPCs sin pistas ni tantas
 	// interacciones
 	public NPC(String nombre) {
