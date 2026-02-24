@@ -24,7 +24,7 @@ public class Tienda {
 	private Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
 	
 	public Tienda() {
-		tendero.setPrimeraFrase("Buenas tarde capitán, qué le puedo ofrecer hoy?");
+		tendero.setPrimeraFrase(tendero.getNombre()+": 'Echa un ojo si quieres, pero si no vas a comprar nada no me hagas perder el tiempo.'");
 		stock = new Inventario();
 		stock.anadirItem(canaFlexible);
 		stock.anadirItem(canaReforzada);

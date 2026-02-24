@@ -29,9 +29,13 @@ public class GestorTienda {
 		return j;
 	}
 
+	public Tienda getTienda() {
+		return t;
+	}
+
 	// metodos propios
 	public void entrarTienda() {
-		int opcion = vistaTienda.hablarTendero(this);
+		int opcion = vistaTienda.hablarTendero1(t);
 		while (opcion != 0) {
 			switch (opcion) {
 			case 1 -> { // OPCION COMPRAR AL TENDERO
@@ -48,9 +52,8 @@ public class GestorTienda {
 				}
 			}
 			}
-			opcion = vistaTienda.hablarTendero(this);
+			opcion = vistaTienda.hablarTendero2(t);
 		}
-
 	}
 
 	private void comprarItem(int opcion) {
@@ -69,8 +72,7 @@ public class GestorTienda {
 					vistaTienda.imprimirMensaje("No tienes suficiente dinero para comprar eso!");
 					// comprueba que hay stock del item seleccionado
 				} else if (itemOriginal.getCantidad() <= 0) {
-					vistaTienda.imprimirMensaje(
-							"No nos quedan existencias de " + itemOriginal.getNombre() + ", mil disculpas!");
+					vistaTienda.imprimirMensaje("No nos quedan existencias de " + itemOriginal.getNombre() + ".");
 				} else {
 					// muestra un mensaje de confirmacion de la compra
 					confirmacion = vistaTienda.menuConfirmacionCompra(itemOriginal);
@@ -86,6 +88,7 @@ public class GestorTienda {
 						}
 						vistaTienda.mensajeCompra(this);
 						// tras la compra se resta 1 al stock
+						j.restarOro(itemAComprar.getPrecio());
 						t.getStock().restarItem(itemOriginal.getId(), 1);
 					}
 				}
@@ -96,23 +99,23 @@ public class GestorTienda {
 
 	private int venderItem() {
 		int opcionInventario = vistaJuego.menuInventarios(); // ELIGE ENTRE ITEMS O PECES
-		
+
 		if (opcionInventario == 0) {
 			return -1;
 		}
-		
+
 		// Obtenemos el mapa correspondiente según la elección
 		Map<String, Item> mapaSeleccionado = (opcionInventario == 1) ? j.getInventario().getItem()
-																	 : j.getInventario().getPeces();
-		
-		//Si no tienes items disponibles para vender
-		if(mapaSeleccionado.isEmpty()) {
+				: j.getInventario().getPeces();
+
+		// Si no tienes items disponibles para vender
+		if (mapaSeleccionado.isEmpty()) {
 			vistaTienda.imprimirMensaje("==== No tiene items disponibles para la venta  ====");
 			return 0; // cancela todo
 		}
-		
+
 		vistaJuego.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
-		
+
 		int opcionVenta = vistaTienda.ventanaVenta(this, opcionInventario);
 		opcionVenta--;
 		Item itemVender = null;
@@ -123,9 +126,9 @@ public class GestorTienda {
 			List<Item> listaTemporal = new ArrayList<>(mapaSeleccionado.values());
 			itemVender = listaTemporal.get(opcionVenta);
 		}
-		
+
 		// Menu de confirmación de venta (Ultima forma de cancelar la venta)
-		if(vistaTienda.menuConfirmacionVenta(itemVender) == 2) {
+		if (vistaTienda.menuConfirmacionVenta(itemVender) == 2) {
 			return 0;
 		}
 
@@ -138,6 +141,5 @@ public class GestorTienda {
 
 		return opcionVenta;
 	}
-	
-	
+
 }

@@ -240,4 +240,10 @@ public class VistaRestaurante {
 	public void mensajePlatoCocinado(Plato p) {
 		gestorVista.imprimirMensaje("Has cocinado: " + p.getNombre() + "!");
 	}
+
+	public void mensajeFin(Jugador j) {
+		gestorVista.imprimirMensaje("=== TURNO DE COMIDAS FINALIZADO ===");
+		gestorVista.imprimirMensaje(j.getNombre()
+				+ ": Restaurante cerrado canallas! El que se haya quedado con hambre que hubiera venido antes!");
+	}
 }

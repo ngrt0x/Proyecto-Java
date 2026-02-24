@@ -130,6 +130,10 @@ public class MinijuegoRestaurante implements Minijuego {
 					switch (opcionS) {
 					case 1:
 						opcionP = vistaRestaurante.mostrarPlatosPreparados(platosPreparados);
+						if (opcionP == 0) {
+							consumirTurno = false;
+							break;
+						}
 						entregarPlato(clienteAServir, opcionP);
 						break;
 					case 2:
@@ -163,6 +167,7 @@ public class MinijuegoRestaurante implements Minijuego {
 			}
 
 		}
+		vistaRestaurante.mensajeFin(j);
 	}
 
 	private Plato prepararPlato() {
@@ -264,32 +269,32 @@ public class MinijuegoRestaurante implements Minijuego {
 	}
 
 	private ArrayList<Plato> crearPlatosDisponibles() {
-		Plato estofadoCapitan = new Plato("Estofado del Capitán", "estofado_cap", 5);
+		Plato estofadoCapitan = new Plato("Estofado del Capitán", "estofado_cap", 10);
 		estofadoCapitan.addIngredientes(INGREDIENTES[4]);
 		estofadoCapitan.addIngredientes(INGREDIENTES[1]);
 		estofadoCapitan.addIngredientes(INGREDIENTES[6]);
 		estofadoCapitan.addIngredientes(INGREDIENTES[7]);
 
-		Plato arrozMarinero = new Plato("Arroz Marinero", "arroz_mar", 3);
+		Plato arrozMarinero = new Plato("Arroz Marinero", "arroz_mar", 6);
 		arrozMarinero.addIngredientes(INGREDIENTES[5]);
 		arrozMarinero.addIngredientes(INGREDIENTES[2]);
 
-		Plato sopaPescado = new Plato("Sopa de Pescado y Algas", "sopa_pescado", 3);
+		Plato sopaPescado = new Plato("Sopa de Pescado y Algas", "sopa_pescado", 6);
 		sopaPescado.addIngredientes(INGREDIENTES[4]);
 		sopaPescado.addIngredientes(INGREDIENTES[2]);
 		sopaPescado.addIngredientes(INGREDIENTES[8]);
 
-		Plato krakenGallega = new Plato("Kraken a la Gallega", "kraken_gallega", 5);
+		Plato krakenGallega = new Plato("Kraken a la Gallega", "kraken_gallega", 10);
 		krakenGallega.addIngredientes(INGREDIENTES[6]);
 		krakenGallega.addIngredientes(INGREDIENTES[3]);
 		krakenGallega.addIngredientes(INGREDIENTES[7]);
 
-		Plato nigiri = new Plato("Nigiri Pirata", "nigiri", 4);
+		Plato nigiri = new Plato("Nigiri Pirata", "nigiri", 8);
 		nigiri.addIngredientes(INGREDIENTES[5]);
 		nigiri.addIngredientes(INGREDIENTES[2]);
 		nigiri.addIngredientes(INGREDIENTES[8]);
 
-		Plato bocadillo = new Plato("Bocadillo de Carne Sin Identificar", "bocadillo", 3);
+		Plato bocadillo = new Plato("Bocadillo de Carne Sin Identificar", "bocadillo", 6);
 		bocadillo.addIngredientes(INGREDIENTES[0]);
 		bocadillo.addIngredientes(INGREDIENTES[1]);
 

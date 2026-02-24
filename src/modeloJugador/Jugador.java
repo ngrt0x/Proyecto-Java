@@ -1,5 +1,6 @@
 package modeloJugador;
 
+import modeloMundo.Isla;
 import modeloObjetos.CanaPescar;
 import modeloObjetos.Consumible;
 import modeloObjetos.Item;
@@ -11,6 +12,7 @@ public class Jugador {
 	private int oro;
 	private Barco barco;
 	private Diario diario;
+	private Isla islaActual;
 
 	// constructor
 	public Jugador(String nombre, int opcionModo) {
@@ -52,6 +54,14 @@ public class Jugador {
 
 	public Barco getBarco() {
 		return barco;
+	}
+
+	public Isla getIslaActual() {
+		return islaActual;
+	}
+
+	public void setIslaActual(Isla islaActual) {
+		this.islaActual = islaActual;
 	}
 
 	// metodos propios

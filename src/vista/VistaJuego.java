@@ -2,15 +2,18 @@ package vista;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 import modeloJugador.Jugador;
 import modeloObjetos.Item;
+import modeloPersonajes.Tripulante;
 
 public class VistaJuego {
 	// atributos
 	private GestorVista gestorVista = new GestorVista();
+	private final Random ALEATORIO = new Random();
 
-	public int menuInicio() {
+	public int menuDebug() {
 		int opcion;
 
 		gestorVista
@@ -36,22 +39,33 @@ public class VistaJuego {
 	}
 
 	public void mostrarInventario(Jugador j, int opcion) {
-		gestorVista.imprimirMensaje("===================== INVENTARIO =====================");
-		gestorVista.imprimirMensaje("Tu oro: " + j.getOro());
-		Map<String, Item> inventario = j.getInventario().getItems();
-		if (opcion == 1) {
-			inventario = j.getInventario().getItem();
-		} else if (opcion == 2) {
-			inventario = j.getInventario().getPeces();
-		}
+		if (opcion != 0) {
+			gestorVista.imprimirMensaje("===================== INVENTARIO =====================");
+			gestorVista.imprimirMensaje("Tu oro: " + j.getOro());
+			Map<String, Item> inventario;
 
-		if (inventario.isEmpty()) {
-			gestorVista.imprimirMensaje("Tienes el inventario vacío!");
-		} else {
-			for (String i : inventario.keySet()) {
-				gestorVista.imprimirMensaje("- " + inventario.get(i).getNombre() + ":");
-				gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
-				gestorVista.imprimirMensaje("\tCantidad: " + inventario.get(i).getCantidad());
+			if (opcion == 1) {
+				inventario = j.getInventario().getItem();
+				if (inventario.isEmpty()) {
+					gestorVista.imprimirMensaje("No tienes ningún objeto en el inventario!");
+				} else {
+					for (String i : inventario.keySet()) {
+						gestorVista.imprimirMensaje("- " + inventario.get(i).getNombre() + ":");
+						gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
+						gestorVista.imprimirMensaje("\tCantidad: " + inventario.get(i).getCantidad());
+					}
+				}
+			} else if (opcion == 2) {
+				inventario = j.getInventario().getPeces();
+				if (inventario.isEmpty()) {
+					gestorVista.imprimirMensaje("No tienes ningún pez en el inventario!");
+				} else {
+					for (String i : inventario.keySet()) {
+						gestorVista.imprimirMensaje("- " + inventario.get(i).getNombre() + ":");
+						gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
+						gestorVista.imprimirMensaje("\tCantidad: " + inventario.get(i).getCantidad());
+					}
+				}
 			}
 		}
 	}
@@ -60,6 +74,10 @@ public class VistaJuego {
 		String texto;
 		gestorVista.imprimirMensaje("Cómo te llamas capitán?");
 		texto = gestorVista.pedirString();
+		while (texto.equals("")) {
+			gestorVista.imprimirError("Introduce un nombre válido: ");
+			texto = gestorVista.pedirString();
+		}
 		return texto;
 	}
 
@@ -68,8 +86,14 @@ public class VistaJuego {
 				"Te acompañarán en tu aventura 4 tripulantes, los mas fieles de todo el Archipiélago.\n"
 						+ "Ahora, cómo es que se llaman?");
 		for (int i = 0; i < 4; i++) {
+			String nombre;
 			gestorVista.imprimirMensajePegado("Tripulante " + (i + 1) + ": ");
-			nombres.add(gestorVista.pedirString());
+			nombre = gestorVista.pedirString();
+			while (nombre.equals("")) {
+				gestorVista.imprimirError("Introduce un nombre válido: ");
+				nombre = gestorVista.pedirString();
+			}
+			nombres.add(nombre);
 		}
 	}
 
@@ -85,7 +109,7 @@ public class VistaJuego {
 	public int seleccionarRol(ArrayList<String> roles) {
 		int opcionR;
 		// muestra los roles por pantalla
-		gestorVista.imprimirMensaje("\t\t\t\t\t=== Roles ===\n");
+		gestorVista.imprimirMensaje("\t\t\t\t=== Roles ===\n");
 		for (int i = 0; i < roles.size(); i++) {
 			gestorVista.imprimirMensaje((i + 1) + ". " + roles.get(i) + ": ");
 			if (roles.get(i).equals("Tragaldabas")) {
@@ -164,5 +188,173 @@ public class VistaJuego {
 
 	public void mensajeDespedida(Jugador j) {
 		gestorVista.imprimirError("Hasta luego " + j.getNombre() + "!");
+	}
+
+	public int menuManana1(int dia, Jugador j) {
+		int opcion;
+		Tripulante[] tripulacion = j.getBarco().getTripulacion();
+		Tripulante hablante = tripulacion[generarAleatorioEntre(0, 3)];
+		// mostrar menu y dar breve descripcion de la situacion
+		gestorVista.imprimirMensaje("\t\t\t\t=== DÍA " + dia + " ===");
+		gestorVista.imprimirMensaje(
+				"Amanece un nuevo día en el Gran Archipiélago... Os encontráis en tu barco, anclados a una distancia prudente de "
+						+ j.getIslaActual().getNombre()
+						+ ".\nTú y tu tripulación os reunís en cubierta como de costumbre.");
+		gestorVista.imprimirMensaje(hablante.getNombre() + ": 'Buen día " + j.getNombre() + "! Qué plan tenemos hoy?'");
+		gestorVista.imprimirMensaje("1. Pescar\n" + "2. Hablar con la tripulación\n" + "3. Atracar en el puerto de "
+				+ j.getIslaActual().getNombre() + "\n" + "4. Mostrar inventario");
+		// seleccionar accion
+		opcion = gestorVista.pedirNum();
+		while (opcion > 4 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int menuManana2(Jugador j) {
+		int opcion;
+		Tripulante[] tripulacion = j.getBarco().getTripulacion();
+		Tripulante hablante = tripulacion[generarAleatorioEntre(0, 3)];
+		gestorVista.imprimirMensaje(hablante.getNombre() + ": 'Qué quieres hacer capitán?'");
+		gestorVista.imprimirMensaje("1. Pescar\n" + "2. Hablar con la tripulación\n" + "3. Atracar en el puerto de "
+				+ j.getIslaActual().getNombre() + "\n" + "4. Mostrar inventario");
+		// seleccionar accion
+		opcion = gestorVista.pedirNum();
+		while (opcion > 4 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public void mensajeAtracar(Jugador j) {
+		gestorVista.imprimirMensaje(
+				"Diriges el barco hacia el puerto de " + j.getIslaActual().getNombre() + " y lo atracas con soltura.");
+	}
+
+	public int menuComida1(Jugador j) {
+		int opcion;
+		Tripulante[] tripulacion = j.getBarco().getTripulacion();
+		Tripulante hablante = tripulacion[generarAleatorioEntre(0, 3)];
+		gestorVista.imprimirMensaje("Os encontráis atracados en el puerto de " + j.getIslaActual().getNombre()
+				+ ". Ahora sólo queda abrir el restaurante\n"
+				+ "y que empiece la fiesta, que ya se acerca la hora de comer.");
+		gestorVista
+				.imprimirMensaje(hablante.getNombre() + ": 'Tienes que revisar algo antes de abrir el restaurante?'");
+		gestorVista
+				.imprimirMensaje("1. Abrir restaurante\n" + "2. Hablar con la tripulación\n" + "3. Mostrar inventario");
+		opcion = gestorVista.pedirNum();
+		while (opcion > 3 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int menuComida2(Jugador j) {
+		int opcion;
+		Tripulante[] tripulacion = j.getBarco().getTripulacion();
+		Tripulante hablante = tripulacion[generarAleatorioEntre(0, 3)];
+		gestorVista
+				.imprimirMensaje(hablante.getNombre() + ": 'Tienes que revisar algo antes de abrir el restaurante?'");
+		gestorVista
+				.imprimirMensaje("1. Abrir restaurante\n" + "2. Hablar con la tripulación\n" + "3. Mostrar inventario");
+		opcion = gestorVista.pedirNum();
+		while (opcion > 3 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public void mensajeTerminarComidas(Jugador j) {
+		gestorVista.imprimirMensaje(j.getNombre()
+				+ ": 'Buen trabajo chicos, hemos sobrevivido otro día más al turno de comidas! Algún día los clientes nos acabarán comiendo a nosotros,\n"
+				+ "son peores que un tiburón blanco.'");
+	}
+
+	public int menuTardenoche1(Jugador j) {
+		int opcion;
+		Tripulante[] tripulacion = j.getBarco().getTripulacion();
+		Tripulante hablante = tripulacion[generarAleatorioEntre(0, 3)];
+		gestorVista.imprimirMensaje(hablante.getNombre()
+				+ ": 'Ahora que ya hemos hecho caja tenemos el resto de la tarde libre, qué querrás que hagamos capitán?'");
+		gestorVista.imprimirMensaje("1. Bajar a la isla\n" + "2. Hablar con la tripulación\n"
+				+ "3. Mostrar inventario\n" + "4. Continuar con el día");
+		opcion = gestorVista.pedirNum();
+		while (opcion > 4 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int menuTardenoche2(Jugador j) {
+		int opcion;
+		gestorVista.imprimirMensaje("Qué quieres hacer?");
+		gestorVista.imprimirMensaje("1. Bajar a la isla\n" + "2. Hablar con la tripulación\n"
+				+ "3. Mostrar inventario\n" + "4. Continuar con el día");
+		opcion = gestorVista.pedirNum();
+		while (opcion > 4 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int menuIsla1(Jugador j) {
+		int opcion;
+		gestorVista.imprimirMensaje(
+				"Bajas del barco y tu cuerpo agradece algo de tierra firme. Observas los alrededores y distingues alguna tienda.\n"
+						+ "También puedes ver algunas personas rondando por las calles.");
+		gestorVista.imprimirMensaje("Qué quieres hacer?");
+		gestorVista.imprimirMensaje("1. Entrar a la tienda\n" + "2. Entrar en el aserradero\n"
+				+ "3. Hablar con los locales\n" + "4. Volver al barco");
+		opcion = gestorVista.pedirNum();
+		while (opcion > 4 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int menuIsla2(Jugador j) {
+		int opcion;
+		gestorVista.imprimirMensaje(
+				"Observas los alrededores y distingues alguna tienda. También puedes ver algunas personas rondando por las calles.");
+		gestorVista.imprimirMensaje("Qué quieres hacer?");
+		gestorVista.imprimirMensaje("1. Entrar a la tienda\n" + "2. Entrar en el aserradero\n"
+				+ "3. Hablar con los locales\n" + "4. Volver al barco");
+		opcion = gestorVista.pedirNum();
+		while (opcion > 4 || opcion < 1) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public void mensajeEntrarTienda() {
+		gestorVista.imprimirMensaje(
+				"Te acercas a un edificio con un letrero cochambroso, hecho con un par de tablones de madera. En el letreto\n"
+						+ "puedes discernir que pone TIENDA");
+	}
+
+	public void mensajeVolverBarco() {
+		gestorVista.imprimirMensaje("Te diriges de vuelta al barco...");
+	}
+
+	public void mensajeAvanzarTardenoche(Jugador j) {
+		gestorVista.imprimirMensaje("Ya hace un rato que ha atardecido sobre el paisaje de "
+				+ j.getIslaActual().getNombre() + ". Tras un día de trabajo duro\n"
+				+ "te metes en tu camarote, con intención de plantear tu siguiente movimiento y descansar de cara al siguiente día...");
+	}
+
+	public void menuSeleccionViaje() {
+
+	}
+
+	private int generarAleatorioEntre(int min, int max) {
+		return ALEATORIO.nextInt(max - min + 1) + min;
 	}
 }

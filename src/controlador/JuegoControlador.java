@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 import modeloJugador.Jugador;
+import modeloMundo.Isla;
 import modeloMundo.Tienda;
 import modeloPersonajes.Tripulante;
 import vista.VistaJuego;
@@ -15,10 +16,17 @@ public class JuegoControlador {
 	private MinijuegoPesca pesca;
 	private GestorCombate combate;
 	private MinijuegoRestaurante comidas;
+	private int opcionModo;
+
+	private enum FaseDia {
+		MANANA, COMIDA, TARDENOCHE, SELECCIONVIAJE;
+	}
+
+	private int diaActual;
+	private FaseDia faseActual;
 
 	// constructor
 	public JuegoControlador() {
-		int opcionModo;
 		opcionModo = vistaJuego.elegirModo();
 		switch (opcionModo) {
 		case 1:
@@ -27,6 +35,8 @@ public class JuegoControlador {
 		case 2:
 			vistaJuego.mensajeIntroduccion();
 			crearJugador();
+			diaActual = 1;
+			faseActual = FaseDia.MANANA;
 			break;
 		}
 		t = new Tienda();
@@ -38,19 +48,119 @@ public class JuegoControlador {
 
 	// metodos
 	public void iniciarJuego() {
-		int opcion = vistaJuego.menuInicio();
-		while (opcion != 0) {
-			switch (opcion) {
-			case 1 -> pesca.comenzar();
-			case 2 -> {
-				int opcionInventario = vistaJuego.menuInventarios();
-				vistaJuego.mostrarInventario(jugador, opcionInventario);
+		switch (opcionModo) {
+		case 1:
+			int opcion = vistaJuego.menuDebug();
+			while (opcion != 0) {
+				switch (opcion) {
+				case 1 -> pesca.comenzar();
+				case 2 -> {
+					int opcionInventario = vistaJuego.menuInventarios();
+					vistaJuego.mostrarInventario(jugador, opcionInventario);
+				}
+				case 3 -> tienda.entrarTienda();
+				case 4 -> combate.comenzar();
+				case 5 -> comidas.comenzar();
+				}
+				opcion = vistaJuego.menuDebug();
 			}
-			case 3 -> tienda.entrarTienda();
-			case 4 -> combate.comenzar();
-			case 5 -> comidas.comenzar();
+			break;
+		case 2:
+			Isla islaLangosta = new Isla("Isla Langosta");
+			jugador.setIslaActual(islaLangosta);
+			int accion;
+			boolean salir = false;
+			while (!salir) {
+				switch (faseActual) {
+				case MANANA:
+					accion = vistaJuego.menuManana1(diaActual, jugador);
+					while (accion != 3) {
+						switch (accion) {
+						// comenzar minijuego pesca
+						case 1:
+							pesca.comenzar();
+							break;
+						// hablar con los tripulantes
+						case 2:
+							break;
+						// mostrar el inventario
+						case 4:
+							int opcionInventario = vistaJuego.menuInventarios();
+							vistaJuego.mostrarInventario(jugador, opcionInventario);
+							break;
+						}
+						accion = vistaJuego.menuManana2(jugador);
+					}
+					// si el usuario selecciona atracar el barco avanza la fase del dia
+					vistaJuego.mensajeAtracar(jugador);
+					avanzarFase();
+					break;
+				case COMIDA:
+					accion = vistaJuego.menuComida1(jugador);
+					while (accion != 1) {
+						switch (accion) {
+						// hablar con los tripulantes
+						case 2:
+							break;
+						// mostrar el inventario
+						case 3:
+							int opcionInventario = vistaJuego.menuInventarios();
+							vistaJuego.mostrarInventario(jugador, opcionInventario);
+							break;
+						}
+						accion = vistaJuego.menuComida2(jugador);
+
+					}
+					// si el usuario selecciona abrir restaurante inicia el minijuego de restaurante
+					// y despues de eso avanza el dia
+					comidas.comenzar();
+					vistaJuego.mensajeTerminarComidas(jugador);
+					avanzarFase();
+					break;
+				case TARDENOCHE:
+					accion = vistaJuego.menuTardenoche1(jugador);
+					while (accion != 4) {
+						switch (accion) {
+						// baja a la isla
+						case 1:
+							accion = vistaJuego.menuIsla1(jugador);
+							while (accion != 4) {
+								switch (accion) {
+								// entrar a la tienda
+								case 1:
+									vistaJuego.mensajeEntrarTienda();
+									tienda.entrarTienda();
+									break;
+								// entrar al aserradero
+								case 2:
+									break;
+								// hablar con los NPCs
+								case 3:
+									break;
+								}
+								accion = vistaJuego.menuIsla2(jugador);
+							}
+							vistaJuego.mensajeVolverBarco();
+							break;
+						// hablar con los tripulantes
+						case 2:
+							break;
+						// mostrar el inventario
+						case 3:
+							int opcionInventario = vistaJuego.menuInventarios();
+							vistaJuego.mostrarInventario(jugador, opcionInventario);
+							break;
+						}
+						accion = vistaJuego.menuTardenoche2(jugador);
+					}
+					vistaJuego.mensajeAvanzarTardenoche(jugador);
+					avanzarFase();
+					break;
+				case SELECCIONVIAJE:
+					break;
+				}
+				diaActual++;
 			}
-			opcion = vistaJuego.menuInicio();
 		}
 		vistaJuego.mensajeDespedida(jugador);
 	}
@@ -124,6 +234,23 @@ public class JuegoControlador {
 
 		// pasarle el array con los tripulantes al barco
 		jugador.getBarco().setTripulacion(tripulacion);
+	}
+
+	private void avanzarFase() {
+		switch (faseActual) {
+		case MANANA:
+			faseActual = FaseDia.COMIDA;
+			break;
+		case COMIDA:
+			faseActual = FaseDia.TARDENOCHE;
+			break;
+		case TARDENOCHE:
+			faseActual = FaseDia.SELECCIONVIAJE;
+			break;
+		case SELECCIONVIAJE:
+			faseActual = FaseDia.MANANA;
+			break;
+		}
 	}
 
 }
