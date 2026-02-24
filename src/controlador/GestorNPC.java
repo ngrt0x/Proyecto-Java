@@ -44,7 +44,7 @@ public class GestorNPC {
 	// Josefina
 	String[] dialogosJosefina = {
 			"Algun dia te podrias pasar a ver las flores de mi jardin, las cuido con mucho amor",
-			"Si necestias consejos de botaneria yo soy tu persona",
+			"Si necestias consejos de botánica yo soy tu persona",
 			"Dicen que hay muchos piratas en estos mares, ten siempre cuidado cuando vayas a navegar"
 	};
 	String primeraJosefina = "Hey es agradable ver caras nuevas por este lugar, mi nombre es Josefina es un placer conocerte, si necesitas algo siempre puedes contar conmigo";

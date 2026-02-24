@@ -8,20 +8,21 @@ public class Isla {
 	private NPC[] habitantes;
 	private Tienda tiendaLocal;
 	private Astillero astilleroLocal;
-	
-	//Constructor
-	public Isla(String nombre, NPC[] habitantes, Tienda tienda) {
+
+	// Constructor
+	public Isla(String nombre, NPC[] habitantes, Tienda tienda, Astillero astilleroLocal) {
 		this.nombre = nombre;
 		this.habitantes = habitantes;
 		this.tiendaLocal = tienda;
+		this.astilleroLocal = astilleroLocal;
 	}
 
 	// Constructor
 	public Isla(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	//getters y setters
+
+	// getters y setters
 	public String getNombre() {
 		return nombre;
 	}
@@ -44,5 +45,9 @@ public class Isla {
 
 	public void setTiendaLocal(Tienda tiendaLocal) {
 		this.tiendaLocal = tiendaLocal;
+	}
+
+	public Astillero getAstilleroLocal() {
+		return astilleroLocal;
 	}
 }

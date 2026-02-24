@@ -8,22 +8,23 @@ public class Mundo {
 	// atributos
 	private GestorNPC gestorNPC = new GestorNPC();
 	private Tienda t = new Tienda();
-	
+	private Astillero ast = new Astillero();
+
 	private Isla[] mapamundi; // mapa de islas que se podra visualizar
 	private Isla ubicacionActual; // isla en la que se encuentra el jugador actualmente
-	
+
 	private HashMap<String, Isla> islasDisponibles = new HashMap<String, Isla>(); // islas totales del juego
-	
+
 	public Mundo() {
 		mapamundi = new Isla[1];
-		
-		islasDisponibles.put("Inicio", new Isla("Inicio", gestorNPC.getHabitantesIsla1(), t));
-		
+
+		islasDisponibles.put("Inicio", new Isla("Inicio", gestorNPC.getHabitantesIsla1(), t, ast));
+
 		ubicacionActual = islasDisponibles.get("Inicio");
 	}
 
-	//getters y setters
-	
+	// getters y setters
+
 	public Isla[] getMapamundi() {
 		return mapamundi;
 	}
