@@ -19,8 +19,17 @@ public class JuegoControlador {
 
 	// constructor
 	public JuegoControlador() {
-		vistaJuego.mensajeIntroduccion();
-		crearJugador();
+		int opcionModo;
+		opcionModo = vistaJuego.elegirModo();
+		switch (opcionModo) {
+		case 1:
+			jugador = new Jugador("Placeholder", 1);
+			break;
+		case 2:
+			vistaJuego.mensajeIntroduccion();
+			crearJugador();
+			break;
+		}
 		tienda = new GestorTienda(jugador);
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
@@ -61,7 +70,7 @@ public class JuegoControlador {
 		// pedir el nombre del usuario, y asignar nombres y roles a los miembros de la
 		// tripulacion
 		nombreJugador = vistaJuego.pedirNombre();
-		jugador = new Jugador(nombreJugador);
+		jugador = new Jugador(nombreJugador, 2);
 		vistaJuego.pedirTripulacion(nombresTripulacion);
 		roles = new HashMap<>(vistaJuego.crearRoles());
 
