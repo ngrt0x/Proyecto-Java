@@ -17,20 +17,27 @@ public class NPC extends Persona {
 		this.conocido = false;
 	}
 
-	// constructor para los NPCs normales habitantes de la isla sin pistas y con dialogos normales
+	// constructor para los NPCs normales habitantes de la isla sin pistas y con
+	// dialogos normales
 	public NPC(String nombre, String[] dialogos, String primeraFrase) {
 		this.nombre = nombre;
 		this.dialogos = dialogos;
 		this.primeraFrase = primeraFrase;
 	}
-	
+
 	// constructor para los tenderos, clientes u otros NPCs sin pistas ni tantas
 	// interacciones
+	public NPC(String nombre, String primeraFrase) {
+		this.nombre = nombre;
+		this.primeraFrase = primeraFrase;
+	}
+
+	// NPCS random que solo necesitan nombre
 	public NPC(String nombre) {
 		this.nombre = nombre;
 	}
 
-	//getters y setters
+	// getters y setters
 	public boolean isConocido() {
 		return conocido;
 	}
@@ -38,6 +45,5 @@ public class NPC extends Persona {
 	public void setConocido(boolean conocido) {
 		this.conocido = conocido;
 	}
-	
-	
+
 }

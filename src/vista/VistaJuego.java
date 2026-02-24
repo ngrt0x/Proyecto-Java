@@ -357,6 +357,23 @@ public class VistaJuego {
 				+ "te metes en tu camarote, con intención de plantear tu siguiente movimiento y descansar de cara al siguiente día...");
 	}
 
+	public int hablarTripulante(Tripulante[] tripulantes) {
+		int opcionT;
+		// muestra los tripulantes por pantalla
+		gestorVista.imprimirMensaje("Con quién quieres hablar?");
+		for (int i = 0; i < tripulantes.length; i++) {
+			gestorVista.imprimirMensaje((i + 1) + ". " + tripulantes[i].getNombre());
+		}
+		gestorVista.imprimirMensaje("0. Atrás");
+		// seleccion del tripulante
+		opcionT = gestorVista.pedirNum();
+		while (opcionT > tripulantes.length || opcionT < 0) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcionT = gestorVista.pedirNum();
+		}
+		return opcionT;
+	}
+
 	public void menuSeleccionViaje() {
 
 	}

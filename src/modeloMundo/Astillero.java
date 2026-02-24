@@ -1,28 +1,27 @@
 package modeloMundo;
 
 import modeloJugador.Inventario;
-import modeloObjetos.ArmamentoBarco;
-import modeloObjetos.Canon;
 import modeloObjetos.Item;
 import modeloPersonajes.NPC;
 
 public class Astillero {
 	// atributos
 	private Inventario stock;
-	private NPC tendero = new NPC("Rodrigo 'El Mañoso'");
+	private NPC tendero;
+	private Item mejora1;
+	private Item mejora2;
 
-	private Item canones = new Canon("Cañones oxidados", "canones_base", 300, 15, 1);
-	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 175, 20, 2);
-
-	public Astillero() {
-		tendero.setPrimeraFrase(tendero.getNombre()
-				+ ": 'En 'Astilleros El Mañoso S.L.' sólo usamos materiales de la más alta calidad! Realmente no, pero no hay mucha competencia\n"
-				+ "por aquí, así que mis clientes no se pueden quejar del trabajo que hago.");
+	public Astillero(NPC tendero, Item mejora1, Item mejora2) {
+		this.tendero = tendero;
 		stock = new Inventario();
-		stock.anadirItem(canones);
-		stock.anadirItem(armamentoReforzado);
+		// hacer una copia de los items que se le pasa por constructor y anadirla al
+		// stock
+		this.mejora1 = new Item(mejora1);
+		this.mejora2 = new Item(mejora2);
+		stock.anadirItem(this.mejora1);
+		stock.anadirItem(this.mejora2);
 		for (String i : stock.getItems().keySet()) {
-			stock.getItems().get(i).setCantidad(2);
+			stock.getItems().get(i).setCantidad(1);
 		}
 	}
 

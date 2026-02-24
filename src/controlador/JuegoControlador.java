@@ -2,33 +2,34 @@ package controlador;
 
 import java.util.ArrayList;
 import modeloJugador.Jugador;
-import modeloMundo.Astillero;
-import modeloMundo.Isla;
-import modeloMundo.Tienda;
+import modeloMundo.Mundo;
 import modeloPersonajes.Tripulante;
 import vista.VistaJuego;
+import vista.VistaNPC;
 
 public class JuegoControlador {
 	// atributos
 	private VistaJuego vistaJuego = new VistaJuego();
+	private VistaNPC vistaNpc = new VistaNPC();
 	private Jugador jugador;
-	private Tienda t;
-	private Astillero ast;
-	private GestorTienda tienda;
-	private GestorAstillero astillero;
+	private Mundo mundo = new Mundo();
+	private GestorMundo gestorMundo;
+	private GestorTienda gestorTienda;
+	private GestorAstillero gestorAstillero;
 	private MinijuegoPesca pesca;
 	private GestorCombate combate;
 	private MinijuegoRestaurante comidas;
 	private int opcionModo;
 
-	private enum FaseDia {
+	public static enum FaseDia {
 		MANANA, COMIDA, TARDENOCHE, SELECCIONVIAJE;
 	}
 
 	private int diaActual;
-	private FaseDia faseActual;
+	public static FaseDia faseActual;
 
 	// constructor
+	// en el constructor se puede elegir el modo de juego que quieres inicializar
 	public JuegoControlador() {
 		opcionModo = vistaJuego.elegirModo();
 		switch (opcionModo) {
@@ -42,10 +43,7 @@ public class JuegoControlador {
 			faseActual = FaseDia.MANANA;
 			break;
 		}
-		t = new Tienda();
-		ast = new Astillero();
-		tienda = new GestorTienda(jugador, t);
-		astillero = new GestorAstillero(jugador, ast);
+		gestorMundo = new GestorMundo(jugador);
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
 		comidas = new MinijuegoRestaurante(jugador);
@@ -54,7 +52,12 @@ public class JuegoControlador {
 	// metodos
 	public void iniciarJuego() {
 		switch (opcionModo) {
+		// case 1 inicia el juego en modo debug, para probar los sistemas del juego
+		// directamente
 		case 1:
+			jugador.setIslaActual(mundo.getUbicacionActual());
+			gestorTienda = new GestorTienda(jugador, mundo.getUbicacionActual().getTiendaLocal());
+			gestorAstillero = new GestorAstillero(jugador, mundo.getUbicacionActual().getAstilleroLocal());
 			int opcion = vistaJuego.menuDebug();
 			while (opcion != 0) {
 				switch (opcion) {
@@ -63,20 +66,22 @@ public class JuegoControlador {
 					int opcionInventario = vistaJuego.menuInventarios();
 					vistaJuego.mostrarInventario(jugador, opcionInventario);
 				}
-				case 3 -> tienda.entrarTienda();
+				case 3 -> gestorTienda.entrarTienda();
 				case 4 -> combate.comenzar();
 				case 5 -> comidas.comenzar();
-				case 6 -> astillero.entrarTienda();
+				case 6 -> gestorAstillero.entrarTienda();
 				}
 				opcion = vistaJuego.menuDebug();
 			}
 			break;
+		// case 2 inicia el juego en modo normal, la experiencia estandar
 		case 2:
-			Isla islaLangosta = new Isla("Isla Langosta");
-			jugador.setIslaActual(islaLangosta);
 			int accion;
 			boolean salir = false;
 			while (!salir) {
+				jugador.setIslaActual(mundo.getUbicacionActual());
+				gestorTienda = new GestorTienda(jugador, mundo.getUbicacionActual().getTiendaLocal());
+				gestorAstillero = new GestorAstillero(jugador, mundo.getUbicacionActual().getAstilleroLocal());
 				switch (faseActual) {
 				case MANANA:
 					accion = vistaJuego.menuManana1(diaActual, jugador);
@@ -88,6 +93,24 @@ public class JuegoControlador {
 							break;
 						// hablar con los tripulantes
 						case 2:
+							int opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
+							while (opcionT != 0) {
+								switch (jugador.getBarco().getTripulacion()[opcionT].getRol()) {
+								case 1:
+									vistaNpc.dialogosTragaldabas(diaActual, jugador);
+									break;
+								case 2:
+									vistaNpc.dialogosCocinero(diaActual, jugador);
+									break;
+								case 3:
+									vistaNpc.dialogosLadron(diaActual, jugador);
+									break;
+								case 4:
+									vistaNpc.dialogosPirata(diaActual, jugador);
+									break;
+								}
+								opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
+							}
 							break;
 						// mostrar el inventario
 						case 4:
@@ -107,6 +130,24 @@ public class JuegoControlador {
 						switch (accion) {
 						// hablar con los tripulantes
 						case 2:
+							int opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
+							while (opcionT != 0) {
+								switch (jugador.getBarco().getTripulacion()[opcionT].getRol()) {
+								case 1:
+									vistaNpc.dialogosTragaldabas(diaActual, jugador);
+									break;
+								case 2:
+									vistaNpc.dialogosCocinero(diaActual, jugador);
+									break;
+								case 3:
+									vistaNpc.dialogosLadron(diaActual, jugador);
+									break;
+								case 4:
+									vistaNpc.dialogosPirata(diaActual, jugador);
+									break;
+								}
+								opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
+							}
 							break;
 						// mostrar el inventario
 						case 3:
@@ -135,12 +176,12 @@ public class JuegoControlador {
 								// entrar a la tienda
 								case 1:
 									vistaJuego.mensajeEntrarTienda();
-									tienda.entrarTienda();
+									gestorTienda.entrarTienda();
 									break;
 								// entrar al astillero
 								case 2:
 									vistaJuego.mensajeEntrarAstillero();
-									astillero.entrarTienda();
+									gestorAstillero.entrarTienda();
 									break;
 								// hablar con los NPCs
 								case 3:
@@ -152,6 +193,24 @@ public class JuegoControlador {
 							break;
 						// hablar con los tripulantes
 						case 2:
+							int opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
+							while (opcionT != 0) {
+								switch (jugador.getBarco().getTripulacion()[opcionT].getRol()) {
+								case 1:
+									vistaNpc.dialogosTragaldabas(diaActual, jugador);
+									break;
+								case 2:
+									vistaNpc.dialogosCocinero(diaActual, jugador);
+									break;
+								case 3:
+									vistaNpc.dialogosLadron(diaActual, jugador);
+									break;
+								case 4:
+									vistaNpc.dialogosPirata(diaActual, jugador);
+									break;
+								}
+								opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
+							}
 							break;
 						// mostrar el inventario
 						case 3:
