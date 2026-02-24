@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import modeloJugador.Jugador;
-import modeloMundo.Astillero;
 import modeloMundo.Tienda;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.Item;
@@ -18,7 +17,6 @@ public class GestorTienda {
 	private VistaTienda vistaTienda = new VistaTienda();
 	private Jugador j;
 	private Tienda t;
-	private Astillero ast;
 
 	// constructor
 	public GestorTienda(Jugador jugador, Tienda tienda) {
@@ -113,11 +111,11 @@ public class GestorTienda {
 
 		// Si no tienes items disponibles para vender
 		if (mapaSeleccionado.isEmpty()) {
-			vistaTienda.imprimirMensaje("==== No tiene items disponibles para la venta  ====");
+			vistaTienda.imprimirMensaje("==== No tienes items disponibles para la venta  ====");
 			return 0; // cancela todo
 		}
 
-		vistaJuego.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
+		vistaTienda.mostrarInventario(j, opcionInventario); // MUESTRA EL INVENTARIO CORRESPONDIENTE
 
 		int opcionVenta = vistaTienda.ventanaVenta(this, opcionInventario);
 		opcionVenta--;

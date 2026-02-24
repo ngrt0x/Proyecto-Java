@@ -102,6 +102,40 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	public void mostrarInventario(Jugador j, int opcion) {
+		int contador = 1;
+		if (opcion != 0) {
+			gestorVista.imprimirMensaje("===================== INVENTARIO =====================");
+			gestorVista.imprimirMensaje("Tu oro: " + j.getOro());
+			Map<String, Item> inventario;
+
+			if (opcion == 1) {
+				inventario = j.getInventario().getItem();
+				if (inventario.isEmpty()) {
+					gestorVista.imprimirMensaje("No tienes ningún objeto en el inventario!");
+				} else {
+					for (String i : inventario.keySet()) {
+						gestorVista.imprimirMensaje(contador + ". " + inventario.get(i).getNombre() + ":");
+						gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
+						gestorVista.imprimirMensaje("\tCantidad: " + inventario.get(i).getCantidad());
+						contador++;
+					}
+				}
+			} else if (opcion == 2) {
+				inventario = j.getInventario().getPeces();
+				if (inventario.isEmpty()) {
+					gestorVista.imprimirMensaje("No tienes ningún pez en el inventario!");
+				} else {
+					for (String i : inventario.keySet()) {
+						gestorVista.imprimirMensaje(contador + ". " + inventario.get(i).getNombre() + ":");
+						gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
+						gestorVista.imprimirMensaje("\tCantidad: " + inventario.get(i).getCantidad());
+					}
+				}
+			}
+		}
+	}
+
 	public int ventanaVenta(GestorTienda t, int opcionInventario) {
 		Jugador j = t.getJugador();
 
