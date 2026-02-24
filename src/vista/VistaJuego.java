@@ -1,7 +1,6 @@
 package vista;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import modeloJugador.Jugador;
@@ -74,37 +73,45 @@ public class VistaJuego {
 		}
 	}
 
-	public Map<Integer, String> crearRoles() {
-		Map<Integer, String> roles = new HashMap<>();
-		roles.put(1,
-				"Tragaldabas: Definitivamente no es el más rápido, pero una vida de disfrutar del buen comer le ha bendecido\n"
-						+ "con un cuerpo robusto. Se unió a tu tripulación no en busca de fama ni fortuna, sino de buena comida.\n"
-						+ "Salud: ★★★★ Fuerza: ★★ Iniciativa: ★");
-		roles.put(2,
-				"Cocinero: Su habilidad en la cocina se traslada sorprendentemente bien al combate. Blande el sable con la\n"
-						+ "misma destreza con la que blande el cuchillo.\n" + "Salud: ★★ Fuerza: ★★★ Iniciativa: ★★");
-		roles.put(3,
-				"Ladrón: Un ratero que pretendía hacer un sinpa en tu restaurante. La jugada no le salió bien y tras una tunda\n"
-						+ "se vio obligado a trabajar en tu barco para saldar su deuda. Sorprendentemente no se le daba mal el trabajo y hasta\n"
-						+ "le cogió el gusto. Ahora mismo prefiere trabajar contigo que volver a vivir en la calle.\n"
-						+ "Salud: ★ Fuerza: ★★★ Iniciativa: ★★★★");
-		roles.put(4,
-				"Pirata retirado: Hace años un cazarrecompensas, pero abandonó el oficio despues de perder la pierna en una\n"
-						+ "contienda con un grupo enemigo, tal como demuestra su pata de ébano. A día de hoy decide acompañar a este\n"
-						+ "peculiar grupo de piratas hosteleros en su búsqueda encubierta del tesoro del Archipiélago.\n"
-						+ "Salud: ★★★ Fuerza: ★★★★ Iniciativa: ★★");
+	public ArrayList<String> crearRoles() {
+		ArrayList<String> roles = new ArrayList<>();
+		roles.add("Tragaldabas");
+		roles.add("Cocinero");
+		roles.add("Ladrón");
+		roles.add("Pirata retirado");
 		return roles;
 	}
 
-	public int seleccionarRol(Map<Integer, String> roles) {
+	public int seleccionarRol(ArrayList<String> roles) {
 		int opcionR;
-		int contador = 1;
 		// muestra los roles por pantalla
 		gestorVista.imprimirMensaje("\t\t\t\t\t=== Roles ===\n");
-		for (int i : roles.keySet()) {
-			gestorVista.imprimirMensaje(contador + ". " + roles.get(i));
+		for (int i = 0; i < roles.size(); i++) {
+			gestorVista.imprimirMensaje((i + 1) + ". " + roles.get(i) + ": ");
+			if (roles.get(i).equals("Tragaldabas")) {
+				gestorVista.imprimirMensaje(
+						"Definitivamente no es el más rápido, pero una vida de disfrutar del buen comer le ha bendecido\n"
+								+ "con un cuerpo robusto. Se unió a tu tripulación no en busca de fama ni fortuna, sino de buena comida.\n"
+								+ "Salud: ★★★★ Fuerza: ★★ Iniciativa: ★");
+			} else if (roles.get(i).equals("Ladrón")) {
+				gestorVista.imprimirMensaje(
+						"Un ratero que pretendía hacer un sinpa en tu restaurante. La jugada no le salió bien y tras una tunda\n"
+								+ "se vio obligado a trabajar en tu barco para saldar su deuda. Sorprendentemente no se le daba mal el trabajo y hasta\n"
+								+ "le cogió el gusto. Ahora mismo prefiere trabajar contigo que volver a vivir en la calle.\n"
+								+ "Salud: ★ Fuerza: ★★★ Iniciativa: ★★★★");
+			} else if (roles.get(i).equals("Cocinero")) {
+				gestorVista.imprimirMensaje(
+						"Su habilidad en la cocina se traslada sorprendentemente bien al combate. Blande el sable con la\n"
+								+ "misma destreza con la que blande el cuchillo.\n"
+								+ "Salud: ★★ Fuerza: ★★★ Iniciativa: ★★");
+			} else if (roles.get(i).equals("Pirata retirado")) {
+				gestorVista.imprimirMensaje(
+						"Hace años un cazarrecompensas, pero abandonó el oficio despues de perder la pierna en una\n"
+								+ "contienda con un grupo enemigo, tal como demuestra su pata de ébano. A día de hoy decide acompañar a este\n"
+								+ "peculiar grupo de piratas hosteleros en su búsqueda encubierta del tesoro del Archipiélago.\n"
+								+ "Salud: ★★★ Fuerza: ★★★★ Iniciativa: ★★");
+			}
 			gestorVista.imprimirMensaje("");
-			contador++;
 		}
 		// seleccion de rol a asignar
 		gestorVista.imprimirMensaje("Qué rol quieres asignar?");
