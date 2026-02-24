@@ -1,12 +1,17 @@
 package controlador;
 
+import java.util.Random;
+
 import modeloPersonajes.NPC;
+import vista.GestorVista;
 
 public class GestorNPC {
+	private static final Random RANDOM = new Random();
+	private GestorVista gestorVista = new GestorVista();
+	
 	// NPC'S POR ISLA
 	
-	// ISLA 1
-	NPC[] habitantes1 = new NPC[4];
+	//========== ISLA 1 ==========
 	
 	// Richard
 	String[] dialogosRichard = {
@@ -38,7 +43,31 @@ public class GestorNPC {
 	
 	// Josefina
 	String[] dialogosJosefina = {
-			""
+			"Algun dia te podrias pasar a ver las flores de mi jardin, las cuido con mucho amor",
+			"Si necestias consejos de botaneria yo soy tu persona",
+			"Dicen que hay muchos piratas en estos mares, ten siempre cuidado cuando vayas a navegar"
 	};
 	String primeraJosefina = "Hey es agradable ver caras nuevas por este lugar, mi nombre es Josefina es un placer conocerte, si necesitas algo siempre puedes contar conmigo";
+	NPC josefina = new NPC("Josefina", dialogosJosefina, primeraJosefina);
+	
+	NPC[] habitantesIsla1 = {richard, antonio, manuela, josefina}; // HABITANTES DE LA ISLA 1
+	
+	//============================
+	
+	// getters
+	
+	public NPC[] getHabitantesIsla1() {
+		return habitantesIsla1;
+	}
+	
+	// metodos propios
+	
+	public void hablarNPC(NPC objetivo) {
+		if(!objetivo.isConocido()) {
+			gestorVista.imprimirMensaje(objetivo.getPrimeraFrase()); // si es la primera vez que hablas con el NPC te dira su primera frase
+		}else {
+			int random = RANDOM.nextInt(objetivo.getDialogos().length + 1); // si no es la primera vez te dira una de sus diversas frases
+			gestorVista.imprimirMensaje(objetivo.getDialogos()[random]);
+		}
+	}
 }
