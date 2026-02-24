@@ -7,6 +7,7 @@ public class Isla {
 	private String nombre;
 	private NPC[] habitantes;
 	private Tienda tiendaLocal;
+	private Astillero astilleroLocal;
 	
 	//Constructor
 	public Isla(String nombre, NPC[] habitantes, Tienda tienda) {

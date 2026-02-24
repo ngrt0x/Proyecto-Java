@@ -16,11 +16,11 @@ public class VistaJuego {
 	public int menuDebug() {
 		int opcion;
 
-		gestorVista
-				.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n" + "2. Ver inventario\n"
-						+ "3. Entrar a la tienda\n" + "4. Combate\n" + "5. Abrir el restaurante\n" + "0. Salir");
+		gestorVista.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n"
+				+ "2. Ver inventario\n" + "3. Entrar a la tienda\n" + "4. Combate\n" + "5. Abrir el restaurante\n"
+				+ "6. Entrar astillero\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 5 || opcion < 0) {
+		while (opcion > 6 || opcion < 0) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}
@@ -309,7 +309,7 @@ public class VistaJuego {
 				"Bajas del barco y tu cuerpo agradece algo de tierra firme. Observas los alrededores y distingues alguna tienda.\n"
 						+ "También puedes ver algunas personas rondando por las calles.");
 		gestorVista.imprimirMensaje("Qué quieres hacer?");
-		gestorVista.imprimirMensaje("1. Entrar a la tienda\n" + "2. Entrar en el aserradero\n"
+		gestorVista.imprimirMensaje("1. Entrar a la tienda\n" + "2. Entrar en el astillero\n"
 				+ "3. Hablar con los locales\n" + "4. Volver al barco");
 		opcion = gestorVista.pedirNum();
 		while (opcion > 4 || opcion < 1) {
@@ -324,7 +324,7 @@ public class VistaJuego {
 		gestorVista.imprimirMensaje(
 				"Observas los alrededores y distingues alguna tienda. También puedes ver algunas personas rondando por las calles.");
 		gestorVista.imprimirMensaje("Qué quieres hacer?");
-		gestorVista.imprimirMensaje("1. Entrar a la tienda\n" + "2. Entrar en el aserradero\n"
+		gestorVista.imprimirMensaje("1. Entrar a la tienda\n" + "2. Entrar en el astillero\n"
 				+ "3. Hablar con los locales\n" + "4. Volver al barco");
 		opcion = gestorVista.pedirNum();
 		while (opcion > 4 || opcion < 1) {
@@ -338,6 +338,13 @@ public class VistaJuego {
 		gestorVista.imprimirMensaje(
 				"Te acercas a un edificio con un letrero cochambroso, hecho con un par de tablones de madera. En el letreto\n"
 						+ "puedes discernir que pone TIENDA");
+	}
+
+	public void mensajeEntrarAstillero() {
+		gestorVista.imprimirMensaje(
+				"Rondando la zona del puerto ubicas una especie 'nave' si se puede llamar de alguna forma. Asumes que es el astillero local\n"
+						+ "por el dique seco que se encuentra dentro de ésta estructura, pero las instalaciones dejan que desear. Igualmente, a tu barco no le vendrían\n"
+						+ "mal un par de capas de pintura.");
 	}
 
 	public void mensajeVolverBarco() {

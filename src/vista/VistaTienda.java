@@ -3,8 +3,10 @@ package vista;
 import java.util.HashMap;
 import java.util.Map;
 
+import controlador.GestorAstillero;
 import controlador.GestorTienda;
 import modeloJugador.Jugador;
+import modeloMundo.Astillero;
 import modeloMundo.Tienda;
 import modeloObjetos.Item;
 
@@ -39,6 +41,19 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	public int hablarAstillero(Astillero ast) {
+		int opcion;
+		gestorVista.imprimirMensaje(ast.getTendero().getNombre()
+				+ ": 'Buenas tardes capitán! Precioso navío el que trae consigo, pero creo que le vendrían bien unos retoques.'\n"
+				+ "1. Comprar mejoras de barco\n" + "0. Salir");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 0 || opcion > 1) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
 	public int mostrarStock(GestorTienda gt, Tienda t) {
 		int opcion;
 		gestorVista.imprimirMensaje(t.getTendero().getPrimeraFrase());
@@ -54,7 +69,31 @@ public class VistaTienda {
 		}
 		gestorVista.imprimirMensaje("=======================================================");
 		gestorVista.imprimirMensaje("Tu oro: " + gt.getJugador().getOro() + "g");
-		gestorVista.imprimirMensaje("0. Salir de la tienda");
+		gestorVista.imprimirMensaje("0. Atrás");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 0 || opcion > stock.size()) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int mostrarMejoras(GestorAstillero ga, Astillero ast) {
+		int opcion;
+		gestorVista.imprimirMensaje(ast.getTendero().getPrimeraFrase());
+		gestorVista.imprimirMensaje("");
+		gestorVista.imprimirMensaje("======================= MEJORAS ========================");
+		Map<String, Item> stock = ast.getStock().getItems();
+		int contador = 1;
+		for (String i : stock.keySet()) {
+			gestorVista.imprimirMensaje(contador + ". " + stock.get(i).getNombre() + ":");
+			gestorVista.imprimirMensaje("\tPrecio: " + stock.get(i).getPrecio() + "g");
+			gestorVista.imprimirMensaje("\tCantidad: " + stock.get(i).getCantidad());
+			contador++;
+		}
+		gestorVista.imprimirMensaje("=======================================================");
+		gestorVista.imprimirMensaje("Tu oro: " + ga.getJugador().getOro() + "g");
+		gestorVista.imprimirMensaje("0. Atrás");
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > stock.size()) {
 			gestorVista.imprimirError("Introduce una opción válida: ");
@@ -107,7 +146,12 @@ public class VistaTienda {
 	}
 
 	public void mensajeCompra(GestorTienda t) {
-		gestorVista.imprimirMensaje("Gracias por su compra.");
+		gestorVista.imprimirMensaje(t.getTienda().getTendero().getNombre() + ": 'Gracias por su compra.'");
+	}
+
+	public void mensajeMejora(GestorAstillero ast) {
+		gestorVista.imprimirMensaje(ast.getAstillero().getTendero().getNombre()
+				+ ": 'Gracias! Instalaremos su nuevo equipamiento en un santiamén capitán.'");
 	}
 
 	public void mensajeVenta(GestorTienda t, Item itemVendido) {

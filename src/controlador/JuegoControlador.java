@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 import modeloJugador.Jugador;
+import modeloMundo.Astillero;
 import modeloMundo.Isla;
 import modeloMundo.Tienda;
 import modeloPersonajes.Tripulante;
@@ -12,7 +13,9 @@ public class JuegoControlador {
 	private VistaJuego vistaJuego = new VistaJuego();
 	private Jugador jugador;
 	private Tienda t;
+	private Astillero ast;
 	private GestorTienda tienda;
+	private GestorAstillero astillero;
 	private MinijuegoPesca pesca;
 	private GestorCombate combate;
 	private MinijuegoRestaurante comidas;
@@ -40,7 +43,9 @@ public class JuegoControlador {
 			break;
 		}
 		t = new Tienda();
+		ast = new Astillero();
 		tienda = new GestorTienda(jugador, t);
+		astillero = new GestorAstillero(jugador, ast);
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
 		comidas = new MinijuegoRestaurante(jugador);
@@ -61,6 +66,7 @@ public class JuegoControlador {
 				case 3 -> tienda.entrarTienda();
 				case 4 -> combate.comenzar();
 				case 5 -> comidas.comenzar();
+				case 6 -> astillero.entrarTienda();
 				}
 				opcion = vistaJuego.menuDebug();
 			}
@@ -131,8 +137,10 @@ public class JuegoControlador {
 									vistaJuego.mensajeEntrarTienda();
 									tienda.entrarTienda();
 									break;
-								// entrar al aserradero
+								// entrar al astillero
 								case 2:
+									vistaJuego.mensajeEntrarAstillero();
+									astillero.entrarTienda();
 									break;
 								// hablar con los NPCs
 								case 3:
