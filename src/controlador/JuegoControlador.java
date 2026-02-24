@@ -2,9 +2,9 @@ package controlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import modeloJugador.Jugador;
+import modeloMundo.Tienda;
 import modeloPersonajes.Tripulante;
 import vista.VistaJuego;
 
@@ -12,6 +12,7 @@ public class JuegoControlador {
 	// atributos
 	private VistaJuego vistaJuego = new VistaJuego();
 	private Jugador jugador;
+	private Tienda t;
 	private GestorTienda tienda;
 	private MinijuegoPesca pesca;
 	private GestorCombate combate;
@@ -30,7 +31,8 @@ public class JuegoControlador {
 			crearJugador();
 			break;
 		}
-		tienda = new GestorTienda(jugador);
+		t = new Tienda();
+		tienda = new GestorTienda(jugador, t);
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
 		comidas = new MinijuegoRestaurante(jugador);
