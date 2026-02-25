@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Random;
 
 import modeloJugador.Jugador;
+import modeloMundo.Isla;
 import modeloObjetos.Item;
+import modeloPersonajes.NPC;
 import modeloPersonajes.Tripulante;
 
 public class VistaJuego {
@@ -18,9 +20,9 @@ public class VistaJuego {
 
 		gestorVista.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n"
 				+ "2. Ver inventario\n" + "3. Entrar a la tienda\n" + "4. Combate\n" + "5. Abrir el restaurante\n"
-				+ "6. Entrar astillero\n" + "7. Navegar\n" + "0. Salir");
+				+ "6. Entrar astillero\n" + "7. Navegar\n" + "8. Hablar con habitantes\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 7 || opcion < 0) {
+		while (opcion > 8 || opcion < 0) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}
@@ -202,10 +204,10 @@ public class VistaJuego {
 						+ ".\nTú y tu tripulación os reunís en cubierta como de costumbre.");
 		gestorVista.imprimirMensaje(hablante.getNombre() + ": 'Buen día " + j.getNombre() + "! Qué plan tenemos hoy?'");
 		gestorVista.imprimirMensaje("1. Pescar\n" + "2. Hablar con la tripulación\n" + "3. Atracar en el puerto de "
-				+ j.getIslaActual().getNombre() + "\n" + "4. Mostrar inventario");
+				+ j.getIslaActual().getNombre() + "\n" + "4. Mostrar inventario" + "\n" + "5. Leer Diario");
 		// seleccionar accion
 		opcion = gestorVista.pedirNum();
-		while (opcion > 4 || opcion < 1) {
+		while (opcion > 5 || opcion < 1) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}
@@ -242,10 +244,10 @@ public class VistaJuego {
 				+ "y que empiece la fiesta, que ya se acerca la hora de comer.");
 		gestorVista
 				.imprimirMensaje(hablante.getNombre() + ": 'Tienes que revisar algo antes de abrir el restaurante?'");
-		gestorVista
-				.imprimirMensaje("1. Abrir restaurante\n" + "2. Hablar con la tripulación\n" + "3. Mostrar inventario");
+		gestorVista.imprimirMensaje("1. Abrir restaurante\n" + "2. Hablar con la tripulación\n"
+				+ "3. Mostrar inventario\n" + "4. Leer Diario");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 3 || opcion < 1) {
+		while (opcion > 4 || opcion < 1) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}
@@ -372,6 +374,25 @@ public class VistaJuego {
 			opcionT = gestorVista.pedirNum();
 		}
 		return opcionT;
+	}
+	
+	public NPC menuHabitantes(Isla isla) {
+		NPC[] habitantes = isla.getHabitantes();
+		// muestra los habitantes
+		for(int i = 0 ; i < habitantes.length ; i++) {
+			gestorVista.imprimirMensaje((i+1) + ". " + habitantes[i].getNombre());
+		}
+		gestorVista.imprimirMensaje("0. Atrás");
+		// seleccion del habitante
+		int opcionHabitante = gestorVista.pedirNum();
+		while(opcionHabitante > habitantes.length || opcionHabitante < 0) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcionHabitante = gestorVista.pedirNum();
+		}
+		
+		if(opcionHabitante == 0) return null;
+		
+		return habitantes[opcionHabitante-1];
 	}
 
 	public void menuSeleccionViaje() {

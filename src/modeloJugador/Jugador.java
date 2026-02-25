@@ -18,6 +18,8 @@ public class Jugador {
 	public Jugador(String nombre, int opcionModo) {
 		barco = new Barco(opcionModo);
 		this.nombre = nombre;
+		diario = new Diario();
+		
 		Item canaBase = new CanaPescar("Caña de pescar básica", "cana_base", 5, 10);
 		Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
 		Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
@@ -54,6 +56,10 @@ public class Jugador {
 
 	public Barco getBarco() {
 		return barco;
+	}
+	
+	public Diario getDiario() {
+		return diario;
 	}
 
 	public Isla getIslaActual() {
