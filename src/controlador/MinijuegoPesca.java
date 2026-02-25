@@ -72,16 +72,16 @@ public class MinijuegoPesca implements Minijuego {
 	private Pez generarPezRandom() {
 		// peces disponibles, para añadir mas peces simplemente crea un pez nuevo y
 		// añádelo a la lista de peces
-		Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 40);
-		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 15, 25, 15);
-		Pez ballena = new Pez("Ballena", "ballena", 200, 5, 75);
-		Pez gallo = new Pez("Gallo", "gallo", 15, 40, 15);
-		Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 20);
-		Pez dorada = new Pez("Dorada", "dorada", 25, 40, 15);
-		Pez calamar = new Pez("Calamar", "calamar", 20, 30, 20);
-		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 10);
-		Pez atun = new Pez("Atún", "atun", 85, 10, 35);
-		Pez jurel = new Pez("Jurel", "jurel", 5, 45, 10);
+		Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 80);
+		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 10, 25, 30);
+		Pez ballena = new Pez("Ballena", "ballena", 200, 5, 150);
+		Pez gallo = new Pez("Gallo", "gallo", 10, 40, 15);
+		Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 40);
+		Pez dorada = new Pez("Dorada", "dorada", 15, 40, 30);
+		Pez calamar = new Pez("Calamar", "calamar", 15, 30, 40);
+		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 20);
+		Pez atun = new Pez("Atún", "atun", 85, 10, 70);
+		Pez jurel = new Pez("Jurel", "jurel", 5, 45, 20);
 		int totalRareza = 0;
 		int random;
 		int rarezaAcumulada = 0;
@@ -89,7 +89,7 @@ public class MinijuegoPesca implements Minijuego {
 		for (Pez p : listaPeces) {
 			totalRareza += p.getRareza();
 		}
-		random = generarAleatorioEntre(0, totalRareza);
+		random = generarAleatorioEntre(0, totalRareza - 1);
 		for (Pez p : listaPeces) {
 			rarezaAcumulada += p.getRareza();
 			if (random < rarezaAcumulada) {
@@ -112,10 +112,12 @@ public class MinijuegoPesca implements Minijuego {
 		}
 		for (int i = 0; i < turnosAEsperar; i++) {
 			Thread.sleep(3000);
-			vistaPesca.imprimirMensaje(vistaPesca.getMensajeEspera()[generarAleatorioEntre(0, 4)]);
+			vistaPesca.imprimirMensaje(
+					vistaPesca.getMensajeEspera()[ALEATORIO.nextInt(vistaPesca.getMensajeEspera().length)]);
 		}
 		Thread.sleep(3000);
-		vistaPesca.imprimirMensaje(vistaPesca.getMensajePicada()[generarAleatorioEntre(0, 2)]);
+		vistaPesca.imprimirMensaje(
+				vistaPesca.getMensajePicada()[ALEATORIO.nextInt(vistaPesca.getMensajePicada().length)]);
 		String texto = vistaPesca.tirarCana();
 		// devuelve true si el usuario consigue tirar bien del pez, sino el pez de va y
 		// no comienza la pesca
@@ -148,30 +150,30 @@ public class MinijuegoPesca implements Minijuego {
 			switch (opcion) {
 			case 1:
 				vistaPesca.mensajesLucha(opcion);
-				lineaActual = Math.max(0, lineaActual - 3);
 				energiaPActual = Math.max(0, energiaPActual - 3);
 				distanciaActual = Math.max(0, distanciaActual - 4);
-				if (generarAleatorioEntre(0, 60) < pez.getFuerza() && energiaPActual > 0) {
+				if (ALEATORIO.nextInt(100) < Math.min(80, pez.getFuerza()) && energiaPActual > 0) {
 					vistaPesca.imprimirMensaje("El pez se revuelve violentamente!");
-					lineaActual = Math.max(0, lineaActual - 2);
+					lineaActual = Math.max(0, lineaActual - (3 + (int) ((double) pez.getFuerza() / 20)));
+					distanciaActual = Math.min(DISTANCIA_TOPE, distanciaActual + 3);
+				} else {
+					lineaActual = Math.max(0, lineaActual - 3);
 				}
 				break;
 			case 2:
 				vistaPesca.mensajesLucha(opcion);
-				lineaActual = Math.min(LINEA_TOPE, lineaActual + 4);
+				lineaActual = Math.min(LINEA_TOPE, lineaActual + 3);
 				distanciaActual = Math.min(DISTANCIA_TOPE, distanciaActual + 3);
-				if (generarAleatorioEntre(1, 4) == 4) {
-					vistaPesca.imprimirMensaje("El pez se cansa un poco huyendo.");
-					energiaPActual = Math.max(0, energiaPActual - 1);
+				if (energiaPActual > 0) {
+					energiaPActual = Math.min(ENERGIA_TOPE, energiaPActual + 1);
 				}
 				break;
 			case 3:
 				vistaPesca.mensajesLucha(opcion);
-				lineaActual = Math.max(0, lineaActual - 1);
-				energiaPActual = Math.max(0, energiaPActual - 1);
-				if (generarAleatorioEntre(0, 100) > 60) {
-					distanciaActual = Math.min(DISTANCIA_TOPE, distanciaActual + 1);
+				if (ALEATORIO.nextBoolean()) {
+					lineaActual = Math.max(0, lineaActual - 1);
 				}
+				energiaPActual = Math.max(0, energiaPActual - 1);
 				break;
 			}
 			if (lineaActual == 0 || distanciaActual == DISTANCIA_TOPE) {

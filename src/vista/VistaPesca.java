@@ -6,8 +6,11 @@ public class VistaPesca {
 	// atributos
 	private GestorVista gestorVista = new GestorVista();
 	private String[] mensajeEspera = { "Nada...", "Me parece ver algo de movimiento...",
-			"Los peces deben de estar durmiendo...", "Paciencia...", "No pica nada..." };
-	private String[] mensajePicada = { "Ha picado algo!", "Este es grande, ha picado!", "Ahí va, tengo algo!" };
+			"Los peces deben de estar durmiendo...", "Paciencia...", "No pica nada...",
+			"Quizá debería haber traído mejor cebo...", "Un pequeño tirón... no, falsa alarma.",
+			"Vamos... sé que hay algo ahí abajo...", "El agua está demasiado tranquila..." };
+	private String[] mensajePicada = { "Ha picado algo!", "Este es grande, ha picado!", "Ahí va, tengo algo!",
+			"Algo ha mordido el anzuelo!", "Esto promete!", "Rápido, antes de que se escape!" };
 
 	// getters y setters
 	public String[] getMensajeEspera() {
