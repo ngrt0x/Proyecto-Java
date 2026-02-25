@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import controlador.GestorMundo;
 import controlador.GestorNPC;
+import modeloJugador.Jugador;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.CanaPescar;
 import modeloObjetos.Canon;
@@ -14,9 +15,9 @@ import modeloPersonajes.NPC;
 public class Mundo {
 	// atributos
 	private GestorNPC gestorNPC = new GestorNPC();
-	private GestorMundo gestorMundo = new GestorMundo(this);
+	private GestorMundo gestorMundo;
 
-	private Isla[][] mapa = new Isla[250][250]; // mapa para visualizar
+	private Isla[][] mapa = new Isla[150][100]; // mapa para visualizar
 	private Isla ubicacionActual; // isla en la que se encuentra el jugador actualmente
 	// posiciones para localizar al personaje en el mapa de navegacion
 	private int posicionX;
@@ -53,16 +54,26 @@ public class Mundo {
 	private Astillero mejorasIsla2 = new Astillero(astilleroIsla1, canonesReacond, armamentoMili);
 
 	// constructor
-	public Mundo() {
+	public Mundo(Jugador j) {
+		gestorMundo = new GestorMundo(this, j);
+		// crea las islas y las mete en el array islasDisponibles
 		islasDisponibles.put("Isla Langosta",
 				new Isla("Isla Langosta", gestorNPC.getHabitantesIsla1(), tiendaIsla1, mejorasIsla1));
 		islasDisponibles.put("Refugio Sombrío",
 				new Isla("Refugio Sombrío", gestorNPC.getHabitantesIsla1(), tiendaIsla2, mejorasIsla2));
 
+		// coloca isla langosta que seria la primera isla en el centro del mapa
+		gestorMundo.hacerFormaIsla(mapa, 75, 50, islasDisponibles.get("Isla Langosta"));
+		// reparte el resto de islas y encuentros enemigos
 		gestorMundo.repartirIslas(islasDisponibles.get("Refugio Sombrío"), mapa);
+		gestorMundo.repartirEncuentrosEnemigos(mapa);
 
+		// inicializa la ubicacionActual en isla langosta, y prepara las coordenadas
+		// para que cuando empiece la navegacion estes al lado de la isla
 		ubicacionActual = islasDisponibles.get("Isla Langosta");
 		islasDisponibles.get("Isla Langosta").setVisitada();
+		posicionX = 75;
+		posicionY = 53;
 	}
 
 	// getters y setters
@@ -101,6 +112,5 @@ public class Mundo {
 	public void setPosicionY(int posicionY) {
 		this.posicionY = posicionY;
 	}
-	
-	
+
 }

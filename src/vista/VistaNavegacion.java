@@ -31,22 +31,31 @@ public class VistaNavegacion {
 	}
 
 	public void imprimirMapa(int xPersonaje, int yPersonaje, Isla[][] mapa) {
-		int radio = 25;
-
+		int radio = 19;
+		gestorVista.imprimirMensajePegado("\t\t\t");
 		for (int y = yPersonaje - radio; y <= yPersonaje + radio; y++) {
 			for (int x = xPersonaje - radio; x <= xPersonaje + radio; x++) {
 				if (x == xPersonaje && y == yPersonaje) {
-					System.out.print("⬢ ");
+					// el personaje se representa con un punto gordo
+					gestorVista.imprimirMensajePegado("⬢ ");
 				} else if (x < 0 || y < 0 || x >= mapa.length || y >= mapa[0].length) {
-					System.out.print(". ");
+					// zona fuera de los limites del mapa
+					gestorVista.imprimirMensajePegado("  ");
 				} else if (mapa[x][y] == null) {
-					System.out.print("~ ");
+					// la zona navegable se representa con puntitos
+					gestorVista.imprimirMensajePegado(". ");
+				} else if (mapa[x][y].getNombre().equals("encuentroEnem")) {
+					// los encuentros enemigos son arrobas
+					gestorVista.imprimirMensajePegado("@ ");
 				} else {
-					System.out.print("# ");
+					// y las islas se representan con almohadillas
+					gestorVista.imprimirMensajePegado("# ");
 				}
 			}
-			System.out.println();
+			gestorVista.imprimirEspacio();
+			gestorVista.imprimirMensajePegado("\t\t\t");
 		}
+		gestorVista.imprimirEspacio();
 	}
 
 	public void mensajeDescubrirIsla(Isla i) {
@@ -55,6 +64,23 @@ public class VistaNavegacion {
 
 	public void mensajeLlegarIsla(Isla i) {
 		gestorVista.imprimirMensaje("Has llegado a " + i.getNombre() + "!");
+	}
+
+	public boolean confirmarEntrarIsla(Isla isla) {
+		int opcion;
+		if (!isla.isVisitada()) {
+			mensajeDescubrirIsla(isla);
+		} else {
+			mensajeLlegarIsla(isla);
+		}
+		gestorVista.imprimirMensaje("Quieres echar anclas?");
+		gestorVista.imprimirMensaje("1. Si\n" + "2. No");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 1 || opcion > 2) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion == 1;
 	}
 
 	public void limpiarPantalla() {

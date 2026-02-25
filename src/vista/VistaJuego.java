@@ -354,7 +354,7 @@ public class VistaJuego {
 	public void mensajeAvanzarTardenoche(Jugador j) {
 		gestorVista.imprimirMensaje("Ya hace un rato que ha atardecido sobre el paisaje de "
 				+ j.getIslaActual().getNombre() + ". Tras un día de trabajo duro\n"
-				+ "te metes en tu camarote, con intención de plantear tu siguiente movimiento y descansar de cara al siguiente día...");
+				+ "te metes en tu camarote, con intención de planear tu siguiente movimiento y descansar de cara al siguiente día...");
 	}
 
 	public int hablarTripulante(Tripulante[] tripulantes) {

@@ -6,17 +6,21 @@ import vista.GestorVista;
 import vista.VistaNavegacion;
 import java.util.Random;
 
+import modeloJugador.Jugador;
+
 public class GestorMundo {
 	// atributos
 	private final Random ALEATORIO = new Random();
 	private GestorVista gestorVista = new GestorVista();
+	private GestorCombate combate;
 	private VistaNavegacion vistaNavegacion = new VistaNavegacion();
 
 	private Mundo mundo;
 
 	// Constructor
-	public GestorMundo(Mundo mundo) {
+	public GestorMundo(Mundo mundo, Jugador j) {
 		this.mundo = mundo;
+		combate = new GestorCombate(j);
 	}
 
 	// metodos propios
@@ -36,33 +40,54 @@ public class GestorMundo {
 		}
 	}
 
-	public void navegar() throws InterruptedException {
+	public Isla navegar() {
 		int distancia;
 		int direccion;
-		direccion = vistaNavegacion.seleccionarDireccion();
-		distancia = vistaNavegacion.seleccionarDistancia();
-		for (int i = 0; i < distancia; i++) {
-			moverUnaUnidad(direccion);
-			Isla isla = mundo.getMapa()[mundo.getPosicionX()][mundo.getPosicionY()];
-			vistaNavegacion.limpiarPantalla();
+		boolean echarAncla;
+		while (true) {
 			vistaNavegacion.imprimirMapa(mundo.getPosicionX(), mundo.getPosicionY(), mundo.getMapa());
-			if (isla != null) {
+			direccion = vistaNavegacion.seleccionarDireccion();
+			distancia = vistaNavegacion.seleccionarDistancia();
+			for (int i = 0; i < distancia; i++) {
+
+				moverUnaUnidad(direccion);
+				Isla isla = mundo.getMapa()[mundo.getPosicionX()][mundo.getPosicionY()];
+				vistaNavegacion.limpiarPantalla();
+				vistaNavegacion.imprimirMapa(mundo.getPosicionX(), mundo.getPosicionY(), mundo.getMapa());
+
+				if (isla == null) {
+					dormir(150);
+					continue;
+				}
+
+				if (isla.getNombre().equals("encuentroEnem")) {
+					combate.comenzar();
+					mundo.getMapa()[mundo.getPosicionX()][mundo.getPosicionY()] = null;
+					break;
+				}
+
 				if (!isla.isVisitada()) {
 					isla.setVisitada();
-					vistaNavegacion.mensajeDescubrirIsla(isla);
-				} else {
-					vistaNavegacion.mensajeLlegarIsla(isla);
 				}
+				echarAncla = vistaNavegacion.confirmarEntrarIsla(isla);
+				if (echarAncla) {
+					return isla;
+				}
+
 				break;
 			}
-
-			Thread.sleep(150);
 		}
-		direccion = vistaNavegacion.seleccionarDireccion();
-		distancia = vistaNavegacion.seleccionarDistancia();
 	}
 
-	private void hacerFormaIsla(Isla[][] mapa, int x, int y, Isla isla) {
+	public void dormir(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void hacerFormaIsla(Isla[][] mapa, int x, int y, Isla isla) {
 		mapa[x][y] = isla;
 		mapa[x + 1][y] = isla;
 		mapa[x - 1][y] = isla;
@@ -79,16 +104,21 @@ public class GestorMundo {
 	}
 
 	public void repartirIslas(Isla isla, Isla[][] mapa) {
-		int numIslas = 50;
+		int numIslas = 20;
 		for (int i = 0; i < numIslas; i++) {
 			int x = ALEATORIO.nextInt(mapa.length);
 			int y = ALEATORIO.nextInt(mapa.length);
 
 			// comprobar posicionamiento
+			// primero que la isla quepa entera en el mapa, osea que si x o y resulta estar
+			// pegado con algun borde del mapa como la isla no se puede generar entera
+			// porque ocupa un espacio de 5x5, la isla no se genera
 			if (x < 2 || y < 2 || x >= mapa.length - 2 || y >= mapa[0].length - 2) {
 				i--;
 				continue;
 			}
+			// si no existe nada en el espacio donde se generara la isla, la genera en ese
+			// espacio, sino, no se genera
 			if (mapa[x + 2][y] == null && mapa[x - 2][y] == null && mapa[x][y + 2] == null && mapa[x][y - 2] == null) {
 				hacerFormaIsla(mapa, x, y, mundo.getIslasDisponibles().get("Refugio Sombrío"));
 			} else {
@@ -97,28 +127,53 @@ public class GestorMundo {
 		}
 	}
 
+	public void repartirEncuentrosEnemigos(Isla[][] mapa) {
+		Isla encuentroEnem = new Isla("encuentroEnem");
+		int numEncuentros = 150;
+		for (int i = 0; i < numEncuentros; i++) {
+			int x = ALEATORIO.nextInt(mapa.length);
+			int y = ALEATORIO.nextInt(mapa.length);
+
+			// comprobar posicionamiento
+			// primero que la isla quepa entera en el mapa, osea que si x o y resulta estar
+			// pegado con algun borde del mapa como la isla no se puede generar entera
+			// porque ocupa un espacio de 5x5, la isla no se genera
+			if (x < 0 || y < 0 || x >= mapa.length || y >= mapa[0].length) {
+				i--;
+				continue;
+			}
+			// si no existe nada en el espacio donde se generara la isla, la genera en ese
+			// espacio, sino, no se genera
+			if (mapa[x][y] == null) {
+				mapa[x][y] = encuentroEnem;
+			} else {
+				i--;
+			}
+		}
+	}
+
 	private void moverUnaUnidad(int direccion) {
-		int nx = mundo.getPosicionX();
-		int ny = mundo.getPosicionY();
+		int x = mundo.getPosicionX();
+		int y = mundo.getPosicionY();
 
 		switch (direccion) {
 		case 1:
-			ny--;
+			y--;
 			break; // norte
 		case 2:
-			ny++;
+			y++;
 			break; // sur
 		case 3:
-			nx++;
+			x++;
 			break; // este
 		case 4:
-			nx--;
+			x--;
 			break; // oeste
 		}
 
-		if (nx >= 0 && ny >= 0 && nx < mundo.getMapa().length && ny < mundo.getMapa()[0].length) {
-			mundo.setPosicionX(nx);
-			mundo.setPosicionY(ny);
+		if (x >= 0 && y >= 0 && x < mundo.getMapa().length && y < mundo.getMapa()[0].length) {
+			mundo.setPosicionX(x);
+			mundo.setPosicionY(y);
 		}
 	}
 

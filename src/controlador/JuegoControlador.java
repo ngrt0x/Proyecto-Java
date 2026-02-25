@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 import modeloJugador.Jugador;
+import modeloMundo.Isla;
 import modeloMundo.Mundo;
 import modeloPersonajes.Tripulante;
 import vista.VistaJuego;
@@ -12,7 +13,7 @@ public class JuegoControlador {
 	private VistaJuego vistaJuego = new VistaJuego();
 	private VistaNPC vistaNpc = new VistaNPC();
 	private Jugador jugador;
-	private Mundo mundo = new Mundo();
+	private Mundo mundo;
 	private GestorMundo gestorMundo;
 	private GestorTienda gestorTienda;
 	private GestorAstillero gestorAstillero;
@@ -22,7 +23,7 @@ public class JuegoControlador {
 	private int opcionModo;
 
 	public static enum FaseDia {
-		MANANA, COMIDA, TARDENOCHE, SELECCIONVIAJE;
+		MANANA, COMIDA, TARDENOCHE, NAVEGACION;
 	}
 
 	private int diaActual;
@@ -43,14 +44,15 @@ public class JuegoControlador {
 			faseActual = FaseDia.MANANA;
 			break;
 		}
-		gestorMundo = new GestorMundo(mundo);
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
 		comidas = new MinijuegoRestaurante(jugador);
+		mundo = new Mundo(jugador);
+		gestorMundo = new GestorMundo(mundo, jugador);
 	}
 
 	// metodos
-	public void iniciarJuego() throws InterruptedException {
+	public void iniciarJuego() {
 		switch (opcionModo) {
 		// case 1 inicia el juego en modo debug, para probar los sistemas del juego
 		// directamente
@@ -70,7 +72,11 @@ public class JuegoControlador {
 				case 4 -> combate.comenzar();
 				case 5 -> comidas.comenzar();
 				case 6 -> gestorAstillero.entrarTienda();
-				case 7 -> gestorMundo.navegar();
+				case 7 -> {
+					Isla nuevaIsla = gestorMundo.navegar();
+					mundo.setUbicacionActual(nuevaIsla);
+					jugador.setIslaActual(nuevaIsla);
+				}
 				}
 				opcion = vistaJuego.menuDebug();
 			}
@@ -224,9 +230,13 @@ public class JuegoControlador {
 					vistaJuego.mensajeAvanzarTardenoche(jugador);
 					avanzarFase();
 					break;
-				case SELECCIONVIAJE:
+				case NAVEGACION:
+					Isla nuevaIsla = gestorMundo.navegar();
+					mundo.setUbicacionActual(nuevaIsla);
+					jugador.setIslaActual(nuevaIsla);
 					break;
 				}
+				avanzarFase();
 				diaActual++;
 			}
 		}
@@ -313,9 +323,9 @@ public class JuegoControlador {
 			faseActual = FaseDia.TARDENOCHE;
 			break;
 		case TARDENOCHE:
-			faseActual = FaseDia.SELECCIONVIAJE;
+			faseActual = FaseDia.NAVEGACION;
 			break;
-		case SELECCIONVIAJE:
+		case NAVEGACION:
 			faseActual = FaseDia.MANANA;
 			break;
 		}

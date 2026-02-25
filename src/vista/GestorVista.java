@@ -35,6 +35,10 @@ public class GestorVista {
 		System.out.println(msg);
 	}
 
+	public void imprimirEspacio() {
+		System.out.println();
+	}
+
 	public void imprimirMensajePegado(String msg) {
 		System.out.print(msg);
 	}

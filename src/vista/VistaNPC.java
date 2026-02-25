@@ -58,7 +58,7 @@ public class VistaNPC {
 						+ "destino. Debería reponer en aperitivos para el viaje, que luego andamos todos muertos de hambre a mitad de camino. A ti qué te\n"
 						+ "apetecerá jefe?'");
 				break;
-			case SELECCIONVIAJE:
+			case NAVEGACION:
 				break;
 			}
 		}
@@ -94,7 +94,7 @@ public class VistaNPC {
 						+ ": 'Me iré a dar una vuelta por las tiendas de esta isla, a ver si encuentro algo interesante. Tú también deberías dar\n"
 						+ "un paseo por los alrededores a ver si descubres algo de ese tesoro que andas buscando.'");
 				break;
-			case SELECCIONVIAJE:
+			case NAVEGACION:
 				break;
 			}
 		}
@@ -139,7 +139,7 @@ public class VistaNPC {
 						+ ": 'Voy a ver si encuentro a algún tonto despistado al que poder sacarle unas perras o algo de información sobre ese tesoro. Pásatelo bien capi,\n"
 						+ "yo sé que lo voy a hacer.'");
 				break;
-			case SELECCIONVIAJE:
+			case NAVEGACION:
 				break;
 			}
 		}
@@ -182,7 +182,7 @@ public class VistaNPC {
 						+ ": 'Me quedaré aquí en el barco vigilando por si acaso. Al final del día estoy tan acostumbrado a estar a flote que se me\n"
 						+ "hace raro bajar a tierra firme. Aún así, tengo muy buenas vistas de la isla subido a la cofa.'");
 				break;
-			case SELECCIONVIAJE:
+			case NAVEGACION:
 				break;
 			}
 		}
