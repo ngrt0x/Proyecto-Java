@@ -48,8 +48,7 @@ public class Mundo {
 	private NPC tenderoIsla2 = new NPC("Tania la Tendera",
 			"Tania la Tendera: 'No pregones mucho sobre mi tienda forastero. Todo lo que vendo es material alta calidad pero es de contrabando.'");
 	private NPC astilleroIsla2 = new NPC("Marcelo Mano de Hierro",
-			"Marcelo Mano de Hierro: 'Cuando me preguntan sobre mi mano suelo decir que la perdí en una fiera batalla contra un tiburón blanco.\n"
-					+ "La verdad es que la perdí en un accidente laboral porque mi astillero no cumplía con los requisitos de la norma ISO 45001.");
+			"Marcelo Mano de Hierro: 'Mi viejo cuerpo no estará en las mejores condiciones, pero sigo pudiendo reparar un barco a cambio de un buen precio.'");
 
 	// TIENDAS
 	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaReforzada, brebajeSalud, brebajeDefensa,

@@ -7,6 +7,7 @@ import controlador.GestorAstillero;
 import controlador.GestorTienda;
 import modeloJugador.Jugador;
 import modeloMundo.Astillero;
+import modeloMundo.Isla;
 import modeloMundo.Tienda;
 import modeloObjetos.Item;
 
@@ -15,12 +16,22 @@ public class VistaTienda {
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
-	public int hablarTendero1(Tienda t) {
+	public int hablarTendero1(Tienda t, Isla islaActual) {
 		int opcion;
-		gestorVista.imprimirMensaje(
-				t.getTendero().getNombre() + ": 'Buenas tardes.' El tendero te observa con cara de pocos amigos.\n"
-						+ "'Eres nuevo por aquí verdad? Más te vale no andar armando jaleo. Qué te puedo ofrecer?'\n"
-						+ "1. Comprar\n" + "2. Vender\n" + "0. Salir");
+		switch (islaActual.getNombre()) {
+		case "Isla Langosta":
+			gestorVista.imprimirMensaje(t.getTendero().getNombre()
+					+ ": 'Buenas tardes.' El tendero te observa con cara de pocos amigos.\n"
+					+ "'Eres nuevo por aquí verdad? Más te vale no andar armando jaleo. Qué te puedo ofrecer?'\n"
+					+ "1. Comprar\n" + "2. Vender\n" + "0. Salir");
+			break;
+		case "Refugio Sombrío":
+			gestorVista.imprimirMensaje(t.getTendero().getNombre()
+					+ ": 'Pasa pasa, cuida no te des en la cabeza con los trastos. Qué te puedo ofrecer pequeño lobo de mar?'\n"
+					+ "La señora te hace un gesto con la mano, dirigiendo tu mirada a un escaparate lleno de artículos."
+					+ "1. Comprar\n" + "2. Vender\n" + "0. Salir");
+			break;
+		}
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > 2) {
 			gestorVista.imprimirError("Introduce una opción válida: ");
@@ -41,10 +52,35 @@ public class VistaTienda {
 		return opcion;
 	}
 
-	public int hablarAstillero(Astillero ast) {
+	public int hablarAstillero1(Astillero ast, Isla islaActual) {
 		int opcion;
-		gestorVista.imprimirMensaje(ast.getTendero().getNombre()
-				+ ": 'Buenas tardes capitán! Precioso navío el que trae consigo, pero creo que le vendrían bien unos retoques.'\n"
+		switch (islaActual.getNombre()) {
+		case "Isla Langosta":
+			gestorVista.imprimirMensaje(ast.getTendero().getNombre()
+					+ ": 'Buenas tardes capitán! Precioso navío el que trae consigo, pero creo que le vendrían bien unos retoques.'\n"
+					+ "1. Comprar mejoras de barco\n" + "0. Salir");
+			break;
+		case "Refugio Sombrío":
+			gestorVista.imprimirMensaje(
+					"El trabajador del astillero, de aspecto lúgubre, te saluda sin mucha energía cuando entras por la puerta.\n"
+							+ "No puedes evitar fijarte en la prótesis de metal que tiene por mano."
+							+ ast.getTendero().getNombre()
+							+ ": 'Cuando me preguntan sobre mi mano suelo decir que la perdí en una fiera batalla contra un tiburón blanco.\n"
+							+ "La verdad es que la perdí en un accidente laboral porque mi astillero no cumplía con los requisitos de la norma ISO 45001.\n"
+							+ "1. Comprar mejoras de barco\n" + "0. Salir");
+			break;
+		}
+		opcion = gestorVista.pedirNum();
+		while (opcion < 0 || opcion > 1) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int hablarAstillero2(Astillero ast) {
+		int opcion;
+		gestorVista.imprimirMensaje(ast.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n"
 				+ "1. Comprar mejoras de barco\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > 1) {

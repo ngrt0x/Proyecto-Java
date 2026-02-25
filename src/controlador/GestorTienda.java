@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import modeloJugador.Jugador;
+import modeloMundo.Isla;
 import modeloMundo.Tienda;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.Item;
@@ -36,7 +37,7 @@ public class GestorTienda {
 	// metodos propios
 	public void entrarTienda() {
 		int opcion;
-		opcion = vistaTienda.hablarTendero1(t);
+		opcion = vistaTienda.hablarTendero1(t,j.getIslaActual());
 		while (opcion != 0) {
 			switch (opcion) {
 			case 1 -> { // OPCION COMPRAR AL TENDERO
