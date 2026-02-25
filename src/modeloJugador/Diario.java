@@ -19,7 +19,7 @@ public class Diario {
 	
 	public void leerDiario() {
 		if(pistasTesoro.isEmpty()) {
-			gestorVista.imprimirMensaje("Aun no tienes pistas!!!");
+			gestorVista.imprimirMensaje("No hay nada apuntado en tu diario...");
 		}else {
 			gestorVista.imprimirMensaje(pistasTesoro.toString());
 		}
