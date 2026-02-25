@@ -8,6 +8,7 @@ public class Isla {
 	private NPC[] habitantes;
 	private Tienda tiendaLocal;
 	private Astillero astilleroLocal;
+	private boolean visitada;
 
 	// Constructor
 	public Isla(String nombre, NPC[] habitantes, Tienda tienda, Astillero astilleroLocal) {
@@ -49,5 +50,13 @@ public class Isla {
 
 	public Astillero getAstilleroLocal() {
 		return astilleroLocal;
+	}
+
+	public void setVisitada() {
+		visitada = true;
+	}
+
+	public boolean isVisitada() {
+		return visitada;
 	}
 }

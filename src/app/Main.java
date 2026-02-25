@@ -6,7 +6,11 @@ public class Main {
 	public static void main(String[] args) {
 		final JuegoControlador JUEGO = new JuegoControlador();
 
-		JUEGO.iniciarJuego();
+		try {
+			JUEGO.iniciarJuego();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

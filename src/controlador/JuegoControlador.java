@@ -43,14 +43,14 @@ public class JuegoControlador {
 			faseActual = FaseDia.MANANA;
 			break;
 		}
-		gestorMundo = new GestorMundo(jugador);
+		gestorMundo = new GestorMundo(mundo);
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
 		comidas = new MinijuegoRestaurante(jugador);
 	}
 
 	// metodos
-	public void iniciarJuego() {
+	public void iniciarJuego() throws InterruptedException {
 		switch (opcionModo) {
 		// case 1 inicia el juego en modo debug, para probar los sistemas del juego
 		// directamente
@@ -70,6 +70,7 @@ public class JuegoControlador {
 				case 4 -> combate.comenzar();
 				case 5 -> comidas.comenzar();
 				case 6 -> gestorAstillero.entrarTienda();
+				case 7 -> gestorMundo.navegar();
 				}
 				opcion = vistaJuego.menuDebug();
 			}

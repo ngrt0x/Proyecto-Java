@@ -2,6 +2,7 @@ package modeloMundo;
 
 import java.util.HashMap;
 
+import controlador.GestorMundo;
 import controlador.GestorNPC;
 import modeloObjetos.ArmamentoBarco;
 import modeloObjetos.CanaPescar;
@@ -13,9 +14,13 @@ import modeloPersonajes.NPC;
 public class Mundo {
 	// atributos
 	private GestorNPC gestorNPC = new GestorNPC();
+	private GestorMundo gestorMundo = new GestorMundo(this);
 
-	private Isla[] mapamundi; // mapa de islas que se podra visualizar
+	private Isla[][] mapa = new Isla[250][250]; // mapa para visualizar
 	private Isla ubicacionActual; // isla en la que se encuentra el jugador actualmente
+	// posiciones para localizar al personaje en el mapa de navegacion
+	private int posicionX;
+	private int posicionY;
 
 	private HashMap<String, Isla> islasDisponibles = new HashMap<String, Isla>(); // islas totales del juego
 
@@ -24,8 +29,10 @@ public class Mundo {
 	private Item canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 17);
 	private Item canaMaestra = new CanaPescar("Caña maestra", "cana_maestra", 300, 20);
 	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
-	private Item canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 300, 15, 1);
-	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 175, 20, 2);
+	private Item canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 200, 15, 1);
+	private Item canonesReacond = new Canon("Cañones reacondicionados", "canones_reacond", 300, 25, 2);
+	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 150, 20, 2);
+	private Item armamentoMili = new ArmamentoBarco("Armamento de Grado Militar", "armamento_mili", 200, 25, 3);
 	private Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
 	private Item brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
 	private Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
@@ -41,26 +48,24 @@ public class Mundo {
 	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaReforzada, ceboBueno, brebajeSalud, brebajeDefensa,
 			brebajeIniciativa);
 	private Astillero mejorasIsla1 = new Astillero(astilleroIsla1, canonesOxi, armamentoReforzado);
+	private Tienda tiendaIsla2 = new Tienda(tenderoIsla1, canaFlexible, ceboBueno, brebajeSalud, brebajeDefensa,
+			brebajeIniciativa);
+	private Astillero mejorasIsla2 = new Astillero(astilleroIsla1, canonesReacond, armamentoMili);
 
 	// constructor
 	public Mundo() {
-		mapamundi = new Isla[1];
-
 		islasDisponibles.put("Isla Langosta",
 				new Isla("Isla Langosta", gestorNPC.getHabitantesIsla1(), tiendaIsla1, mejorasIsla1));
+		islasDisponibles.put("Refugio Sombrío",
+				new Isla("Refugio Sombrío", gestorNPC.getHabitantesIsla1(), tiendaIsla2, mejorasIsla2));
+
+		gestorMundo.repartirIslas(islasDisponibles.get("Refugio Sombrío"), mapa);
 
 		ubicacionActual = islasDisponibles.get("Isla Langosta");
+		islasDisponibles.get("Isla Langosta").setVisitada();
 	}
 
 	// getters y setters
-	public Isla[] getMapamundi() {
-		return mapamundi;
-	}
-
-	public void setMapamundi(Isla[] mapamundi) {
-		this.mapamundi = mapamundi;
-	}
-
 	public Isla getUbicacionActual() {
 		return ubicacionActual;
 	}
@@ -72,4 +77,30 @@ public class Mundo {
 	public HashMap<String, Isla> getIslasDisponibles() {
 		return islasDisponibles;
 	}
+
+	public Isla[][] getMapa() {
+		return mapa;
+	}
+
+	public void setMapa(Isla[][] mapa) {
+		this.mapa = mapa;
+	}
+
+	public int getPosicionX() {
+		return posicionX;
+	}
+
+	public void setPosicionX(int posicionX) {
+		this.posicionX = posicionX;
+	}
+
+	public int getPosicionY() {
+		return posicionY;
+	}
+
+	public void setPosicionY(int posicionY) {
+		this.posicionY = posicionY;
+	}
+	
+	
 }

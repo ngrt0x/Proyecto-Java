@@ -18,9 +18,9 @@ public class VistaJuego {
 
 		gestorVista.imprimirMensaje("Qué quieres hacer capitán? Cuál es el plan?\n" + "1. Pescar\n"
 				+ "2. Ver inventario\n" + "3. Entrar a la tienda\n" + "4. Combate\n" + "5. Abrir el restaurante\n"
-				+ "6. Entrar astillero\n" + "0. Salir");
+				+ "6. Entrar astillero\n" + "7. Navegar\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 6 || opcion < 0) {
+		while (opcion > 7 || opcion < 0) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}
