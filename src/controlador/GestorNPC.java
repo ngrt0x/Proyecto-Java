@@ -17,33 +17,36 @@ public class GestorNPC {
 	// ========== ISLA 1 ==========
 
 	// Richard
-	String[] dialogosRichard = { "Hola muy buenos dias", "Te veo bien el dia de hoy",
-			"No se lo digas a los demas pero soy un therian" };
-	String primeraRichard = "Es un placer conocerte, soy Richard";
+	String[] dialogosRichard = { "Richard: 'Hola muy buenos dias.'", "Richard: 'Te veo bien el dia de hoy.'",
+			"Richard: 'No se lo digas a los demas pero soy un therian.'" };
+	String primeraRichard = "Richard: 'Es un placer conocerte, soy Richard.'";
 	NPC richard = new NPC("Richard", dialogosRichard, primeraRichard);
 
 	// Antonio // CONTIENE PISTA
 	String opcionesDialogoAntonio = "1. Hablemos un poco\n2. He hablado con tu mujer\n3. Que opinas de los demas habitantes\n4. Mirar fijamente\n5. Preguntar acerca de los recientes robos de piratas";
-	String[] dialogosAntonio = { "No estoy de humor hoy", "Mi mujer dice que soy muy prepotente, puede que tenga razon",
-			"Creo que a los demas les caigo mal", "Que me miras, tengo monos en la cara?" };
+	String[] dialogosAntonio = { "Antonio: 'No estoy de humor hoy.'",
+			"Antonio: 'Mi mujer dice que soy muy prepotente, puede que tenga razon.'",
+			"Antonio: 'Creo que a los demas les caigo mal.'", "Antonio: 'Que me miras, tengo monos en la cara?'" };
 
-	String primeraAntonio = "Me llamo Antonio, soy un tipo de pocas palabras, si vas a hablar conmigo que sea lo minimo y necesario";
+	String primeraAntonio = "Antonio: 'Me llamo Antonio, soy un tipo de pocas palabras, si vas a hablar conmigo que sea lo minimo y necesario.'";
 
-	String pistaAntonio = "Esto es una pista";
+	String pistaAntonio = "Antonio: 'Esto es una pista.'";
 
 	NPC antonio = new NPC("Antonio", dialogosAntonio, opcionesDialogoAntonio, primeraAntonio, true, pistaAntonio);
 
 	// Manuela
-	String[] dialogosManuela = { "Hoy hace un dia estupendo para dar un paseo",
-			"Si yo pudiera ser un animal seria un pajarito", "Hoy la comida me ha salido realmente bien" };
-	String primeraManuela = "Soy la esposa de Antonio, me llamo Manuela, porfavor perdona a mi marido si es un poco grosero, en el fondo es una buena persona";
+	String[] dialogosManuela = { "Manuela: 'Hoy hace un dia estupendo para dar un paseo.'",
+			"Manuela: 'Si yo pudiera ser un animal seria un pajarito.'",
+			"Manuela: 'Hoy la comida me ha salido realmente bien.'" };
+	String primeraManuela = "Manuela: 'Soy la esposa de Antonio, me llamo Manuela, porfavor perdona a mi marido si es un poco grosero, en el fondo es una buena persona.'";
 	NPC manuela = new NPC("Manuela", dialogosManuela, primeraManuela);
 
 	// Josefina
-	String[] dialogosJosefina = { "Algun dia te podrias pasar a ver las flores de mi jardin, las cuido con mucho amor",
-			"Si necestias consejos de botánica yo soy tu persona",
-			"Dicen que hay muchos piratas en estos mares, ten siempre cuidado cuando vayas a navegar" };
-	String primeraJosefina = "Hey es agradable ver caras nuevas por este lugar, mi nombre es Josefina es un placer conocerte, si necesitas algo siempre puedes contar conmigo";
+	String[] dialogosJosefina = {
+			"Josefina: 'Algun dia te podrias pasar a ver las flores de mi jardin, las cuido con mucho amor.'",
+			"Josefina: 'Si necestias consejos de botánica yo soy tu persona.'",
+			"Josefina: 'Dicen que hay muchos piratas en estos mares, ten siempre cuidado cuando vayas a navegar.'" };
+	String primeraJosefina = "Josefina: 'Ey, es agradable ver caras nuevas por este lugar. Mi nombre es Josefina es un placer conocerte, si necesitas algo siempre puedes contar conmigo.'";
 	NPC josefina = new NPC("Josefina", dialogosJosefina, primeraJosefina);
 
 	NPC[] habitantesIsla1 = { richard, antonio, manuela, josefina }; // HABITANTES DE LA ISLA 1
@@ -52,35 +55,39 @@ public class GestorNPC {
 	// ========== ISLA 2 ==========
 
 	// Recesvinto
-	String[] dialogosRecesvinto = { "La gente se burla de mi por tener un nombre muy raro",
-			"Me gusta cuando me acarician detras de las orejas", "Se me da muy bien la carpinteria" };
-	String primeraRecesvinto = "No les hagas caso a los demas, no soy tan rara como aparento";
+	String[] dialogosRecesvinto = { "Recesvinto: 'La gente se burla de mi por tener un nombre muy raro.'",
+			"Recesvinto: 'Me gusta cuando me acarician detras de las orejas.'",
+			"Recesvinto: 'Se me da muy bien la carpinteria.'" };
+	String primeraRecesvinto = "Recesvinto: 'No les hagas caso a los demas, no soy tan raro como aparento.'";
 	NPC recesvinto = new NPC("Recesvinto", dialogosRecesvinto, primeraRecesvinto);
 
 	// Eduardo
-	String[] dialogosEduardo = { "Me gusta mucho el futbol", "Mi abuela tiene un gato muy bonito",
-			"Ven conmigo a jugar algun dia" };
-	String primeraEduardo = "Hola soy Eduardo tengo 9 años";
+	String[] dialogosEduardo = { "Eduardo: 'Me gusta mucho el futbol.'",
+			"Eduardo: 'Mi abuela tiene un gato muy bonito.'", "Eduardo: 'Ven conmigo a jugar algun dia.'" };
+	String primeraEduardo = "Eduardo: 'Hola soy Eduardo tengo 9 años.'";
 	NPC eduardo = new NPC("Eduardo", dialogosEduardo, primeraEduardo);
 
 	// Moises // TIENE PISTA
-	String opcionesDialogoMoises = "1. Saludar\n2. Preguntar sobre el tiempo\n3. Hablar sobre Eduardo\n4. Oye he oido que tu separaste los mares ";
-	String[] dialogoMoises = { "Hey te veo bien", "Aqui siempre suele haber buen tiempo ni mucho frio ni mucho calor sabes", "Eduardo es un buen niño, seguro que se hace famoso y da a conocer nuestra isla"};
+	String opcionesDialogoMoises = "1. Saludar\n2. Preguntar sobre el tiempo\n3. Hablar sobre Eduardo\n4. Oye he oido que tu separaste los mares";
+	String[] dialogoMoises = { "Moises: 'Hey te veo bien.'",
+			"Moises: 'Aqui siempre suele haber buen tiempo ni mucho frio ni mucho calor sabes?'",
+			"Moises: 'Eduardo es un buen niño, seguro que se hace famoso y da a conocer nuestra isla.'" };
 
-	String primeraMoises = "Me llaman Moises, es un placer verte visitando esta humilde isla";
+	String primeraMoises = "Moises: 'Me llaman Moises, es un placer verte visitando esta humilde isla.'";
 
-	String pistaMoises = "Habla conmigo en otro momendo (En desarrollo, opcion no disponible)";
+	String pistaMoises = "Moises: 'Habla conmigo en otro momendo (En desarrollo, opcion no disponible).'";
 
 	NPC moises = new NPC("Moises", dialogoMoises, opcionesDialogoMoises, primeraMoises, true, pistaMoises);
 
 	// Patricia
-	String[] dialogosPatricia = { "Tengo un nieto muy guapo llamado Eduardo",
-			"Seguro que a mi gata le encantarias", "Algun dia te traere galletas para que las pruebes" };
-	String primeraPatricia = "Hola corazon, es tu primera vez por aqui?";
+	String[] dialogosPatricia = { "Patricia: 'Tengo un nieto muy guapo llamado Eduardo.'",
+			"Patricia: 'Seguro que a mi gata le encantarias.'",
+			"Patricia: 'Algun dia te traere galletas para que las pruebes.'" };
+	String primeraPatricia = "Patricia: 'Hola corazon, es tu primera vez por aqui?'";
 	NPC patricia = new NPC("Patricia", dialogosPatricia, primeraPatricia);
-	
-	NPC[] habitantesIsla2 = {recesvinto,eduardo,moises,patricia};
-	
+
+	NPC[] habitantesIsla2 = { recesvinto, eduardo, moises, patricia };
+
 	// ============================
 
 	// getters
@@ -88,7 +95,7 @@ public class GestorNPC {
 	public NPC[] getHabitantesIsla1() {
 		return habitantesIsla1;
 	}
-	
+
 	public NPC[] getHabitantesIsla2() {
 		return habitantesIsla2;
 	}
