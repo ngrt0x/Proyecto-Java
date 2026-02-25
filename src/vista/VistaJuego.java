@@ -283,9 +283,9 @@ public class VistaJuego {
 		gestorVista.imprimirMensaje(hablante.getNombre()
 				+ ": 'Ahora que ya hemos hecho caja tenemos el resto de la tarde libre, qué querrás que hagamos capitán?'");
 		gestorVista.imprimirMensaje("1. Bajar a la isla\n" + "2. Hablar con la tripulación\n"
-				+ "3. Mostrar inventario\n" + "4. Continuar con el día");
+				+ "3. Mostrar inventario\n" + "4. Leer Diario\n" + "5. Continuar con el día");
 		opcion = gestorVista.pedirNum();
-		while (opcion > 4 || opcion < 1) {
+		while (opcion > 5 || opcion < 1) {
 			gestorVista.imprimirError("Selecciona una opción válida: ");
 			opcion = gestorVista.pedirNum();
 		}

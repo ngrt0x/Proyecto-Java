@@ -171,7 +171,7 @@ public class JuegoControlador {
 					break;
 				case TARDENOCHE:
 					accion = vistaJuego.menuTardenoche1(jugador);
-					while (accion != 4) {
+					while (accion != 5) {
 						switch (accion) {
 						// baja a la isla
 						case 1:
@@ -222,6 +222,9 @@ public class JuegoControlador {
 						case 3:
 							int opcionInventario = vistaJuego.menuInventarios();
 							vistaJuego.mostrarInventario(jugador, opcionInventario);
+							break;
+						case 4: 
+							jugador.getDiario().leerDiario();
 							break;
 						}
 						accion = vistaJuego.menuTardenoche2(jugador);
