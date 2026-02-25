@@ -130,8 +130,8 @@ public class VistaNPC {
 		case COMIDA:
 			gestorVista.imprimirMensaje(t.getNombre()
 					+ ": 'Lo que más pereza me da de todo esto es saber que luego hay que limpiar toda la sala. Diría que prefiero volver a vivir en las calles\n"
-					+ "antes que tener que trabajar en este dichoso restaurante, pero no es verdad. Al menos después de recoger"
-					+ coci.getNombre() + "prepara comida para todos.'");
+					+ "antes que tener que trabajar en este dichoso restaurante, pero no es verdad. Al menos después de recoger "
+					+ coci.getNombre() + " prepara comida para todos.'");
 			break;
 		case TARDENOCHE:
 			gestorVista.imprimirMensaje(t.getNombre()
