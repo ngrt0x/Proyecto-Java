@@ -65,7 +65,7 @@ public class Mundo {
 		islasDisponibles.put("Isla Langosta",
 				new Isla("Isla Langosta", gestorNPC.getHabitantesIsla1(), tiendaIsla1, mejorasIsla1));
 		islasDisponibles.put("Refugio Sombrío",
-				new Isla("Refugio Sombrío", gestorNPC.getHabitantesIsla1(), tiendaIsla2, mejorasIsla2));
+				new Isla("Refugio Sombrío", gestorNPC.getHabitantesIsla2(), tiendaIsla2, mejorasIsla2));
 
 		// coloca isla langosta que seria la primera isla en el centro del mapa
 		gestorMundo.hacerFormaIsla(mapa, 75, 50, islasDisponibles.get("Isla Langosta"));
