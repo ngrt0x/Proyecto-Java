@@ -51,7 +51,6 @@ public class MinijuegoRestaurante implements Minijuego {
 	// metodos de la interfaz
 	@Override
 	public void comenzar() {
-		boolean comandaCorrecta = true;
 		boolean consumirTurno = true;
 		// resetear todos los atributos cuando comienza el minijuego
 		turnoActual = 1;
@@ -115,12 +114,18 @@ public class MinijuegoRestaurante implements Minijuego {
 					break;
 				}
 				Cliente clienteAServir = clientes.get(opcionC - 1);
-				opcionP = vistaRestaurante.mostrarPlatosPreparados(platosPreparados);
-				if (opcionP == 0) {
+				if (!platosPreparados.isEmpty()) {
+					opcionP = vistaRestaurante.mostrarPlatosPreparados(platosPreparados);
+					if (opcionP == 0) {
+						consumirTurno = false;
+						break;
+					}
+					entregarPlato(clienteAServir, opcionP);
+				} else {
 					consumirTurno = false;
-					break;
+					vistaRestaurante.mensajeNoHayPlatos();
 				}
-				entregarPlato(clienteAServir, opcionP);
+
 				while (opcionS != 2) {
 					opcionS = vistaRestaurante.menuServir();
 					if (opcionS == 0) {
@@ -129,25 +134,24 @@ public class MinijuegoRestaurante implements Minijuego {
 					}
 					switch (opcionS) {
 					case 1:
-						opcionP = vistaRestaurante.mostrarPlatosPreparados(platosPreparados);
-						if (opcionP == 0) {
-							consumirTurno = false;
-							break;
+						if (!platosPreparados.isEmpty()) {
+							opcionP = vistaRestaurante.mostrarPlatosPreparados(platosPreparados);
+							if (opcionP == 0) {
+								consumirTurno = false;
+								break;
+							}
+							entregarPlato(clienteAServir, opcionP);
+						} else {
+							vistaRestaurante.mensajeNoHayPlatos();
 						}
-						entregarPlato(clienteAServir, opcionP);
 						break;
 					case 2:
-						comandaCorrecta = terminarComanda(clienteAServir);
+						terminarComanda(clienteAServir);
 						break;
 					}
 				}
 
 				break;
-			}
-			if (!comandaCorrecta) {
-				if (ALEATORIO.nextInt(4) == 0) {
-					combateRestaurante.comenzar();
-				}
 			}
 			if (consumirTurno) {
 				Iterator<Cliente> it = clientes.iterator();
@@ -222,29 +226,28 @@ public class MinijuegoRestaurante implements Minijuego {
 		return platoPreparado;
 	}
 
-	private boolean terminarComanda(Cliente clienteAServir) {
-		boolean pedidoCorrecto = false;
+	private void terminarComanda(Cliente clienteAServir) {
 		if (clienteAServir.getPlatosRecibidos().containsAll(clienteAServir.getPedido())) {
 			int pago = 0;
-			pedidoCorrecto = true;
 			for (int i = 0; i < clienteAServir.getPedido().size(); i++) {
 				pago += clienteAServir.getPedido().get(i).getPrecio();
 			}
 			j.sumarOro(pago);
 			vistaRestaurante.mensajesPedidoCorrecto(clienteAServir, pago);
 			quitarCliente(clienteAServir);
-			return pedidoCorrecto;
 		} else {
-			pedidoCorrecto = false;
 			vistaRestaurante.mensajesPedidoIncorrecto(clienteAServir);
 			quitarCliente(clienteAServir);
-			return pedidoCorrecto;
+			if (ALEATORIO.nextInt(4) == 0) {
+				combateRestaurante.comenzar();
+			}
 		}
 	}
 
 	private void entregarPlato(Cliente clienteAServir, int plato) {
 		Plato platoAServir = platosPreparados.get(plato - 1);
 		clienteAServir.addPlatosRecibidos(platoAServir);
+		vistaRestaurante.mensajePlatoEntregado(clienteAServir, platosPreparados.get(plato - 1));
 		restarPlatoPreparado(platoAServir);
 	}
 

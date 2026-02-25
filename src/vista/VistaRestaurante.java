@@ -155,14 +155,10 @@ public class VistaRestaurante {
 
 	public int mostrarPlatosPreparados(ArrayList<Plato> platosPreparados) {
 		int opcion;
-		if (platosPreparados.isEmpty()) {
-			gestorVista.imprimirMensaje("No tienes ningún plato preparado!");
-		} else {
-			gestorVista.imprimirMensaje("Qué plato quieres entregar al cliente?");
-			for (int i = 0; i < platosPreparados.size(); i++) {
-				gestorVista.imprimirMensaje((i + 1) + ". " + platosPreparados.get(i).getNombre());
-				gestorVista.imprimirMensaje("\tCantidad: " + platosPreparados.get(i).getCantidad());
-			}
+		gestorVista.imprimirMensaje("Qué plato quieres entregar al cliente?");
+		for (int i = 0; i < platosPreparados.size(); i++) {
+			gestorVista.imprimirMensaje((i + 1) + ". " + platosPreparados.get(i).getNombre());
+			gestorVista.imprimirMensaje("\tCantidad: " + platosPreparados.get(i).getCantidad());
 		}
 
 		gestorVista.imprimirMensaje("\n0. Atrás");
@@ -239,6 +235,14 @@ public class VistaRestaurante {
 
 	public void mensajePlatoCocinado(Plato p) {
 		gestorVista.imprimirMensaje("Has cocinado: " + p.getNombre() + "!");
+	}
+
+	public void mensajeNoHayPlatos() {
+		gestorVista.imprimirMensaje("No tienes ningún plato preparado!");
+	}
+
+	public void mensajePlatoEntregado(Cliente c, Plato p) {
+		gestorVista.imprimirMensaje("Has entregado " + p.getNombre() + " a " + c.getNombre() + "!");
 	}
 
 	public void mensajeFin(Jugador j) {
