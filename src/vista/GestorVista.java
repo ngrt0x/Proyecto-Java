@@ -13,6 +13,7 @@ public class GestorVista {
 		boolean hayError = true;
 		while (hayError) {
 			try {
+				imprimirMensajePegado("> ");
 				num = TECLADO.nextInt();
 				TECLADO.nextLine();
 				hayError = false;
@@ -27,6 +28,7 @@ public class GestorVista {
 
 	public String pedirString() {
 		String texto;
+		imprimirMensajePegado("> ");
 		texto = TECLADO.nextLine();
 		return texto;
 	}
