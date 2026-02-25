@@ -43,15 +43,16 @@ public class GestorMundo {
 	public Isla navegar() {
 		int distancia;
 		int direccion;
-		boolean echarAncla;
-		while (true) {
+		boolean echarAncla = false;
+		Isla isla = new Isla("isla");
+		while (!echarAncla) {
 			vistaNavegacion.imprimirMapa(mundo.getPosicionX(), mundo.getPosicionY(), mundo.getMapa());
 			direccion = vistaNavegacion.seleccionarDireccion();
 			distancia = vistaNavegacion.seleccionarDistancia();
 			for (int i = 0; i < distancia; i++) {
 
 				moverUnaUnidad(direccion);
-				Isla isla = mundo.getMapa()[mundo.getPosicionX()][mundo.getPosicionY()];
+				isla = mundo.getMapa()[mundo.getPosicionX()][mundo.getPosicionY()];
 				vistaNavegacion.limpiarPantalla();
 				vistaNavegacion.imprimirMapa(mundo.getPosicionX(), mundo.getPosicionY(), mundo.getMapa());
 
@@ -70,13 +71,10 @@ public class GestorMundo {
 					isla.setVisitada();
 				}
 				echarAncla = vistaNavegacion.confirmarEntrarIsla(isla);
-				if (echarAncla) {
-					return isla;
-				}
-
 				break;
 			}
 		}
+		return isla;
 	}
 
 	public void dormir(int ms) {
