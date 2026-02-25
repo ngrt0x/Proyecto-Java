@@ -1,6 +1,7 @@
 package controlador;
 
 import java.util.ArrayList;
+
 import modeloJugador.Jugador;
 import modeloMundo.Isla;
 import modeloMundo.Mundo;
@@ -102,18 +103,18 @@ public class JuegoControlador {
 						case 2:
 							int opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
 							while (opcionT != 0) {
-								switch (jugador.getBarco().getTripulacion()[opcionT].getRol()) {
+								switch (jugador.getBarco().getTripulacion()[opcionT - 1].getRol()) {
 								case 1:
-									vistaNpc.dialogosTragaldabas(diaActual, jugador);
+									vistaNpc.dialogosTragaldabas(jugador);
 									break;
 								case 2:
-									vistaNpc.dialogosCocinero(diaActual, jugador);
+									vistaNpc.dialogosCocinero(jugador);
 									break;
 								case 3:
-									vistaNpc.dialogosLadron(diaActual, jugador);
+									vistaNpc.dialogosLadron(jugador);
 									break;
 								case 4:
-									vistaNpc.dialogosPirata(diaActual, jugador);
+									vistaNpc.dialogosPirata(jugador);
 									break;
 								}
 								opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
@@ -139,18 +140,18 @@ public class JuegoControlador {
 						case 2:
 							int opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
 							while (opcionT != 0) {
-								switch (jugador.getBarco().getTripulacion()[opcionT].getRol()) {
+								switch (jugador.getBarco().getTripulacion()[opcionT - 1].getRol()) {
 								case 1:
-									vistaNpc.dialogosTragaldabas(diaActual, jugador);
+									vistaNpc.dialogosTragaldabas(jugador);
 									break;
 								case 2:
-									vistaNpc.dialogosCocinero(diaActual, jugador);
+									vistaNpc.dialogosCocinero(jugador);
 									break;
 								case 3:
-									vistaNpc.dialogosLadron(diaActual, jugador);
+									vistaNpc.dialogosLadron(jugador);
 									break;
 								case 4:
-									vistaNpc.dialogosPirata(diaActual, jugador);
+									vistaNpc.dialogosPirata(jugador);
 									break;
 								}
 								opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
@@ -202,18 +203,18 @@ public class JuegoControlador {
 						case 2:
 							int opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
 							while (opcionT != 0) {
-								switch (jugador.getBarco().getTripulacion()[opcionT].getRol()) {
+								switch (jugador.getBarco().getTripulacion()[opcionT - 1].getRol()) {
 								case 1:
-									vistaNpc.dialogosTragaldabas(diaActual, jugador);
+									vistaNpc.dialogosTragaldabas(jugador);
 									break;
 								case 2:
-									vistaNpc.dialogosCocinero(diaActual, jugador);
+									vistaNpc.dialogosCocinero(jugador);
 									break;
 								case 3:
-									vistaNpc.dialogosLadron(diaActual, jugador);
+									vistaNpc.dialogosLadron(jugador);
 									break;
 								case 4:
-									vistaNpc.dialogosPirata(diaActual, jugador);
+									vistaNpc.dialogosPirata(jugador);
 									break;
 								}
 								opcionT = vistaJuego.hablarTripulante(jugador.getBarco().getTripulacion());
@@ -234,10 +235,10 @@ public class JuegoControlador {
 					Isla nuevaIsla = gestorMundo.navegar();
 					mundo.setUbicacionActual(nuevaIsla);
 					jugador.setIslaActual(nuevaIsla);
+					avanzarFase();
+					diaActual++;
 					break;
 				}
-				avanzarFase();
-				diaActual++;
 			}
 		}
 		vistaJuego.mensajeDespedida(jugador);
