@@ -31,8 +31,10 @@ public class Mundo {
 	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
 	private Canon canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 200, 15, 1);
 	private Canon canonesReacond = new Canon("Cañones reacondicionados", "canones_reacond", 300, 25, 2);
-	private ArmamentoBarco armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 150, 20, 2);
-	private ArmamentoBarco armamentoMili = new ArmamentoBarco("Armamento de Grado Militar", "armamento_mili", 200, 25, 3);
+	private ArmamentoBarco armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 150, 20,
+			2);
+	private ArmamentoBarco armamentoMili = new ArmamentoBarco("Armamento de Grado Militar", "armamento_mili", 200, 25,
+			3);
 	private Consumible brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
 	private Consumible brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
 	private Consumible brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
@@ -43,14 +45,19 @@ public class Mundo {
 	private NPC astilleroIsla1 = new NPC("Rodrigo 'El Mañoso'",
 			"Rodrigo 'El Mañoso': 'En 'Astilleros El Mañoso S.L.' sólo usamos materiales de la más alta calidad! Realmente no, pero no hay mucha competencia\n"
 					+ "por aquí, así que mis clientes no se pueden quejar del trabajo que hago.");
+	private NPC tenderoIsla2 = new NPC("Tania la Tendera",
+			"Tania la Tendera: 'No pregones mucho sobre mi tienda forastero. Todo lo que vendo es material alta calidad pero es de contrabando.'");
+	private NPC astilleroIsla2 = new NPC("Marcelo Mano de Hierro",
+			"Marcelo Mano de Hierro: 'Cuando me preguntan sobre mi mano suelo decir que la perdí en una fiera batalla contra un tiburón blanco.\n"
+					+ "La verdad es que la perdí en un accidente laboral porque mi astillero no cumplía con los requisitos de la norma ISO 45001.");
 
 	// TIENDAS
 	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaReforzada, brebajeSalud, brebajeDefensa,
 			brebajeIniciativa, ceboBueno);
 	private Astillero mejorasIsla1 = new Astillero(astilleroIsla1, canonesOxi, armamentoReforzado);
-	private Tienda tiendaIsla2 = new Tienda(tenderoIsla1, canaFlexible, brebajeSalud, brebajeDefensa,
-			brebajeIniciativa, ceboBueno);
-	private Astillero mejorasIsla2 = new Astillero(astilleroIsla1, canonesReacond, armamentoMili);
+	private Tienda tiendaIsla2 = new Tienda(tenderoIsla2, canaFlexible, brebajeSalud, brebajeDefensa, brebajeIniciativa,
+			ceboBueno);
+	private Astillero mejorasIsla2 = new Astillero(astilleroIsla2, canonesReacond, armamentoMili);
 
 	// constructor
 	public Mundo(Jugador j) {
