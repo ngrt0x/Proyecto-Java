@@ -11,8 +11,9 @@ public class Consumible extends Item {
 	}
 
 	// constructor de copias
-	public Consumible(Item otro) {
+	public Consumible(Consumible otro) {
 		super(otro);
+		this.efecto = otro.getEfecto();
 	}
 
 	// getters y setters

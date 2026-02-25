@@ -1,5 +1,11 @@
 package controlador;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import modeloJugador.Barco;
 import modeloJugador.Jugador;
 import modeloObjetos.ArmamentoBarco;
@@ -10,12 +16,6 @@ import modeloPersonajes.Enemigo;
 import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
 import vista.VistaCombate;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class GestorCombate implements Minijuego {
 	// atributos
@@ -406,18 +406,17 @@ public class GestorCombate implements Minijuego {
 		if (c.getEfecto() == "curar") {
 			int curacion = (int) ((double) t.getSaludTope() * 20 / 100);
 			t.recuperarSalud(curacion);
-			jugador.getInventario().restarItem(c.getId(), 1);
 			vistaCombate.mensajeCurar(t, curacion);
 		} else if (c.getEfecto() == "defensa") {
 			t.setEstado("defendiendo");
-			jugador.getInventario().restarItem(c.getId(), 1);
 			vistaCombate.mensajeConsumible(t, c);
 		} else if (c.getEfecto() == "iniciativa") {
 			t.setIniciativa(t.getIniciativa() + 5);
-			jugador.getInventario().restarItem(c.getId(), 1);
 			vistaCombate.mensajeConsumible(t, c);
 		}
 
+		jugador.getInventario().restarItem(c.getId(), 1); // restamos el item al usarlo
+		
 		if (c.getCantidad() <= 0) {
 			consumiblesJ.remove(c);
 		}

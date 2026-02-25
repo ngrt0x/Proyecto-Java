@@ -16,15 +16,15 @@ public class Tienda {
 	private Item item4;
 	private Item item5;
 
-	public Tienda(NPC tendero, Item item1, Item item2, Item item3, Item item4, Item item5) {
+	public Tienda(NPC tendero, CanaPescar item1, Consumible item2, Consumible item3, Consumible item4, Item item5) {
 		this.tendero = tendero;
 		stock = new Inventario();
 		// hacer una copia de los items que se le pasa por constructor y anadirla al
 		// stock
-		this.item1 = new Item(item1);
-		this.item2 = new Item(item2);
-		this.item3 = new Item(item3);
-		this.item4 = new Item(item4);
+		this.item1 = new CanaPescar(item1);
+		this.item2 = new Consumible(item2);
+		this.item3 = new Consumible(item3);
+		this.item4 = new Consumible(item4);
 		this.item5 = new Item(item5);
 		stock.anadirItem(this.item1);
 		stock.anadirItem(this.item2);

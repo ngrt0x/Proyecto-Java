@@ -9,6 +9,11 @@ public class CanaPescar extends Item {
 		super(nombre, id, precio);
 		this.linea = linea;
 	}
+	
+	public CanaPescar(CanaPescar otra) {
+		super(otra);
+		this.linea = otra.getLinea();
+	}
 
 	// getters y setters
 	public int getLinea() {

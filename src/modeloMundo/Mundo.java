@@ -26,17 +26,16 @@ public class Mundo {
 	private HashMap<String, Isla> islasDisponibles = new HashMap<String, Isla>(); // islas totales del juego
 
 	// TODOS LOS ITEMS DISPONIBLES POR AHORA
-	private Item canaReforzada = new CanaPescar("Caña reforzada", "cana_reforzada", 150, 15);
-	private Item canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 17);
-	private Item canaMaestra = new CanaPescar("Caña maestra", "cana_maestra", 300, 20);
+	private CanaPescar canaReforzada = new CanaPescar("Caña reforzada", "cana_reforzada", 150, 15);
+	private CanaPescar canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 17);
 	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
-	private Item canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 200, 15, 1);
-	private Item canonesReacond = new Canon("Cañones reacondicionados", "canones_reacond", 300, 25, 2);
-	private Item armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 150, 20, 2);
-	private Item armamentoMili = new ArmamentoBarco("Armamento de Grado Militar", "armamento_mili", 200, 25, 3);
-	private Item brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
-	private Item brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
-	private Item brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
+	private Canon canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 200, 15, 1);
+	private Canon canonesReacond = new Canon("Cañones reacondicionados", "canones_reacond", 300, 25, 2);
+	private ArmamentoBarco armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 150, 20, 2);
+	private ArmamentoBarco armamentoMili = new ArmamentoBarco("Armamento de Grado Militar", "armamento_mili", 200, 25, 3);
+	private Consumible brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
+	private Consumible brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
+	private Consumible brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
 
 	// TENDEROS
 	private NPC tenderoIsla1 = new NPC("Alexander el Tendero",
@@ -46,11 +45,11 @@ public class Mundo {
 					+ "por aquí, así que mis clientes no se pueden quejar del trabajo que hago.");
 
 	// TIENDAS
-	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaReforzada, ceboBueno, brebajeSalud, brebajeDefensa,
-			brebajeIniciativa);
+	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaReforzada, brebajeSalud, brebajeDefensa,
+			brebajeIniciativa, ceboBueno);
 	private Astillero mejorasIsla1 = new Astillero(astilleroIsla1, canonesOxi, armamentoReforzado);
-	private Tienda tiendaIsla2 = new Tienda(tenderoIsla1, canaFlexible, ceboBueno, brebajeSalud, brebajeDefensa,
-			brebajeIniciativa);
+	private Tienda tiendaIsla2 = new Tienda(tenderoIsla1, canaFlexible, brebajeSalud, brebajeDefensa,
+			brebajeIniciativa, ceboBueno);
 	private Astillero mejorasIsla2 = new Astillero(astilleroIsla1, canonesReacond, armamentoMili);
 
 	// constructor
