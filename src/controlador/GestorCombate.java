@@ -17,17 +17,45 @@ import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
 import vista.VistaCombate;
 
+/**
+ * Controlador del sistema de combate. Especificamente de los combates que se
+ * dan durante la función Navegación de GestorMundo.
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class GestorCombate implements Minijuego {
-	// atributos
+	/** Instancia de Random de la clase java.util. */
 	private final Random ALEATORIO = new Random();
+	/**
+	 * Instancia de VistaCombate, la vista correspondiente a los eventos de combate.
+	 */
 	private VistaCombate vistaCombate = new VistaCombate();
+	/** Referencia al objeto Jugador. */
 	private Jugador jugador;
+	/**
+	 * Array de Enemigo, que corresponde al grupo de enemigos con el que se enfrenta
+	 * el jugador.
+	 */
 	private Enemigo[] enemigos;
+	/** Referencia al objeto Barco. */
 	private Barco barco;
+	/**
+	 * Array de Tripulante, que corresponde al grupo de tripulantes que contiene el
+	 * Barco.
+	 */
 	private Tripulante[] aliados;
+	/**
+	 * ArrayList de Consumible, que va a contener los Consumibles que posea el
+	 * Jugador.
+	 */
 	private ArrayList<Consumible> consumiblesJ = new ArrayList<>();
 
-	// constructor
+	/**
+	 * Constructor de la clase GestorCombate.
+	 * 
+	 * @param jugador El Jugador que va a participar en el combate
+	 */
 	public GestorCombate(Jugador jugador) {
 		this.jugador = jugador;
 		// referencia al barco del jugador
@@ -43,8 +71,10 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
-	// metodos de la interfaz
 	@Override
+	/**
+	 * Método de la interfaz Minijuego. Comienza el minijuego.
+	 */
 	public void comenzar() {
 		int contadorRondas = 1;
 
@@ -113,8 +143,12 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
-	// metodos propios
-	// comprueba que hay algun tripulante vivo en el grupo
+	/**
+	 * Coge el array de Tripulante y comprueba si hay algún Tripulante vivo dentro
+	 * de ese array.
+	 * 
+	 * @return Devuelve true si queda algún Tripulante vivo, false si no.
+	 */
 	private boolean aliadosVivos() {
 		int contadorVivos = 0;
 		for (int i = 0; i < aliados.length; i++) {
@@ -129,7 +163,12 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
-	// comprueba que hay algun enemigo vivo en el grupo
+	/**
+	 * Coge el array de Enemigo y comprueba si hay algún Enemigo vivo dentro de ese
+	 * array.
+	 * 
+	 * @return Devuelve true si queda algún Enemigo vivo, false si no.
+	 */
 	private boolean enemigosVivos() {
 		int contadorVivos = 0;
 		for (int i = 0; i < enemigos.length; i++) {
@@ -144,6 +183,13 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
+	/**
+	 * Método que gestiona la lógica de los turnos individuales de cada ICombatiente
+	 * que participe en el combate.
+	 * 
+	 * @param c Recibe una instancia de un objeto que herede de la interfaz
+	 *          ICombatiente.
+	 */
 	private void turno(ICombatiente c) {
 		if (c instanceof Tripulante) {
 			int opcion;
@@ -240,12 +286,24 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
-	// metodo para comprobar que el barco tiene canones
+	/**
+	 * Comprueba que el Inventario del Barco contiene algun objeto de la clase
+	 * Canon.
+	 * 
+	 * @return Devuelve true si tiene, false si no.
+	 */
 	private boolean tieneCanones() {
 		return barco.getInventarioB().getArmamentos().values().stream().anyMatch(a -> a instanceof Canon);
 	}
 
-	// metodo atacar de los canones
+	/**
+	 * Método para gestionar el ataque de los cañones. Crea un ArrayList local al
+	 * que se le añaden los objetos de la clase Canon. Los ordena en base al tier, y
+	 * los Enemigos del array reciben el daño del cañón de mayor tier tras aplicarle
+	 * la dispersión.
+	 * 
+	 * @param enemigos Recibe un array de Enemigo
+	 */
 	private void canonesAtacar(Enemigo[] enemigos) {
 		int danioCanones;
 		Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
@@ -268,31 +326,39 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
-	// comprueba si el barco tiene Armamento lo cual siempre va a ser cierto, a raiz
-	// de los Armamentos que haya crea una lista y la ordena en base al tier del
-	// armamento. Entonces coge los stats del armamento con mayor tier y aplica esos
-	// stats a los tripulantes. Tambien limpia el estado
+	/**
+	 * Crea un ArrayList con los objetos del Inventario de Barco que no son Canon,
+	 * osea que son armamentos. Ordena esta lista por tier, y aplica las
+	 * estadísticas correspondientes del equipamiento de mayor tier a todos los
+	 * Tripulante del array aliados.
+	 * 
+	 * También restaura los estados y la salud de todos los Tripulante a su estado
+	 * base.
+	 */
 	private void prepararTripulantes() {
-		if (!barco.getInventarioB().getArmamentos().values().stream().anyMatch(a -> a instanceof Canon)) {
-			Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
-			List<ArmamentoBarco> armamentos = new ArrayList<>();
-			for (String i : equipamientoBarco.keySet()) {
-				if (!(equipamientoBarco.get(i) instanceof Canon)) {
-					armamentos.add(equipamientoBarco.get(i));
-				}
+		Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
+		List<ArmamentoBarco> armamentos = new ArrayList<>();
+		for (String i : equipamientoBarco.keySet()) {
+			if (!(equipamientoBarco.get(i) instanceof Canon)) {
+				armamentos.add(equipamientoBarco.get(i));
 			}
-			armamentos.sort((a, b) -> b.getTier() - a.getTier());
-			for (Tripulante t : aliados) {
-				t.setEstado("");
-				t.setSaludTope(t.getSaludBase());
-				t.setSaludTope(t.getSaludTope() + (armamentos.get(0).getTier() * 10));
-				t.setSaludActual(t.getSaludTope());
-			}
+		}
+		armamentos.sort((a, b) -> b.getTier() - a.getTier());
+		for (Tripulante t : aliados) {
+			t.setEstado("");
+			t.setSaludTope(t.getSaludBase());
+			t.setSaludTope(t.getSaludTope() + (armamentos.get(0).getTier() * 10));
+			t.setSaludActual(t.getSaludTope());
 		}
 	}
 
-	// el enemigo selecciona un tripulante aleatorio al que atacar de entre los
-	// tripulantes vivos
+	/**
+	 * Selecciona un Tripulante vivo aleatorio entre los miembros vivos del array de
+	 * Tripulante.
+	 * 
+	 * @param aliados Recibe un array de Tripulante.
+	 * @return Devuelve un Tripulante.
+	 */
 	private Tripulante seleccionarAliado(Tripulante[] aliados) {
 		ArrayList<Tripulante> aliadosVivos = new ArrayList<Tripulante>();
 		for (int i = 0; i < aliados.length; i++) {
@@ -307,25 +373,40 @@ public class GestorCombate implements Minijuego {
 		return aliadosVivos.get(aliadoVivoAleatorio);
 	}
 
-	// el enemigo selecciona al tripulante mas debil de entre los tripulantes vivos
+	/**
+	 * Selecciona el Tripulante con menos vida de entre los Tripulantes vivos del
+	 * array.
+	 * 
+	 * @param aliados Recibe un array de Tripulante.
+	 * @return Devuelve un Tripulante.
+	 */
 	private Tripulante seleccionarDebil(Tripulante[] aliados) {
-		// STREAM PARA FILTRAR LOS ALIADOS VIVOS Y DE AHI SACAR EL MAS BAJO DE VIDA
-		// OLEEEEEEE
 		Tripulante aliadoDebil = Arrays.stream(aliados).filter(Tripulante::estaVivo)
 				.min((a, b) -> a.getSaludActual() - b.getSaludActual()).orElse(null);
 		return aliadoDebil;
 	}
 
-	// generar una cantidad de oro con una dispersion gaussiana
+	/**
+	 * Genera una cantidad de oro pseudoaleatoria con una dispersión gaussiana.
+	 * 
+	 * @return Devuelve una cantidad de oro pseudoaleatoria distribuida de forma
+	 *         normal con una dispersión estandar, donde la media es 15.
+	 */
 	private int generarGaussOro() {
 		int oro = (int) Math.round(ALEATORIO.nextGaussian() * 3 + 15);
 		return Math.max(1, Math.min(oro, 25));
 	}
 
-	// generar el array de enemigos contra el que se va a enfrentar el usuario
-	// existen varias pools de enmigos las cuales pueden salir por chances, despues
-	// de eso se genera un array de tamano aleatorio entre 2 y 4 y lo rellena con
-	// enemigos de la pool que haya salido. Devuelve ese array.
+	/**
+	 * Genera un encuentro aleatorio de enemigos. La pool de enemigos de la que va a
+	 * sacar los enemigos se selecciona de forma aleatoria. Cuanto menos rango
+	 * abarca una pool más rara es. Después de seleccionar la pool de enemigos
+	 * determina de forma aleatoria el tamaño del array, entre 2 y 4, y rellena el
+	 * array con enemigos seleccionados de forma aleatoria de la pool que se haya
+	 * seleccionado.
+	 * 
+	 * @return Devuelve un array de Enemigo.
+	 */
 	private Enemigo[] generarEncuentro() {
 		int random;
 		Enemigo[] encuentro;
@@ -400,8 +481,15 @@ public class GestorCombate implements Minijuego {
 		return encuentro;
 	}
 
-	// gestiona el aplicar los efectos correspondientes de los consumibles y
-	// restarlos del inventario del jugador
+	/**
+	 * Gestiona el uso de consumibles en combate. Aplica el efecto del Consumible
+	 * seleccionado al Tripulante seleccionado y lo resta del Inventario del
+	 * Jugador.
+	 * 
+	 * @param c Recibe un objeto de clase Consumible, que será el Consumible a usar.
+	 * @param t Recibe un objeto de clase Tripulante, que será el Tripulante
+	 *          objetivo del efecto del Consumible.
+	 */
 	private void gestionarConsumibles(Consumible c, Tripulante t) {
 		if (c.getEfecto() == "curar") {
 			int curacion = (int) ((double) t.getSaludTope() * 20 / 100);
@@ -416,19 +504,35 @@ public class GestorCombate implements Minijuego {
 		}
 
 		jugador.getInventario().restarItem(c.getId(), 1); // restamos el item al usarlo
-		
+
 		if (c.getCantidad() <= 0) {
 			consumiblesJ.remove(c);
 		}
 	}
 
-	// aplicar dispersion de daño
+	/**
+	 * Aplica al daño que se le pase una dispersión del 15%.
+	 * 
+	 * @param danio Recibe un Integer correspondiente al daño base.
+	 * @return Devuelve un Integer correspondiente al daño tras aplicar la
+	 *         dispersión.
+	 */
 	private int dispersion(int danio) {
 		int variacion = (int) (danio * (ALEATORIO.nextDouble() * 0.3 - 0.15));
 		return danio + variacion;
 	}
 
-	// genera un numero aleatorio entre num min y num max
+	/**
+	 * Genera un número aleatorio entre un número mímino y un número máximo que
+	 * recibe.
+	 * 
+	 * @param min Integer correspondiente al número mínimo que quieres que se
+	 *            genere.
+	 * @param max Integer correspondiente al número máximo que quieres que se
+	 *            genere.
+	 * @return Devuelve un Integer aleatorio entre el número mínimo y el número
+	 *         máximo que le has pasado.
+	 */
 	private int generarAleatorioEntre(int min, int max) {
 		return ALEATORIO.nextInt(max - min + 1) + min;
 	}
