@@ -72,16 +72,16 @@ public class MinijuegoPesca implements Minijuego {
 	private Pez generarPezRandom() {
 		// peces disponibles, para añadir mas peces simplemente crea un pez nuevo y
 		// añádelo a la lista de peces
-		Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 80);
-		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 10, 25, 30);
-		Pez ballena = new Pez("Ballena", "ballena", 200, 5, 150);
+		Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 70);
+		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 10, 25, 10);
+		Pez ballena = new Pez("Ballena", "ballena", 200, 5, 90);
 		Pez gallo = new Pez("Gallo", "gallo", 10, 40, 15);
-		Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 40);
-		Pez dorada = new Pez("Dorada", "dorada", 15, 40, 30);
-		Pez calamar = new Pez("Calamar", "calamar", 15, 30, 40);
-		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 20);
-		Pez atun = new Pez("Atún", "atun", 85, 10, 70);
-		Pez jurel = new Pez("Jurel", "jurel", 5, 45, 20);
+		Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 25);
+		Pez dorada = new Pez("Dorada", "dorada", 15, 40, 20);
+		Pez calamar = new Pez("Calamar", "calamar", 15, 30, 25);
+		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 15);
+		Pez atun = new Pez("Atún", "atun", 85, 10, 60);
+		Pez jurel = new Pez("Jurel", "jurel", 5, 45, 15);
 		int totalRareza = 0;
 		int random;
 		int rarezaAcumulada = 0;
@@ -151,7 +151,7 @@ public class MinijuegoPesca implements Minijuego {
 			case 1:
 				vistaPesca.mensajesLucha(opcion);
 				energiaPActual = Math.max(0, energiaPActual - 3);
-				distanciaActual = Math.max(0, distanciaActual - 4);
+				distanciaActual = Math.max(0, distanciaActual - 5);
 				if (ALEATORIO.nextInt(100) < Math.min(80, pez.getFuerza()) && energiaPActual > 0) {
 					vistaPesca.imprimirMensaje("El pez se revuelve violentamente!");
 					lineaActual = Math.max(0, lineaActual - (3 + (int) ((double) pez.getFuerza() / 20)));

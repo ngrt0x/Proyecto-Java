@@ -159,6 +159,7 @@ public class GestorNPC {
 		int opcion;
 		switch (objetivo.getNombre()) {
 		case ("Antonio 'El Amargao'"):
+			vistaNpc.imprimirEspacio();
 			vistaNpc.imprimirMensaje(objetivo.getNombre()
 					+ ": 'Puede que si, puede que no. Unas moneditas me pueden refrescar la memoria. No creo que la gente de ésta isla sepa nada sobre tesoros...\n"
 					+ "Excepto yo. O igual no. Eso depende de tu bolsillo.'");
@@ -167,9 +168,11 @@ public class GestorNPC {
 			case 1:
 				// comprueba que tengas suficiente oro en el inventario
 				if (j.getOro() < 10) {
+					vistaNpc.imprimirEspacio();
 					vistaNpc.imprimirMensaje("No tienes suficientes monedas para darle!");
 				} else {
 					j.restarOro(10);
+					vistaNpc.imprimirEspacio();
 					vistaNpc.imprimirMensaje(
 							"Le das las monedas a Antonio. El tipo sonríe, ésta vez enseñando toda, o lo que queda, de su dentadura.");
 					vistaNpc.imprimirMensaje(objetivo.getNombre()
@@ -186,16 +189,19 @@ public class GestorNPC {
 			}
 			break;
 		case ("Mujer desmayada"):
+			vistaNpc.imprimirEspacio();
 			vistaNpc.imprimirMensaje(
 					"Al acercarte a la mujer puedes ver claramente que está inconsciente. Tiene una herida notable en la cabeza.");
 			opcion = vistaNpc.actuarMujerDesmayada();
 			switch (opcion) {
 			case 1:
 				if (j.getInventario().getItem().containsKey("pot_salud")) {
+					vistaNpc.imprimirEspacio();
 					vistaNpc.imprimirMensaje(
 							"Acercas el frasco a la boca a la muchacha, y viertes el contenido con cuidado no vaya a ser que se atragante.");
 					j.getInventario().restarItem("pot_salud", 1);
 					objetivo.setNombre("Sabrina la Bucanera");
+					vistaNpc.imprimirEspacio();
 					vistaNpc.imprimirMensaje(objetivo.getNombre()
 							+ ": '*cof**cof*... Sigo viva?? Qué ha pasado? Has sido tú quien me ha ayudado o estás con esos piratuchos del tres al cuarto?!\n"
 							+ "Cómo pueden tener tan poca clase para atracar a una chica entre 3? En fin, vergüenza me daría ser ellos.'\n"
@@ -207,7 +213,7 @@ public class GestorNPC {
 							+ "'...esos desgraciados se han llevado mi llave! Mi padre era un famoso pirata. Me abandonó cuando yo era aún muy pequeña, y lo único\n"
 							+ "que tengo que demuestre su existencia es esa llave que le dejó a mi madre. Se supone que era la llave de uno de sus cofres personales.\n"
 							+ "Según él, el contenido de ese cofre haría palidecer hasta a los más grandes hombres.'");
-					vistaNpc.imprimirMensaje("");
+					vistaNpc.imprimirEspacio();
 					vistaNpc.imprimirMensaje(objetivo.getNombre() + ": 'Bueno " + j.getNombre()
 							+ " muchísimas gracias por salvarme la vida, te deseo suerte en todo lo que te propongas.\n"
 							+ "Yo me pondré en marcha trás esos ladronzuelos en cuanto mi barco esté listo. Con mis habilidades de navegante les tendré a tiro en\n"

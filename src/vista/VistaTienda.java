@@ -18,6 +18,7 @@ public class VistaTienda {
 	// metodos propios
 	public int hablarTendero1(Tienda t, Isla islaActual) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		switch (islaActual.getNombre()) {
 		case "Isla Langosta":
 			gestorVista.imprimirMensaje(t.getTendero().getNombre()
@@ -42,6 +43,7 @@ public class VistaTienda {
 
 	public int hablarTendero2(Tienda t) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(t.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n" + "1. Comprar\n"
 				+ "2. Vender\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
@@ -54,6 +56,7 @@ public class VistaTienda {
 
 	public int hablarAstillero1(Astillero ast, Isla islaActual) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		switch (islaActual.getNombre()) {
 		case "Isla Langosta":
 			gestorVista.imprimirMensaje(ast.getTendero().getNombre()
@@ -80,6 +83,7 @@ public class VistaTienda {
 
 	public int hablarAstillero2(Astillero ast) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(ast.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n"
 				+ "1. Comprar mejoras de barco\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
@@ -92,8 +96,9 @@ public class VistaTienda {
 
 	public int mostrarStock(GestorTienda gt, Tienda t) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(t.getTendero().getPrimeraFrase());
-		gestorVista.imprimirMensaje("");
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("======================== STOCK ========================");
 		Map<String, Item> stock = t.getStock().getItems();
 		int contador = 1;
@@ -116,8 +121,9 @@ public class VistaTienda {
 
 	public int mostrarMejoras(GestorAstillero ga, Astillero ast) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(ast.getTendero().getPrimeraFrase());
-		gestorVista.imprimirMensaje("");
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("======================= MEJORAS ========================");
 		Map<String, Item> stock = ast.getStock().getItems();
 		int contador = 1;
@@ -141,6 +147,7 @@ public class VistaTienda {
 	public void mostrarInventario(Jugador j, int opcion) {
 		int contador = 1;
 		if (opcion != 0) {
+			gestorVista.imprimirEspacio();
 			gestorVista.imprimirMensaje("===================== INVENTARIO =====================");
 			gestorVista.imprimirMensaje("Tu oro: " + j.getOro());
 			Map<String, Item> inventario;
@@ -148,8 +155,10 @@ public class VistaTienda {
 			if (opcion == 1) {
 				inventario = j.getInventario().getItem();
 				if (inventario.isEmpty()) {
+					gestorVista.imprimirEspacio();
 					gestorVista.imprimirMensaje("No tienes ningún objeto en el inventario!");
 				} else {
+					gestorVista.imprimirEspacio();
 					for (String i : inventario.keySet()) {
 						gestorVista.imprimirMensaje(contador + ". " + inventario.get(i).getNombre() + ":");
 						gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
@@ -160,8 +169,10 @@ public class VistaTienda {
 			} else if (opcion == 2) {
 				inventario = j.getInventario().getPeces();
 				if (inventario.isEmpty()) {
+					gestorVista.imprimirEspacio();
 					gestorVista.imprimirMensaje("No tienes ningún pez en el inventario!");
 				} else {
+					gestorVista.imprimirEspacio();
 					for (String i : inventario.keySet()) {
 						gestorVista.imprimirMensaje(contador + ". " + inventario.get(i).getNombre() + ":");
 						gestorVista.imprimirMensaje("\tPrecio: " + inventario.get(i).getPrecio() + "g");
@@ -174,7 +185,7 @@ public class VistaTienda {
 
 	public int ventanaVenta(GestorTienda t, int opcionInventario) {
 		Jugador j = t.getJugador();
-
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Que quiere vender capitan?");
 		int opcionVenta = gestorVista.pedirNum(); // PEDIR EL NUMERO DEL ITEM EN LA LISTA DEL INVENTARIO
 
@@ -192,6 +203,7 @@ public class VistaTienda {
 
 	public int menuConfirmacionCompra(Item i) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		gestorVista
 				.imprimirMensaje("Esto es lo que quieres comprar?\n" + i.getNombre() + " por " + i.getPrecio() + "g?");
 		gestorVista.imprimirMensaje("1. Si\n2. No");
@@ -205,6 +217,7 @@ public class VistaTienda {
 
 	public int menuConfirmacionVenta(Item i) {
 		int opcion;
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Seguro que quieres vender " + i.getNombre() + " por " + i.getPrecio() + "g?");
 		gestorVista.imprimirMensaje("1. Si\n2. No");
 		opcion = gestorVista.pedirNum();
@@ -216,15 +229,18 @@ public class VistaTienda {
 	}
 
 	public void mensajeCompra(GestorTienda t) {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(t.getTienda().getTendero().getNombre() + ": 'Gracias por su compra.'");
 	}
 
 	public void mensajeMejora(GestorAstillero ast) {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(ast.getAstillero().getTendero().getNombre()
 				+ ": 'Gracias! Instalaremos su nuevo equipamiento en un santiamén capitán.'");
 	}
 
 	public void mensajeVenta(GestorTienda t, Item itemVendido) {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(
 				"Has vendido x1 " + itemVendido.getNombre() + ", por " + itemVendido.getPrecio() + "g.");
 	}

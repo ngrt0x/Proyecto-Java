@@ -127,7 +127,7 @@ public class JuegoControlador {
 							vistaJuego.mostrarInventario(jugador, opcionInventario);
 						}
 						// leer el diario
-						case 5 -> jugador.getDiario().leerDiario();
+						case 5 -> vistaJuego.mostrarDiario(jugador.getDiario());
 						}
 						accion = vistaJuego.menuManana2(jugador);
 					}
@@ -158,7 +158,7 @@ public class JuegoControlador {
 							vistaJuego.mostrarInventario(jugador, opcionInventario);
 						}
 						// leer Diario
-						case 4 -> jugador.getDiario().leerDiario();
+						case 4 -> vistaJuego.mostrarDiario(jugador.getDiario());
 						}
 						accion = vistaJuego.menuComida2(jugador);
 
@@ -180,12 +180,12 @@ public class JuegoControlador {
 								switch (accion) {
 								// entrar a la tienda
 								case 1:
-									vistaJuego.mensajeEntrarTienda();
+									vistaJuego.mensajeEntrarTienda(jugador.getIslaActual());
 									gestorTienda.entrarTienda();
 									break;
 								// entrar al astillero
 								case 2:
-									vistaJuego.mensajeEntrarAstillero();
+									vistaJuego.mensajeEntrarAstillero(jugador.getIslaActual());
 									gestorAstillero.entrarTienda();
 									break;
 								// hablar con los NPCs
@@ -224,7 +224,7 @@ public class JuegoControlador {
 							vistaJuego.mostrarInventario(jugador, opcionInventario);
 							break;
 						case 4:
-							jugador.getDiario().leerDiario();
+							vistaJuego.mostrarDiario(jugador.getDiario());
 							break;
 						}
 						accion = vistaJuego.menuTardenoche2(jugador);
@@ -235,9 +235,8 @@ public class JuegoControlador {
 				case NAVEGACION:
 					Isla nuevaIsla = gestorMundo.navegar();
 					mundo.setUbicacionActual(nuevaIsla);
-					jugador.setIslaActual(nuevaIsla);
-					avanzarFase();
 					diaActual++;
+					avanzarFase();
 					break;
 				}
 			}

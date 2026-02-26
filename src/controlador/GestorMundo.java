@@ -55,6 +55,7 @@ public class GestorMundo {
 				echarAncla = vistaNavegacion.confirmarEntrarIsla(isla);
 				break;
 			}
+			vistaNavegacion.limpiarPantalla();
 		}
 		return isla;
 	}

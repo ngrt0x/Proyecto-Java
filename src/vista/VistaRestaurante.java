@@ -77,7 +77,7 @@ public class VistaRestaurante {
 	// su paciencia
 	public void mostrarClientes(ArrayList<Cliente> clientes) {
 		int longitudBarra = 20;
-
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("====================== CLIENTES =======================");
 		for (Cliente c : clientes) {
 			// mostrar el pedido del cliente
@@ -234,20 +234,24 @@ public class VistaRestaurante {
 	}
 
 	public void mensajePlatoCocinado(Plato p) {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Has cocinado: " + p.getNombre() + "!");
 	}
 
 	public void mensajeNoHayPlatos() {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("No tienes ningún plato preparado!");
 	}
 
 	public void mensajePlatoEntregado(Cliente c, Plato p) {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Has entregado " + p.getNombre() + " a " + c.getNombre() + "!");
 	}
 
 	public void mensajeFin(Jugador j) {
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("=== TURNO DE COMIDAS FINALIZADO ===");
 		gestorVista.imprimirMensaje(j.getNombre()
-				+ ": Restaurante cerrado canallas! El que se haya quedado con hambre que hubiera venido antes!");
+				+ ": 'Restaurante cerrado canallas! El que se haya quedado con hambre que hubiera venido antes!'");
 	}
 }
