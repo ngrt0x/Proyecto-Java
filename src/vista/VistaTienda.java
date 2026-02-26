@@ -16,18 +16,19 @@ public class VistaTienda {
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
-	public int hablarTendero1(Tienda t, Isla islaActual) {
+	public int hablarTendero1(Isla islaActual) {
 		int opcion;
+		Tienda tienda = islaActual.getTiendaLocal();
 		gestorVista.imprimirEspacio();
 		switch (islaActual.getNombre()) {
 		case "Isla Langosta":
-			gestorVista.imprimirMensaje(t.getTendero().getNombre()
+			gestorVista.imprimirMensaje(tienda.getTendero().getNombre()
 					+ ": 'Buenas tardes.' El tendero te observa con cara de pocos amigos.\n"
 					+ "'Eres nuevo por aquí verdad? Más te vale no andar armando jaleo. Qué te puedo ofrecer?'\n"
 					+ "1. Comprar\n" + "2. Vender\n" + "0. Salir");
 			break;
 		case "Refugio Sombrío":
-			gestorVista.imprimirMensaje(t.getTendero().getNombre()
+			gestorVista.imprimirMensaje(tienda.getTendero().getNombre()
 					+ ": 'Pasa pasa, cuida no te des en la cabeza con los trastos. Qué te puedo ofrecer pequeño lobo de mar?'\n"
 					+ "La señora te hace un gesto con la mano, dirigiendo tu mirada a un escaparate lleno de artículos.\n"
 					+ "1. Comprar\n" + "2. Vender\n" + "0. Salir");
@@ -41,10 +42,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
-	public int hablarTendero2(Tienda t) {
+	public int hablarTendero2(Isla islaActual) {
 		int opcion;
+		Tienda tienda = islaActual.getTiendaLocal();
 		gestorVista.imprimirEspacio();
-		gestorVista.imprimirMensaje(t.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n" + "1. Comprar\n"
+		gestorVista.imprimirMensaje(tienda.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n" + "1. Comprar\n"
 				+ "2. Vender\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > 2) {
@@ -54,12 +56,13 @@ public class VistaTienda {
 		return opcion;
 	}
 
-	public int hablarAstillero1(Astillero ast, Isla islaActual) {
+	public int hablarAstillero1(Isla islaActual) {
 		int opcion;
+		Astillero astillero = islaActual.getAstilleroLocal();
 		gestorVista.imprimirEspacio();
 		switch (islaActual.getNombre()) {
 		case "Isla Langosta":
-			gestorVista.imprimirMensaje(ast.getTendero().getNombre()
+			gestorVista.imprimirMensaje(astillero.getTendero().getNombre()
 					+ ": 'Buenas tardes capitán! Precioso navío el que trae consigo, pero creo que le vendrían bien unos retoques.'\n"
 					+ "1. Comprar mejoras de barco\n" + "0. Salir");
 			break;
@@ -67,7 +70,7 @@ public class VistaTienda {
 			gestorVista.imprimirMensaje(
 					"El trabajador del astillero, de aspecto lúgubre, te saluda sin mucha energía cuando entras por la puerta.\n"
 							+ "No puedes evitar fijarte en la prótesis de metal que tiene por mano.\n"
-							+ ast.getTendero().getNombre()
+							+ astillero.getTendero().getNombre()
 							+ ": 'Cuando me preguntan sobre mi mano suelo decir que la perdí en una fiera batalla contra un tiburón blanco.\n"
 							+ "La verdad es que la perdí en un accidente laboral porque mi astillero no cumplía con los requisitos de la norma ISO 45001.\n"
 							+ "1. Comprar mejoras de barco\n" + "0. Salir");
@@ -81,10 +84,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
-	public int hablarAstillero2(Astillero ast) {
+	public int hablarAstillero2(Isla islaActual) {
 		int opcion;
+		Astillero astillero = islaActual.getAstilleroLocal();
 		gestorVista.imprimirEspacio();
-		gestorVista.imprimirMensaje(ast.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n"
+		gestorVista.imprimirMensaje(astillero.getTendero().getNombre() + ": 'Qué te puedo ofrecer?'\n"
 				+ "1. Comprar mejoras de barco\n" + "0. Salir");
 		opcion = gestorVista.pedirNum();
 		while (opcion < 0 || opcion > 1) {

@@ -36,7 +36,7 @@ public class GestorTienda {
 	// metodos propios
 	public void entrarTienda() {
 		int opcion;
-		opcion = vistaTienda.hablarTendero1(t,j.getIslaActual());
+		opcion = vistaTienda.hablarTendero1(j.getIslaActual());
 		while (opcion != 0) {
 			switch (opcion) {
 			case 1 -> { // OPCION COMPRAR AL TENDERO
@@ -53,7 +53,7 @@ public class GestorTienda {
 				}
 			}
 			}
-			opcion = vistaTienda.hablarTendero2(t);
+			opcion = vistaTienda.hablarTendero2(j.getIslaActual());
 		}
 	}
 

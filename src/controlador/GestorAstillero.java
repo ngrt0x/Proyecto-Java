@@ -32,14 +32,14 @@ public class GestorAstillero {
 	// metodos propios
 	public void entrarTienda() {
 		int opcion;
-		opcion = vistaTienda.hablarAstillero1(ast, j.getIslaActual());
+		opcion = vistaTienda.hablarAstillero1(j.getIslaActual());
 		while (opcion != 0) {
 			int opcionCompra = vistaTienda.mostrarMejoras(this, ast);
 			while (opcionCompra != 0) {
 				comprarMejora(opcionCompra);
 				opcionCompra = vistaTienda.mostrarMejoras(this, ast);
 			}
-			opcion = vistaTienda.hablarAstillero2(ast);
+			opcion = vistaTienda.hablarAstillero2(j.getIslaActual());
 		}
 	}
 
