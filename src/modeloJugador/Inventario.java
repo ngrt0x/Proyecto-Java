@@ -22,7 +22,8 @@ public class Inventario {
 	}
 
 	public HashMap<String, Item> getItems() {
-		HashMap<String, Item> itemsYPescados = inventario.get("Items");
+		HashMap<String, Item> itemsYPescados = new HashMap<>();
+		itemsYPescados.putAll(inventario.get("Items"));
 		itemsYPescados.putAll(inventario.get("Peces"));
 		return itemsYPescados;
 	}
@@ -38,28 +39,24 @@ public class Inventario {
 	// metodos propios
 	public void anadirItem(Item nuevoItem) {
 		boolean yaEsta = false;
-		for (HashMap<String, Item> grupo : inventario.values()) {
-			for (Item item : grupo.values()) {
-				if (item.getId().equals(nuevoItem.getId())) {
-					yaEsta = true;
-				}
-			}
+
+		if (getItems().containsKey(nuevoItem.getId())) {
+			yaEsta = true;
 		}
 
 		if (yaEsta) {
-			for (HashMap<String, Item> grupo : inventario.values()) {
-				for (Item item : grupo.values()) {
-					if (item.getId().equals(nuevoItem.getId())) {
-						item.sumarCantidad(1);
-					}
-				}
+			if (nuevoItem instanceof Pez) {
+				inventario.get("Peces").get(nuevoItem.getId()).sumarCantidad(1);
+			} else {
+				inventario.get("Items").get(nuevoItem.getId()).sumarCantidad(1);
 			}
-		} else if (nuevoItem instanceof Pez) {
-			inventario.get("Peces").put(nuevoItem.getId(), nuevoItem);
 		} else {
-			inventario.get("Items").put(nuevoItem.getId(), nuevoItem);
+			if (nuevoItem instanceof Pez) {
+				inventario.get("Peces").put(nuevoItem.getId(), nuevoItem);
+			} else {
+				inventario.get("Items").put(nuevoItem.getId(), nuevoItem);
+			}
 		}
-
 	}
 
 	// modificado la funcion restarItem porque me he dado cuenta que para restar el
