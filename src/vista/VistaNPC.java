@@ -2,28 +2,87 @@ package vista;
 
 import controlador.JuegoControlador;
 import modeloJugador.Jugador;
+import modeloMundo.Isla;
 import modeloPersonajes.NPC;
 import modeloPersonajes.Tripulante;
+import java.util.Random;
 
 public class VistaNPC {
 	// atributos
+	private final Random ALEATORIO = new Random();
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos
 	public void primeraFrase(NPC npc) {
-		gestorVista.imprimirMensaje(npc.getPrimeraFrase());
+		gestorVista.imprimirMensaje(npc.getNombre() + ": " + npc.getPrimeraFrase());
 	}
 
-	public void menuDialogo(NPC npc) {
-
+	public void fraseRandom(NPC npc) {
+		gestorVista.imprimirMensaje(
+				npc.getNombre() + ": " + npc.getDialogos()[ALEATORIO.nextInt(npc.getDialogos().length)]);
 	}
 
-	public void hablar(NPC npc) {
-
+	public int hablarNPCConPista(NPC npc) {
+		int opcion;
+		gestorVista.imprimirMensaje(npc.getOpcionesDialogo());
+		opcion = gestorVista.pedirNum();
+		while (opcion < 0 || opcion > npc.getRespuestas().length + 1) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
 	}
 
-	public void entregarPista(NPC npc, Jugador j) {
+	public int hablarNPC(NPC npc) {
+		int opcion;
+		gestorVista.imprimirMensaje(npc.getOpcionesDialogo());
+		opcion = gestorVista.pedirNum();
+		while (opcion < 0 || opcion > npc.getRespuestas().length) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
 
+	public void respuestaNPC(NPC npc, int opcion) {
+		String[] respuestasNpc = npc.getRespuestas();
+		gestorVista.imprimirMensaje(npc.getNombre() + ": " + respuestasNpc[opcion - 1]);
+	}
+
+	public int menuHabitantes1(Isla isla) {
+		NPC[] habitantes = isla.getHabitantes();
+		// muestra los habitantes
+		gestorVista.imprimirMensaje("Te das un paseo por " + isla.getNombre()
+				+ " hasta llegar a lo que parece ser una plaza. Este podría ser un buen sitio para conseguir algo de información.\n"
+				+ "Ves a varias personas que te llaman la atención. Con quién quieres hablar?");
+		for (int i = 0; i < habitantes.length; i++) {
+			gestorVista.imprimirMensaje((i + 1) + ". " + habitantes[i].getNombre());
+		}
+		gestorVista.imprimirMensaje("0. Atrás");
+		// seleccion del habitante
+		int opcionHabitante = gestorVista.pedirNum();
+		while (opcionHabitante > habitantes.length || opcionHabitante < 0) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcionHabitante = gestorVista.pedirNum();
+		}
+		return opcionHabitante;
+	}
+
+	public int menuHabitantes2(Isla isla) {
+		NPC[] habitantes = isla.getHabitantes();
+		// muestra los habitantes
+		gestorVista.imprimirMensaje("Con quién quieres hablar?");
+		for (int i = 0; i < habitantes.length; i++) {
+			gestorVista.imprimirMensaje((i + 1) + ". " + habitantes[i].getNombre());
+		}
+		gestorVista.imprimirMensaje("0. Atrás");
+		// seleccion del habitante
+		int opcionHabitante = gestorVista.pedirNum();
+		while (opcionHabitante > habitantes.length || opcionHabitante < 0) {
+			gestorVista.imprimirError("Selecciona una opción válida: ");
+			opcionHabitante = gestorVista.pedirNum();
+		}
+		return opcionHabitante;
 	}
 
 	public void dialogosTragaldabas(Jugador j) {
@@ -185,6 +244,33 @@ public class VistaNPC {
 			break;
 		}
 
+	}
+
+	public void imprimirMensaje(String msg) {
+		gestorVista.imprimirMensaje(msg);
+	}
+
+	public int pedirMoneditasAntonio() {
+		int opcion;
+		gestorVista.imprimirMensaje(
+				"1. Dar 10 monedas de oro a este energúmeno.\n2. Ni hablar pelao, me las puedo apañar sin tu información.");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 1 || opcion > 2) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
+	}
+
+	public int actuarMujerDesmayada() {
+		int opcion;
+		gestorVista.imprimirMensaje("1. Dar un brebaje de salud a la mujer\n2. Ignorar a la mujer y seguir a tu rollo");
+		opcion = gestorVista.pedirNum();
+		while (opcion < 1 || opcion > 2) {
+			gestorVista.imprimirError("Introduce una opción válida: ");
+			opcion = gestorVista.pedirNum();
+		}
+		return opcion;
 	}
 
 }

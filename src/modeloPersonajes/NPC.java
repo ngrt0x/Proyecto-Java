@@ -4,27 +4,18 @@ public class NPC extends Persona {
 	// atributos propios
 	protected boolean conocido;
 	protected boolean tienePista;
-	protected String opcionesDialogo;
-	protected String pista;
 
 	// constructor para los NPCs que pueden tener pistas, que por lo genera son los
 	// NPCs que tienen mas interacciones
-	public NPC(String nombre, String[] dialogos, String opcionesDialogo, String primeraFrase, boolean tienePista, String pista) {
+	public NPC(String nombre, String[] dialogos, String opcionesDialogo, String[] respuestas, String primeraFrase,
+			boolean tienePista) {
 		this.nombre = nombre;
 		this.dialogos = dialogos;
 		this.opcionesDialogo = opcionesDialogo;
+		this.respuestas = respuestas;
 		this.primeraFrase = primeraFrase;
 		this.tienePista = tienePista;
-		this.pista = pista;
 		this.conocido = false;
-	}
-
-	// constructor para los NPCs normales habitantes de la isla sin pistas y con
-	// dialogos normales
-	public NPC(String nombre, String[] dialogos, String primeraFrase) {
-		this.nombre = nombre;
-		this.dialogos = dialogos;
-		this.primeraFrase = primeraFrase;
 	}
 
 	// constructor para los tenderos, clientes u otros NPCs sin pistas ni tantas
@@ -47,16 +38,12 @@ public class NPC extends Persona {
 	public void setConocido(boolean conocido) {
 		this.conocido = conocido;
 	}
-	
+
 	public boolean tienePista() {
 		return tienePista;
 	}
-	
-	public String getPista() {
-		return pista;
-	}
-	
-	public String getOpciones() {
+
+	public String getOpcionesDialogo() {
 		return opcionesDialogo;
 	}
 

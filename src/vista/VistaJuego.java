@@ -5,9 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import modeloJugador.Jugador;
-import modeloMundo.Isla;
 import modeloObjetos.Item;
-import modeloPersonajes.NPC;
 import modeloPersonajes.Tripulante;
 
 public class VistaJuego {
@@ -374,29 +372,6 @@ public class VistaJuego {
 			opcionT = gestorVista.pedirNum();
 		}
 		return opcionT;
-	}
-	
-	public NPC menuHabitantes(Isla isla) {
-		NPC[] habitantes = isla.getHabitantes();
-		// muestra los habitantes
-		for(int i = 0 ; i < habitantes.length ; i++) {
-			gestorVista.imprimirMensaje((i+1) + ". " + habitantes[i].getNombre());
-		}
-		gestorVista.imprimirMensaje("0. Atrás");
-		// seleccion del habitante
-		int opcionHabitante = gestorVista.pedirNum();
-		while(opcionHabitante > habitantes.length || opcionHabitante < 0) {
-			gestorVista.imprimirError("Selecciona una opción válida: ");
-			opcionHabitante = gestorVista.pedirNum();
-		}
-		
-		if(opcionHabitante == 0) return null;
-		
-		return habitantes[opcionHabitante-1];
-	}
-
-	public void menuSeleccionViaje() {
-
 	}
 
 	private int generarAleatorioEntre(int min, int max) {

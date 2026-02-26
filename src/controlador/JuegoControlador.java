@@ -80,7 +80,7 @@ public class JuegoControlador {
 					mundo.setUbicacionActual(nuevaIsla);
 					jugador.setIslaActual(nuevaIsla);
 				}
-				case 8 -> gestorNPC.hablarNPC(jugador);
+				case 8 -> gestorNPC.hablarNpc(jugador);
 				}
 				opcion = vistaJuego.menuDebug();
 			}
@@ -190,7 +190,7 @@ public class JuegoControlador {
 									break;
 								// hablar con los NPCs
 								case 3:
-									vistaJuego.menuHabitantes(mundo.getUbicacionActual());
+									gestorNPC.hablarNpc(jugador);
 									break;
 								}
 								accion = vistaJuego.menuIsla2(jugador);
@@ -223,7 +223,7 @@ public class JuegoControlador {
 							int opcionInventario = vistaJuego.menuInventarios();
 							vistaJuego.mostrarInventario(jugador, opcionInventario);
 							break;
-						case 4: 
+						case 4:
 							jugador.getDiario().leerDiario();
 							break;
 						}
