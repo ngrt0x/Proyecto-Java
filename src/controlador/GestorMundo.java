@@ -85,7 +85,7 @@ public class GestorMundo {
 	}
 
 	public void repartirIslas(Isla isla, Isla[][] mapa) {
-		int numIslas =10;
+		int numIslas = 10;
 		for (int i = 0; i < numIslas; i++) {
 			int x = ALEATORIO.nextInt(mapa.length);
 			int y = ALEATORIO.nextInt(mapa.length);
@@ -100,12 +100,30 @@ public class GestorMundo {
 			}
 			// si no existe nada en el espacio donde se generara la isla, la genera en ese
 			// espacio, sino, no se genera
-			if (mapa[x + 2][y] == null && mapa[x - 2][y] == null && mapa[x][y + 2] == null && mapa[x][y - 2] == null) {
+			if (sePuedeColocar(mapa, 20, x, y)) {
 				hacerFormaIsla(mapa, x, y, mundo.getIslasDisponibles().get("Refugio Sombrío"));
 			} else {
 				i--;
 			}
 		}
+	}
+
+	// COMPROBACION SI LA ISLA SE PUEDE COLOCAR, INCLUYENDO MARGEN
+	private boolean sePuedeColocar(Isla[][] mapa, int margen, int x, int y) {
+		if (mapa[x][y] != null)
+			return false;
+
+		for (int i = x - margen; i <= x + margen; i++) {
+			for (int j = y - margen; j <= y + margen; j++) {
+
+				if (i >= 0 && i < mapa.length && j >= 0 && j < mapa[0].length) {
+					if (mapa[i][j] != null) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	public void repartirEncuentrosEnemigos(Isla[][] mapa) {
