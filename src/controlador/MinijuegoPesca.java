@@ -17,6 +17,7 @@ public class MinijuegoPesca implements Minijuego {
 	private final Random ALEATORIO = new Random();
 	private int resistenciaLinea;
 	private Jugador j;
+	boolean tieneCeboBueno;
 
 	// constructor
 	public MinijuegoPesca(Jugador jugador) {
@@ -33,6 +34,7 @@ public class MinijuegoPesca implements Minijuego {
 		// comprueba las cañas de pescar que tenga el jugador
 		resistenciaLinea = comprobarCana();
 		while (opcion != 0) {
+			tieneCeboBueno = false;
 			switch (opcion) {
 			case 1:
 				if (resistenciaLinea == 0) {
@@ -72,20 +74,22 @@ public class MinijuegoPesca implements Minijuego {
 	private Pez generarPezRandom() {
 		// peces disponibles, para añadir mas peces simplemente crea un pez nuevo y
 		// añádelo a la lista de peces
-		Pez tiburon = new Pez("Tiburón", "tiburon", 100, 10, 70);
-		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 10, 25, 10);
-		Pez ballena = new Pez("Ballena", "ballena", 200, 5, 90);
-		Pez gallo = new Pez("Gallo", "gallo", 10, 40, 15);
+		Pez tiburon = new Pez("Tiburón", "tiburon", 200, 10, 70);
+		Pez pezGlobo = new Pez("Pez globo", "pez_globo", 16, 25, 13);
+		Pez ballena = new Pez("Ballena", "ballena", 500, 5, 90);
+		Pez gallo = new Pez("Gallo", "gallo", 18, 40, 20);
 		Pez bota = new Pez("Bota vieja", "bota_vieja", 0, 15, 25);
-		Pez dorada = new Pez("Dorada", "dorada", 15, 40, 20);
-		Pez calamar = new Pez("Calamar", "calamar", 15, 30, 25);
-		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 15);
-		Pez atun = new Pez("Atún", "atun", 85, 10, 60);
-		Pez jurel = new Pez("Jurel", "jurel", 5, 45, 15);
+		Pez dorada = new Pez("Dorada", "dorada", 22, 40, 20);
+		Pez calamar = new Pez("Calamar", "calamar", 17, 30, 25);
+		Pez boqueron = new Pez("Boquerón", "boqueron", 5, 45, 13);
+		Pez atun = new Pez("Atún", "atun", 150, 10, 60);
+		Pez jurel = new Pez("Jurel", "jurel", 8, 45, 13);
+		Pez pezEspada = new Pez("Pez espada", "pez_espada", 175, 10, 65);
 		int totalRareza = 0;
 		int random;
 		int rarezaAcumulada = 0;
-		Pez[] listaPeces = { tiburon, pezGlobo, gallo, bota, dorada, calamar, boqueron, atun, jurel, ballena };
+		Pez[] listaPeces = { tiburon, pezGlobo, gallo, bota, dorada, calamar, boqueron, atun, jurel, ballena,
+				pezEspada };
 		for (Pez p : listaPeces) {
 			totalRareza += p.getRareza();
 		}
@@ -108,7 +112,8 @@ public class MinijuegoPesca implements Minijuego {
 		// chequea si el jugador ha comprado cebo bueno, si es verdad reduce los turnos
 		// de espera para que pique algo
 		if (j.getInventario().getItems().containsKey("cebo_bueno")) {
-			turnosAEsperar = generarAleatorioEntre(1, 4);
+			turnosAEsperar = generarAleatorioEntre(1, 3);
+			tieneCeboBueno = true;
 		}
 		for (int i = 0; i < turnosAEsperar; i++) {
 			Thread.sleep(3000);
@@ -179,6 +184,7 @@ public class MinijuegoPesca implements Minijuego {
 			if (lineaActual == 0 || distanciaActual == DISTANCIA_TOPE) {
 				finalizado = true;
 				vistaPesca.resultadoEscape(lineaActual, distanciaActual, DISTANCIA_TOPE);
+				j.getInventario().restarItem("cebo_bueno", 1);
 			}
 			if (energiaPActual == 0 && distanciaActual == 0 && lineaActual != 0) {
 				finalizado = true;

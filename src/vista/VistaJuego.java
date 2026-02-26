@@ -42,6 +42,7 @@ public class VistaJuego {
 
 	public void mostrarInventario(Jugador j, int opcion) {
 		if (opcion != 0) {
+			gestorVista.imprimirEspacio();
 			gestorVista.imprimirMensaje("===================== INVENTARIO =====================");
 			gestorVista.imprimirMensaje("Tu oro: " + j.getOro());
 			Map<String, Item> inventario;
