@@ -62,7 +62,25 @@ public class GestorNPC {
 	NPC josefina = new NPC("Josefina", frasesJosefina, opcionesDialogoJosefina, respuestasJosefina, primeraJosefina,
 			false);
 
-	NPC[] habitantesIsla1 = { richard, antonio, manuela, josefina }; // HABITANTES DE LA ISLA 1
+	// Moises el tabernero TIENE PISTA
+	String opcionesDialogoMoises = "1. Por qué abriste una taberna aquí?\n2. Tienes muchos clientes?\n3. Te ves cansado.\n"
+			+ "4. Tienes algo de información valiosa que me puedas compartir? Llevo un tiempo ya detrás de cierto tesoro.\n0. Dejar de hablar";
+	String[] respuestasMoises = {
+			"'Pasé mucha parte de mi infancia con mis abuelos en esta isla. Mi abuelo era el anterior dueño de la taberna de Isla Langosta.\n"
+					+ "Cuando falleció, mis padres no se quisieron hacer cargo de la taberna. Preferían la vida en las grandes islas. Pero yo no podía dejar que desapareciera\n"
+					+ "el legado de mi abuelo así sin más, así que me mudé aquí y continué con su negocio, en su honor.'",
+			"'Los justos y necesarios para sobrevivir. Por lo general todos los días vienen los mismos borrachos de siempre. Algunos pescadores cansados, el grupo de\n"
+					+ "abuelos que se la pasan jugando al guiñote, los trabajadores del astillero...'",
+			"'Ayer tuve una noche ajetreada en la taberna. Justo antes de cerrar dos borrachos se empezaron a pelear y me dejaron todo hecho un desastre.'" };
+	String[] frasesMoises = {
+			"'...' El tabernero se enciende un cigarro. 'Hay que aprovechar los momentos tranquilos para descansar. Luego te despistas y se te llena la taberna en un momento.'",
+			"'Si te apetece echar una copa, las puertas de mi taberna están abiertas.'",
+			"'Un gusto verte por aquí otra vez.'" };
+	String primeraMoises = "'Soy el dueño de la taberna de ésta isla. Me llamo Moisés. Tú debes de ser el del restaurante flotante ese que hay atracado en el puerto verdad?'";
+	NPC moises = new NPC("Moisés el Tabernero", frasesMoises, opcionesDialogoMoises, respuestasMoises, primeraMoises,
+			true);
+
+	NPC[] habitantesIsla1 = { richard, antonio, manuela, josefina, moises }; // HABITANTES DE LA ISLA 1
 
 	// ============================
 	// ========== ISLA 2 ==========
@@ -158,6 +176,15 @@ public class GestorNPC {
 	private void pistaNpc(NPC objetivo, Jugador j) {
 		int opcion;
 		switch (objetivo.getNombre()) {
+		case ("Moisés el Tabernero"):
+			vistaNpc.imprimirEspacio();
+			vistaNpc.imprimirMensaje(objetivo.getNombre()
+					+ ": 'Si lo que buscas es información sobre algún tesoro o reliquia deberías visitar Refugio Sombrío. Esa pequeña isla es un punto\n"
+					+ "bastante caliente de piratas, ladrones y maleantes de los mares. Seguro que ahí podrás encontrar a alguien que te de alguna pista sobre lo\n"
+					+ "que buscas. Pero ándate con ojo con la gente de esa isla, te pondrán un puñal en la espalda en cuanto te descuides.");
+			j.getDiario().agregarPista(
+					"Moisés el Tabernero me ha dicho que debería ir a Refuio Sombrío. Que seguro que ahí consigo información.");
+			break;
 		case ("Antonio 'El Amargao'"):
 			vistaNpc.imprimirEspacio();
 			vistaNpc.imprimirMensaje(objetivo.getNombre()

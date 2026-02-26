@@ -29,7 +29,7 @@ public class VistaTienda {
 		case "Refugio Sombrío":
 			gestorVista.imprimirMensaje(t.getTendero().getNombre()
 					+ ": 'Pasa pasa, cuida no te des en la cabeza con los trastos. Qué te puedo ofrecer pequeño lobo de mar?'\n"
-					+ "La señora te hace un gesto con la mano, dirigiendo tu mirada a un escaparate lleno de artículos."
+					+ "La señora te hace un gesto con la mano, dirigiendo tu mirada a un escaparate lleno de artículos.\n"
 					+ "1. Comprar\n" + "2. Vender\n" + "0. Salir");
 			break;
 		}
@@ -66,7 +66,7 @@ public class VistaTienda {
 		case "Refugio Sombrío":
 			gestorVista.imprimirMensaje(
 					"El trabajador del astillero, de aspecto lúgubre, te saluda sin mucha energía cuando entras por la puerta.\n"
-							+ "No puedes evitar fijarte en la prótesis de metal que tiene por mano."
+							+ "No puedes evitar fijarte en la prótesis de metal que tiene por mano.\n"
 							+ ast.getTendero().getNombre()
 							+ ": 'Cuando me preguntan sobre mi mano suelo decir que la perdí en una fiera batalla contra un tiburón blanco.\n"
 							+ "La verdad es que la perdí en un accidente laboral porque mi astillero no cumplía con los requisitos de la norma ISO 45001.\n"
