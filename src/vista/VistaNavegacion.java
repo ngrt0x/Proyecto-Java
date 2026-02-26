@@ -2,11 +2,24 @@ package vista;
 
 import modeloMundo.Isla;
 
+/**
+ * Clase vista navegacion, contiene los mensajes para cuendo vas a navegar, a parte del mapa
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaNavegacion {
 	// atributos
+	/**
+	 * Instacia de GestorVista
+	 */
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
+	/**
+	 * Metodo para seleccionar la distancia que quieres viajar
+	 * @return Numero de tiles que vas a desplazarte
+	 */
 	public int seleccionarDistancia() {
 		int distancia;
 		gestorVista.imprimirMensajePegado("Introduce la distancia que quieres que se desplace tu navío: ");
@@ -18,6 +31,10 @@ public class VistaNavegacion {
 		return distancia;
 	}
 
+	/**
+	 * Metodo para seleccionar la dirección en la que quieres viajar
+	 * @return Dirección
+	 */
 	public int seleccionarDireccion() {
 		int direccion;
 		gestorVista.imprimirMensaje("En qué dirección quieres zarpar capitán?");
@@ -30,6 +47,12 @@ public class VistaNavegacion {
 		return direccion;
 	}
 
+	/**
+	 * Metodo para imprimir el mapa
+	 * @param xPersonaje Coordenada x del jugador
+	 * @param yPersonaje Coordenada y del jugador
+	 * @param mapa Mapa
+	 */
 	public void imprimirMapa(int xPersonaje, int yPersonaje, Isla[][] mapa) {
 		int radio = 19;
 		gestorVista.imprimirMensajePegado("\t\t\t");
@@ -58,14 +81,27 @@ public class VistaNavegacion {
 		gestorVista.imprimirEspacio();
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de isla descubierta
+	 * @param i Isla
+	 */
 	public void mensajeDescubrirIsla(Isla i) {
 		gestorVista.imprimirMensaje("Has descubierto " + i.getNombre() + "!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de llegada a isla
+	 * @param i Isla
+	 */
 	public void mensajeLlegarIsla(Isla i) {
 		gestorVista.imprimirMensaje("Has llegado a " + i.getNombre() + "!");
 	}
 
+	/**
+	 * Metodo para confirmar la entrada a la isla
+	 * @param isla Isla
+	 * @return True si quieres entrar false si no
+	 */
 	public boolean confirmarEntrarIsla(Isla isla) {
 		int opcion;
 		if (!isla.isVisitada()) {
@@ -83,6 +119,9 @@ public class VistaNavegacion {
 		return opcion == 1;
 	}
 
+	/**
+	 * Metodo para limpiar la pantalla
+	 */
 	public void limpiarPantalla() {
 		for (int i = 0; i < 50; i++) {
 			gestorVista.imprimirMensaje("");

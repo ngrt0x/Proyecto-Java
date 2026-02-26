@@ -8,12 +8,30 @@ import modeloPersonajes.Enemigo;
 import modeloPersonajes.ICombatiente;
 import modeloPersonajes.Tripulante;
 
+/**
+ * Clase Vista combate, contiene todos los mensajes para los combates
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaCombate {
 	// atributos
+	/**
+	 * Instacia de aleatorio
+	 */
 	private final Random ALEATORIO = new Random();
+	/**
+	 * Instancia de Gestor vista
+	 */
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
+	/**
+	 * Metodo para que el jugador elija enemigo
+	 * @param enemigos Array de enemigos
+	 * @param t Tripulante que ataca
+	 * @return El index del enemigo que quieres atacar dentro del array
+	 */
 	public int elegirEnemigo(Enemigo[] enemigos, Tripulante t) {
 		int opcion;
 		int longitudBarra = 20;
@@ -48,6 +66,10 @@ public class VistaCombate {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar enemigos por pantalla
+	 * @param enemigos Enemigos que mostrar
+	 */
 	public void mostrarEnemigos(Enemigo[] enemigos) {
 		int longitudBarra = 20;
 		gestorVista.imprimirMensaje("");
@@ -71,6 +93,11 @@ public class VistaCombate {
 		}
 	}
 
+	/**
+	 * Metodo para mostrar el menu de opciones dentro de combate
+	 * @param t Tripulante que esta de turno
+	 * @return Opcion elegida por el tripulante
+	 */
 	public int menuCombate(Tripulante t) {
 		int opcion;
 		gestorVista.imprimirMensaje("");
@@ -86,6 +113,10 @@ public class VistaCombate {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir por pantalla el estado de los aliados
+	 * @param aliados Aliados
+	 */
 	public void estadoAliados(Tripulante[] aliados) {
 		int longitudBarra = 20;
 		gestorVista.imprimirMensaje("");
@@ -107,6 +138,10 @@ public class VistaCombate {
 		}
 	}
 
+	/**
+	 * Metodo para mostrar el estado de los enemigos
+	 * @param enemigos Enemigos
+	 */
 	public void estadoEnemigos(Enemigo[] enemigos) {
 		int longitudBarra = 20;
 		gestorVista.imprimirMensaje("");
@@ -128,10 +163,19 @@ public class VistaCombate {
 		}
 	}
 
+	/**
+	 * Metodo para imprimir mensajes por pantalla
+	 * @param msg Mensaje a imprimir
+	 */
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de esquive logrado
+	 * @param atacante Atacante
+	 * @param objetivo Objetivo
+	 */
 	public void mensajeEsquiva(ICombatiente atacante, ICombatiente objetivo) {
 		String[] mensajeEsquiva = { " esquiva el ataque con gracia.", " ha esquivado el ataque!",
 				" ha evitado el ataque por los pelos.", " esquiva el ataque como si nada." };
@@ -139,43 +183,80 @@ public class VistaCombate {
 				+ objetivo.getNombre() + mensajeEsquiva[ALEATORIO.nextInt(3)]);
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de cambio a defender
+	 * @param t Tripulante que cambia
+	 */
 	public void mensajeDefensa(Tripulante t) {
 		gestorVista.imprimirMensaje(t.getNombre() + " se prepara para bloquear el siguiente ataque.");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de ataque
+	 * @param atacante Atacante
+	 * @param objetivo Objetivo
+	 * @param danio Daño
+	 */
 	public void mensajeAtaque(ICombatiente atacante, ICombatiente objetivo, int danio) {
 		gestorVista.imprimirMensaje(atacante.getNombre() + " ataca a " + objetivo.getNombre() + " que recibe " + danio
 				+ " puntos de daño!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de derrota
+	 */
 	public void mensajeDerrota() {
 		gestorVista.imprimirMensaje("Tu tripulación ha sido derrotada, volviendo a la última isla que visitaste...");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de victoria
+	 * @param oro Oro ganado
+	 */
 	public void mensajeVictoria(int oro) {
 		gestorVista.imprimirMensaje(
 				"Tu tripulación ha resultado victoriosa! Rebuscáis enntre los enemigos derrotados y encontráis " + oro
 						+ " monedas de oro!");
 	}
 
+	/**
+	 * Metodo para impirmir la derrota de un combatiente
+	 * @param c Combatiente (Aliado/Enemigo)
+	 */
 	public void mensajeMuerte(ICombatiente c) {
 		gestorVista.imprimirMensaje(c.getNombre() + " ha sido derrotado!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de ataque de tu barco
+	 */
 	public void mensajeCanones() {
 		gestorVista.imprimirMensaje("Tu barco dispara sus cañones!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de ataque del barco a un enemigo
+	 * @param c Combatiente
+	 * @param danio Daño recibido
+	 */
 	public void mensajeRecibirCanon(ICombatiente c, int danio) {
 		gestorVista.imprimirMensaje(c.getNombre() + " recibe " + danio + " de la descarga de los cañones!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de ataque de clientes
+	 */
 	public void mensajeCombateRestaurante() {
 		gestorVista.imprimirMensaje(
 				"Oh oh capitán, esos clientes no parecen muy contentos. Parece que nos va a tocar pelear!");
 		gestorVista.imprimirMensaje("=== Se te abalanzan unos clientes enfadados! ===");
 	}
 
+	/**
+	 * Metodo para imrpimir el menu de seleccion de consumible
+	 * @param consumiblesJ Lista de consumibles
+	 * @return El consumible elegido
+	 */
 	public Consumible elegirConsumible(ArrayList<Consumible> consumiblesJ) {
 		int opcion;
 		Consumible itemAConsumir;
@@ -194,6 +275,11 @@ public class VistaCombate {
 		return itemAConsumir;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de seleccion de aliado
+	 * @param aliados Aliados
+	 * @return Alidado seleccionado
+	 */
 	public Tripulante seleccionAliado(Tripulante[] aliados) {
 		int opcion;
 		int longitudBarra = 20;
@@ -227,11 +313,21 @@ public class VistaCombate {
 		return tripulanteAfect;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de curacion
+	 * @param t Tripulante
+	 * @param curacion Cantidad de curación
+	 */
 	public void mensajeCurar(Tripulante t, int curacion) {
 		gestorVista.imprimirMensaje(
 				t.getNombre() + " se ve afectado por el Brebaje de Salud y recupera " + curacion + " puntos de vida!");
 	}
 
+	/**
+	 * Metodo para imprimir el uso de un consumible
+	 * @param t Tripulante
+	 * @param c Consumible
+	 */
 	public void mensajeConsumible(Tripulante t, Consumible c) {
 		if (c.getEfecto() == "defensa") {
 			gestorVista.imprimirMensaje(
@@ -242,6 +338,9 @@ public class VistaCombate {
 		}
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de no tener consumibles en el inventario
+	 */
 	public void mensajeSinConsumibles() {
 		gestorVista.imprimirMensaje("No tienes ningún objeto consumible!");
 	}

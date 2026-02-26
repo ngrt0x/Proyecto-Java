@@ -2,26 +2,53 @@ package vista;
 
 import modeloJugador.Jugador;
 
+/**
+ * Clase Vsita Pesca, tiene todos los mensajes relacionados a la pesca
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaPesca {
 	// atributos
+	/**
+	 * Instancia de GestorVista
+	 */
 	private GestorVista gestorVista = new GestorVista();
+	/**
+	 * Mensajes de espera
+	 */
 	private String[] mensajeEspera = { "Nada...", "Me parece ver algo de movimiento...",
 			"Los peces deben de estar durmiendo...", "Paciencia...", "No pica nada...",
 			"Quizá debería haber traído mejor cebo...", "Un pequeño tirón... no, falsa alarma.",
 			"Vamos... sé que hay algo ahí abajo...", "El agua está demasiado tranquila..." };
+	/**
+	 * Mensaje de picada
+	 */
 	private String[] mensajePicada = { "Ha picado algo!", "Este es grande, ha picado!", "Ahí va, tengo algo!",
 			"Algo ha mordido el anzuelo!", "Esto promete!", "Rápido, antes de que se escape!" };
 
 	// getters y setters
+	/**
+	 * Getter de mensaje de espera
+	 * @return Mensaje de espera
+	 */
 	public String[] getMensajeEspera() {
 		return mensajeEspera;
 	}
 
+	/**
+	 * Getter de mensaje de picada
+	 * @return Mensaje de picada
+	 */
 	public String[] getMensajePicada() {
 		return mensajePicada;
 	}
 
 	// metodos propios
+	/**
+	 * Metodo para imprimir el menu de pesca
+	 * @return Opcion
+	 */
 	public int menuInicial() {
 		int opcion;
 		gestorVista.imprimirMensaje("=======================================================");
@@ -39,6 +66,10 @@ public class VistaPesca {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir las reglas
+	 * @param j Jugador
+	 */
 	public void mostrarReglas(Jugador j) {
 		gestorVista.imprimirMensaje("=== INSTRUCCIONES ===\n" + "Vale " + j.getNombre()
 				+ ", parece que eres nuevo en esto de la pesca. "
@@ -55,6 +86,10 @@ public class VistaPesca {
 				+ "Con esto dicho, mucho ánimo con la pesca!");
 	}
 
+	/**
+	 * Metodo para imprimir el menu de lucha con el pez
+	 * @return Opcion
+	 */
 	public int menuLucha() {
 		int opcion;
 
@@ -71,6 +106,10 @@ public class VistaPesca {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje del menuLucha
+	 * @param opcion Opcion Elegida
+	 */
 	public void mensajesLucha(int opcion) {
 		switch (opcion) {
 		case 1:
@@ -85,11 +124,21 @@ public class VistaPesca {
 		}
 	}
 
+	/**
+	 * Metodo para imprimir el resultado de la pesca
+	 * @param nombre Nombre del pez
+	 */
 	public void resultadoPesca(String nombre) {
 		gestorVista.imprimirMensaje("Tras una ardua batalla consigues sacar al agotado pez del agua, es tuyo!");
 		gestorVista.imprimirMensaje("Has pescado: " + nombre + "!");
 	}
 
+	/**
+	 * Metodo para imprimir el resultado de escape y a cuanto te has quedado
+	 * @param lineaActual Linea Actual
+	 * @param distanciaActual Distancia Actual
+	 * @param distanciaTope Distancia tope
+	 */
 	public void resultadoEscape(int lineaActual, int distanciaActual, int distanciaTope) {
 		if (lineaActual == 0) {
 			gestorVista.imprimirMensaje("Se ha roto la linea de tu caña y el pez se ha escapado!");
@@ -98,6 +147,15 @@ public class VistaPesca {
 		}
 	}
 
+	/**
+	 * Metodo para imprimir el HUD de lucha con el pez
+	 * @param lineaTope Linea tope
+	 * @param lineaActual Linea actual
+	 * @param pezTope Pez tope
+	 * @param pezActual Pez actual
+	 * @param distanciaTope Distancia tope
+	 * @param distanciaActual Distancia actual
+	 */
 	public void hudLucha(int lineaTope, int lineaActual, int pezTope, int pezActual, int distanciaTope,
 			int distanciaActual) {
 		int longitudBarra = 20;
@@ -141,15 +199,26 @@ public class VistaPesca {
 		gestorVista.imprimirMensaje("");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de empezar lucha
+	 * @return String del jugador
+	 */
 	public String tirarCana() {
 		gestorVista.imprimirMensaje("Escribe 'TIRAR' para comenzar la lucha!!");
 		return gestorVista.pedirString();
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de no tienes una caña
+	 */
 	public void mensajeNoCana() {
 		gestorVista.imprimirMensaje("No tienes una caña de pescar en tu inventario! Cómo vas a pescar así?");
 	}
 
+	/**
+	 * Metodo para imprimir un mensaje por pantalla
+	 * @param msg Mensaje a imprimir
+	 */
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
 	}
