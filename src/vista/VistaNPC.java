@@ -7,23 +7,48 @@ import modeloPersonajes.NPC;
 import modeloPersonajes.Tripulante;
 import java.util.Random;
 
+/**
+ * Clase VsitaNPC, contiene todos los metodos para imprimir los mensajes de los npcs
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaNPC {
 	// atributos
+	/**
+	 * Instacia de Random
+	 */
 	private final Random ALEATORIO = new Random();
+	/**
+	 * Instacia de GestorVista
+	 */
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos
+	/**
+	 * Metodo para imprimir la primera frase del npc
+	 * @param npc NPC
+	 */
 	public void primeraFrase(NPC npc) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(npc.getNombre() + ": " + npc.getPrimeraFrase());
 	}
 
+	/**
+	 * Metodo para imprimir una de la frases del npc
+	 * @param npc NPC
+	 */
 	public void fraseRandom(NPC npc) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(
 				npc.getNombre() + ": " + npc.getDialogos()[ALEATORIO.nextInt(npc.getDialogos().length)]);
 	}
 
+	/**
+	 * Metodo para hablar con un npc con pista, con opciones de dialogo
+	 * @param npc NPC
+	 * @return Opcion de dialogo
+	 */
 	public int hablarNPCConPista(NPC npc) {
 		int opcion;
 		gestorVista.imprimirMensaje(npc.getOpcionesDialogo());
@@ -35,6 +60,11 @@ public class VistaNPC {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para hablar con un NPC con dialogos
+	 * @param npc NPC
+	 * @return Opcion dialogo
+	 */
 	public int hablarNPC(NPC npc) {
 		int opcion;
 		gestorVista.imprimirMensaje(npc.getOpcionesDialogo());
@@ -46,12 +76,22 @@ public class VistaNPC {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir la respuesta del NPC segun la opcion de dialogo
+	 * @param npc NPC
+	 * @param opcion Opcion de dialogo
+	 */
 	public void respuestaNPC(NPC npc, int opcion) {
 		String[] respuestasNpc = npc.getRespuestas();
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(npc.getNombre() + ": " + respuestasNpc[opcion - 1]);
 	}
 
+	/**
+	 * Metodo para imprimir el menu de habla con los habitantes
+	 * @param isla Isla
+	 * @return Habitante con el que se quiere hablar
+	 */
 	public int menuHabitantes1(Isla isla) {
 		NPC[] habitantes = isla.getHabitantes();
 		// muestra los habitantes
@@ -81,6 +121,11 @@ public class VistaNPC {
 		return opcionHabitante;
 	}
 
+	/**
+	 * Mismo que MenuHabitantes1 Pero sin la introduccion
+	 * @param isla Isla
+	 * @return Habitante con el que se quiere hablar
+	 */
 	public int menuHabitantes2(Isla isla) {
 		NPC[] habitantes = isla.getHabitantes();
 		// muestra los habitantes
@@ -99,6 +144,10 @@ public class VistaNPC {
 		return opcionHabitante;
 	}
 
+	/**
+	 * Metodo para habalr con el rol de tragaldabas
+	 * @param j Jugador
+	 */
 	public void dialogosTragaldabas(Jugador j) {
 		// ver que tripulante es el correspondiente a este rol
 		Tripulante t;
@@ -139,6 +188,10 @@ public class VistaNPC {
 
 	}
 
+	/**
+	 * Metodo para hablar con el rol de cocinero
+	 * @param j Jugador
+	 */
 	public void dialogosCocinero(Jugador j) {
 		// ver que tripulante es el correspondiente a este rol
 		Tripulante t;
@@ -178,6 +231,10 @@ public class VistaNPC {
 
 	}
 
+	/**
+	 * Metodo para hablar con el rol de ladron
+	 * @param j Jugador
+	 */
 	public void dialogosLadron(Jugador j) {
 		// ver que tripulante es el correspondiente a este rol
 		Tripulante t;
@@ -226,6 +283,10 @@ public class VistaNPC {
 
 	}
 
+	/**
+	 * Metodo para hablar con el rol de pirata
+	 * @param j Jugador
+	 */
 	public void dialogosPirata(Jugador j) {
 		// ver que tripulante es el correspondiente a este rol
 		Tripulante t;
@@ -272,14 +333,25 @@ public class VistaNPC {
 
 	}
 
+	/**
+	 * Metodo para imprimir un mensaje por pantalla
+	 * @param msg Mensaje a imprimir
+	 */
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
 	}
 
+	/**
+	 * Metodo para imprimir una linea en blanco
+	 */
 	public void imprimirEspacio() {
 		gestorVista.imprimirEspacio();
 	}
 
+	/**
+	 * Metodo para decidir si comprar o no lo pista de antonio
+	 * @return Opcion
+	 */
 	public int pedirMoneditasAntonio() {
 		int opcion;
 		gestorVista.imprimirMensaje(
@@ -292,6 +364,10 @@ public class VistaNPC {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para decidir si ayudar a la mujer desmayada
+	 * @return Opcion
+	 */
 	public int actuarMujerDesmayada() {
 		int opcion;
 		gestorVista.imprimirMensaje("1. Dar un brebaje de salud a la mujer\n2. Ignorar a la mujer y seguir a tu rollo");

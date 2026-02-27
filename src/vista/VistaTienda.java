@@ -11,11 +11,25 @@ import modeloMundo.Isla;
 import modeloMundo.Tienda;
 import modeloObjetos.Item;
 
+/**
+ * Clase Vista Tienda, contiene todos los mensajes relacionados a la tienda
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaTienda {
 	// atributos
+	/**
+	 * Instacia de GestorVista
+	 */
 	private GestorVista gestorVista = new GestorVista();
 
 	// metodos propios
+	/**
+	 * Metodo para imprimir el menu del tendero
+	 * @param islaActual Isla Actual
+	 * @return Opcion
+	 */
 	public int hablarTendero1(Isla islaActual) {
 		int opcion;
 		Tienda tienda = islaActual.getTiendaLocal();
@@ -42,6 +56,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de hablar con el tendero pero sin introduccion
+	 * @param islaActual Isla actual
+	 * @return Opcion
+	 */
 	public int hablarTendero2(Isla islaActual) {
 		int opcion;
 		Tienda tienda = islaActual.getTiendaLocal();
@@ -56,6 +75,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de habla con el astillero
+	 * @param islaActual Isla actual
+	 * @return Opcion
+	 */
 	public int hablarAstillero1(Isla islaActual) {
 		int opcion;
 		Astillero astillero = islaActual.getAstilleroLocal();
@@ -84,6 +108,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de habal con el astillero pero sin introduccion
+	 * @param islaActual Isla actual
+	 * @return Opcion
+	 */
 	public int hablarAstillero2(Isla islaActual) {
 		int opcion;
 		Astillero astillero = islaActual.getAstilleroLocal();
@@ -98,6 +127,12 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar el stock de la tienda y pedir un item
+	 * @param gt Gestor Tienda
+	 * @param t Tienda
+	 * @return Opcion a comprar
+	 */
 	public int mostrarStock(GestorTienda gt, Tienda t) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -123,6 +158,12 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostra el stock del astillero
+	 * @param ga Gestor Astillero
+	 * @param ast Astillero
+	 * @return Opcion a comprar
+	 */
 	public int mostrarMejoras(GestorAstillero ga, Astillero ast) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -148,6 +189,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar el inventario del jugador
+	 * @param j Jugador
+	 * @param opcion Opcion del inventario
+	 */
 	public void mostrarInventario(Jugador j, int opcion) {
 		int contador = 1;
 		if (opcion != 0) {
@@ -187,6 +233,12 @@ public class VistaTienda {
 		}
 	}
 
+	/**
+	 * Metodo para mostrar el menu de venta
+	 * @param t GestorTienda
+	 * @param opcionInventario Opcion Inventario
+	 * @return Item a vender
+	 */
 	public int ventanaVenta(GestorTienda t, int opcionInventario) {
 		Jugador j = t.getJugador();
 		gestorVista.imprimirEspacio();
@@ -205,6 +257,11 @@ public class VistaTienda {
 		return opcionVenta; // return DEL NUMERO DE ITEM
 	}
 
+	/**
+	 * Imprime el menu de confirmacion de compra
+	 * @param i Item
+	 * @return Confirmacion
+	 */
 	public int menuConfirmacionCompra(Item i) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -219,6 +276,11 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Imprime el menu de confirmacion de venta
+	 * @param i Item
+	 * @return Confirmacion
+	 */
 	public int menuConfirmacionVenta(Item i) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -232,23 +294,40 @@ public class VistaTienda {
 		return opcion;
 	}
 
+	/**
+	 * Imprime el mensaje de compra realizada
+	 * @param t Gestor Tienda
+	 */
 	public void mensajeCompra(GestorTienda t) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(t.getTienda().getTendero().getNombre() + ": 'Gracias por su compra.'");
 	}
 
+	/**
+	 * Imprime el mensaje de compra de mejora realizada
+	 * @param ast Gestor Astillero
+	 */
 	public void mensajeMejora(GestorAstillero ast) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(ast.getAstillero().getTendero().getNombre()
 				+ ": 'Gracias! Instalaremos su nuevo equipamiento en un santiamén capitán.'");
 	}
 
+	/**
+	 * Imprime el mensaje de item vendido
+	 * @param t Gestor Tienda
+	 * @param itemVendido Item Vendido
+	 */
 	public void mensajeVenta(GestorTienda t, Item itemVendido) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(
 				"Has vendido x1 " + itemVendido.getNombre() + ", por " + itemVendido.getPrecio() + "g.");
 	}
 
+	/**
+	 * Metodo para imprimir mensaje por pantalla
+	 * @param msg Mensaje a imprimir
+	 */
 	public void imprimirMensaje(String msg) {
 		gestorVista.imprimirMensaje(msg);
 	}

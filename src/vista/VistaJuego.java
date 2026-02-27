@@ -10,11 +10,27 @@ import modeloMundo.Isla;
 import modeloObjetos.Item;
 import modeloPersonajes.Tripulante;
 
+/**
+ * Clase Vsita Juego es el que contiene los metodos que usa el jugador para navegar por el juego
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaJuego {
 	// atributos
+	/**
+	 * Instacia de GestorVista
+	 */
 	private GestorVista gestorVista = new GestorVista();
+	/**
+	 * Instacia de Random
+	 */
 	private final Random ALEATORIO = new Random();
 
+	/**
+	 * Metodo para imprimir el menu debug
+	 * @return La opcion elegida del menu
+	 */
 	public int menuDebug() {
 		int opcion;
 
@@ -29,6 +45,10 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de inventario
+	 * @return La opcion elegido del menu
+	 */
 	public int menuInventarios() {
 		int opcion;
 		gestorVista.imprimirMensaje("1. Items\n" + "2. Peces\n" + "0. Atrás");
@@ -40,6 +60,11 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar el Inventario del jugador
+	 * @param j Jugador
+	 * @param opcion Opcion de inventario
+	 */
 	public void mostrarInventario(Jugador j, int opcion) {
 		if (opcion != 0) {
 			gestorVista.imprimirEspacio();
@@ -73,6 +98,10 @@ public class VistaJuego {
 		}
 	}
 
+	/**
+	 * Metodo para pedirle el nombre al jugador
+	 * @return El nombre que tendra el jugador
+	 */
 	public String pedirNombre() {
 		String texto;
 		gestorVista.imprimirMensaje("Cómo te llamas capitán?");
@@ -84,6 +113,10 @@ public class VistaJuego {
 		return texto;
 	}
 
+	/**
+	 * Metodo para pedirle al jugador que elija los nombres de sus compañeros
+	 * @param nombres Lista de los nombres de los compañeros
+	 */
 	public void pedirTripulacion(ArrayList<String> nombres) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(
@@ -101,6 +134,10 @@ public class VistaJuego {
 		}
 	}
 
+	/**
+	 * Metodo para añadir los roles a la lista de roles disponibles
+	 * @return ArrayList de los roles
+	 */
 	public ArrayList<String> crearRoles() {
 		ArrayList<String> roles = new ArrayList<>();
 		roles.add("Tragaldabas");
@@ -110,6 +147,11 @@ public class VistaJuego {
 		return roles;
 	}
 
+	/**
+	 * Metodo para que el jugador elija los roles de sus compañeros
+	 * @param roles Roles disponibles
+	 * @return Rol elegido
+	 */
 	public int seleccionarRol(ArrayList<String> roles) {
 		int opcionR;
 		// muestra los roles por pantalla
@@ -152,6 +194,11 @@ public class VistaJuego {
 		return opcionR;
 	}
 
+	/**
+	 * Metodo para seleccionar un tripulante
+	 * @param nombreTripulacion Los tripulantes
+	 * @return El tripulante seleccionado
+	 */
 	public int seleccionarTripulante(ArrayList<String> nombreTripulacion) {
 		int opcionT;
 		// muestra los tripulantes por pantalla
@@ -168,6 +215,9 @@ public class VistaJuego {
 		return opcionT;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de bienvenida al juego
+	 */
 	public void mensajeIntroduccion() {
 		gestorVista.imprimirMensaje("\t\t\t=== Bienvenido a Cañones y Fogones! ===\n"
 				+ "En este juego te embarcarás en una aventura culinaria explosiva así que suban a bordo y leven anclas!\n"
@@ -180,6 +230,10 @@ public class VistaJuego {
 		gestorVista.imprimirMensaje("");
 	}
 
+	/**
+	 * Metodo para imprimir y elegir el modo de juego
+	 * @return Modo de juego seleccionado
+	 */
 	public int elegirModo() {
 		int opcion;
 		gestorVista.imprimirMensaje("1. Iniciar juego en modo debug\n" + "2. Iniciar juego en modo normal");
@@ -191,10 +245,20 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de despedida del juego
+	 * @param j Jugador
+	 */
 	public void mensajeDespedida(Jugador j) {
 		gestorVista.imprimirError("Hasta luego " + j.getNombre() + "!");
 	}
 
+	/**
+	 * Metodo para imprimir el menu para el momento del dia MANANA
+	 * @param dia El dia que es dentro del juego
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuManana1(int dia, Jugador j) {
 		int opcion;
 		Tripulante[] tripulacion = j.getBarco().getTripulacion();
@@ -219,6 +283,11 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu para el momento del dia MANANA pero sin dia
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuManana2(Jugador j) {
 		int opcion;
 		Tripulante[] tripulacion = j.getBarco().getTripulacion();
@@ -236,12 +305,21 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de barco atracado
+	 * @param j Jugador
+	 */
 	public void mensajeAtracar(Jugador j) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(
 				"Diriges el barco hacia el puerto de " + j.getIslaActual().getNombre() + " y lo atracas con soltura.");
 	}
 
+	/**
+	 * Metodo para imprimir el menu del momento del dia COMIDA
+	 * @param j Jugador 
+	 * @return Opicon elegida
+	 */
 	public int menuComida1(Jugador j) {
 		int opcion;
 		Tripulante[] tripulacion = j.getBarco().getTripulacion();
@@ -263,6 +341,11 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu del momento del dia COMIDA pero sin la introduccion
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuComida2(Jugador j) {
 		int opcion;
 		Tripulante[] tripulacion = j.getBarco().getTripulacion();
@@ -280,6 +363,10 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje para cuando terminas el turno de comidas
+	 * @param j Jugador
+	 */
 	public void mensajeTerminarComidas(Jugador j) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(j.getNombre()
@@ -287,6 +374,11 @@ public class VistaJuego {
 				+ "son peores que un tiburón blanco.'");
 	}
 
+	/**
+	 * Metodo para imprimir el menu del momento del dia TARDENOCHE
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuTardenoche1(Jugador j) {
 		int opcion;
 		Tripulante[] tripulacion = j.getBarco().getTripulacion();
@@ -304,6 +396,11 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu del momento del dia TARDENOCHE pero sin introduccion
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuTardenoche2(Jugador j) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -318,6 +415,11 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de bajar a isla
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuIsla1(Jugador j) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -336,6 +438,11 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el menu de baja a isla pero sin introduccion
+	 * @param j Jugador
+	 * @return Opcion elegida
+	 */
 	public int menuIsla2(Jugador j) {
 		int opcion;
 		gestorVista.imprimirEspacio();
@@ -353,6 +460,10 @@ public class VistaJuego {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de entrar a tienda
+	 * @param islaActual Isla Actual
+	 */
 	public void mensajeEntrarTienda(Isla islaActual) {
 		gestorVista.imprimirEspacio();
 		switch (islaActual.getNombre()) {
@@ -366,6 +477,10 @@ public class VistaJuego {
 		}
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de entrar al astillero
+	 * @param islaActual Isla Actual
+	 */
 	public void mensajeEntrarAstillero(Isla islaActual) {
 		gestorVista.imprimirEspacio();
 		switch (islaActual.getNombre()) {
@@ -380,11 +495,18 @@ public class VistaJuego {
 		}
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de volver al barco
+	 */
 	public void mensajeVolverBarco() {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Te diriges de vuelta al barco...");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de avanzar a TARDENOCHE
+	 * @param j Jugador
+	 */
 	public void mensajeAvanzarTardenoche(Jugador j) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Ya hace un rato que ha atardecido sobre el paisaje de "
@@ -392,6 +514,11 @@ public class VistaJuego {
 				+ "te metes en tu camarote, con intención de planear tu siguiente movimiento y descansar de cara al siguiente día...");
 	}
 
+	/**
+	 * Metodo para imprimir el menu de hablar con tripulantes
+	 * @param tripulantes Tripulantes
+	 * @return Tripulante con el que se quiere hablar
+	 */
 	public int hablarTripulante(Tripulante[] tripulantes) {
 		int opcionT;
 		// muestra los tripulantes por pantalla
@@ -410,6 +537,10 @@ public class VistaJuego {
 		return opcionT;
 	}
 
+	/**
+	 * Metodo para mostrar el diario del jugador
+	 * @param diario Diario del jugador
+	 */
 	public void mostrarDiario(Diario diario) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("\t\t\t\t=== DIARIO ===");
@@ -424,6 +555,12 @@ public class VistaJuego {
 
 	}
 
+	/**
+	 * Metodo para generar un numero aleatorio
+	 * @param min Numero Minimo
+	 * @param max Numero Maximo
+	 * @return Numero random
+	 */
 	private int generarAleatorioEntre(int min, int max) {
 		return ALEATORIO.nextInt(max - min + 1) + min;
 	}

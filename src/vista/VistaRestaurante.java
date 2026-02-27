@@ -8,12 +8,29 @@ import modeloJugador.Jugador;
 import modeloObjetos.Plato;
 import modeloPersonajes.Cliente;
 
+/**
+ * Clase Vista Restaurante, contiene todos los mensjae del restaurante
+ * 
+ * @author Jesús Manrique y Marcos Villagómez
+ * @version 1.0
+ */
 public class VistaRestaurante {
 	// atributos
+	/**
+	 * Instacia de GestorVista
+	 */
 	private GestorVista gestorVista = new GestorVista();
+	/**
+	 * Instacia de Random
+	 */
 	private final Random ALEATORIO = new Random();
 
 	// metodos propios
+	/**
+	 * Metodo para imprimir el mensaje de pedido hecho
+	 * 
+	 * @param c Cliente
+	 */
 	public void hacerPedido(Cliente c) {
 		if (c.getPedido().size() == 1) {
 			gestorVista.imprimirMensaje(
@@ -30,6 +47,11 @@ public class VistaRestaurante {
 	}
 
 	// imprime el mensaje cuando inicias el minijuego de restaurante
+	/**
+	 * Metodo para imprimir el mensaje de cuando incias el minijuego de restaurante
+	 * 
+	 * @param j Jugador
+	 */
 	public void mensajeInicio(Jugador j) {
 		gestorVista.imprimirMensaje("=== Comienza el turno de comidas, encended los fogones! ===");
 		gestorVista.imprimirMensaje(
@@ -38,6 +60,13 @@ public class VistaRestaurante {
 	}
 
 	// muestra el menu del minijuego y devuelve la opcion que seleccione el usuario
+	/**
+	 * Metodo para mostrar el menu del minijuego y devuelve la opcion
+	 * 
+	 * @param r             Minijuego Restaurante
+	 * @param consumirTurno Se consume el turno
+	 * @return Opcion
+	 */
 	public int menuRestaurante(MinijuegoRestaurante r, boolean consumirTurno) {
 		int longitudBarra = 20;
 		int opcion;
@@ -75,6 +104,12 @@ public class VistaRestaurante {
 
 	// muestra los clientes en la lista clientes junto a su nombre, sus pedidos, y
 	// su paciencia
+	/**
+	 * Metodo para mostrar los clientes en la lista de clientes junto a su nombre,
+	 * sus pedidos, y su paciencia
+	 * 
+	 * @param clientes Clientes
+	 */
 	public void mostrarClientes(ArrayList<Cliente> clientes) {
 		int longitudBarra = 20;
 		gestorVista.imprimirEspacio();
@@ -103,11 +138,19 @@ public class VistaRestaurante {
 		gestorVista.imprimirMensaje("=======================================================");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de llegada de un cliente
+	 */
 	public void mensajeLlegaCliente() {
 		gestorVista.imprimirMensaje("");
 		gestorVista.imprimirMensaje("Ha llegado un cliente!");
 	}
 
+	/**
+	 * Metodo para mostrar el menu de agregacion de ingredientes
+	 * @param ingredientes Ingredientes
+	 * @return Opcion
+	 */
 	public int mostarIngredientes(String[] ingredientes) {
 		int opcion;
 		gestorVista.imprimirMensaje("Qué ingrediente quieres añadir a tu plato?");
@@ -122,6 +165,10 @@ public class VistaRestaurante {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar el menu de preparacion de platos
+	 * @return Opcion
+	 */
 	public int menuPreparacion() {
 		int opcion;
 		gestorVista.imprimirMensaje("Qué quieres hacer ahora?\n1. Añadir otro ingrediente\n2. Cocinar plato");
@@ -133,6 +180,11 @@ public class VistaRestaurante {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar los clinetes a servir
+	 * @param clientes Clientes
+	 * @return Cliente a servir
+	 */
 	public int mostrarClientesAServir(ArrayList<Cliente> clientes) {
 		int opcion;
 		gestorVista.imprimirMensaje("A qué cliente quieres servirle su comanda?");
@@ -153,6 +205,11 @@ public class VistaRestaurante {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar el menu de entrega de platos
+	 * @param platosPreparados Platos Preparados
+	 * @return Opcion
+	 */
 	public int mostrarPlatosPreparados(ArrayList<Plato> platosPreparados) {
 		int opcion;
 		gestorVista.imprimirMensaje("Qué plato quieres entregar al cliente?");
@@ -171,6 +228,10 @@ public class VistaRestaurante {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para mostrar el menu de servir a clientes
+	 * @return Opcion
+	 */
 	public int menuServir() {
 		int opcion;
 		gestorVista.imprimirMensaje("Qué quieres hacer ahora?\n1. Entregar otro plato\n2. Comanda lista\n\n0. Atrás");
@@ -182,6 +243,11 @@ public class VistaRestaurante {
 		return opcion;
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de pedido correcto
+	 * @param c Cliente
+	 * @param oro Oro obtenido
+	 */
 	public void mensajesPedidoCorrecto(Cliente c, int oro) {
 		String[] mensajes = { "El mar estaría orgulloso.", "Por fin algo mejor que pan duro y arrepentimiento.",
 				"Ahora sí que vale la pena no haber muerto hoy.", "Esto sí que es comida de verdad capitán!",
@@ -194,6 +260,10 @@ public class VistaRestaurante {
 
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de pedido erroneo
+	 * @param c Cliente
+	 */
 	public void mensajesPedidoIncorrecto(Cliente c) {
 		String[] mensajes = { "He visto motines por menos.", "Mis expectativas eran bajas, pero esto...",
 				"Empiezo a entender por qué al cocinero le falta una pierna.", "Retira esto de mi vista.",
@@ -206,6 +276,10 @@ public class VistaRestaurante {
 
 	}
 
+	/**
+	 * Metodo para impirmir el mensaje de paciencia agotada
+	 * @param c Cliente
+	 */
 	public void mensajePacienciaAgotada(Cliente c) {
 		String[] mensajes = { "La comida viene nadando o qué?", "He visto naufragios más rápidos que este servicio.",
 				"Llevo esperando tanto que ya tengo hambre otra vez.",
@@ -218,6 +292,9 @@ public class VistaRestaurante {
 
 	}
 
+	/**
+	 * Metodo para mostrar las recetas de los distintos platos
+	 */
 	public void mostrarRecetas() {
 		gestorVista.imprimirMensaje("================== Libro de Recetas ===================");
 		gestorVista.imprimirMensaje(
@@ -233,21 +310,37 @@ public class VistaRestaurante {
 		gestorVista.imprimirMensaje("");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de plato cocinado
+	 * @param p Plato
+	 */
 	public void mensajePlatoCocinado(Plato p) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Has cocinado: " + p.getNombre() + "!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de no tienes platos preparados
+	 */
 	public void mensajeNoHayPlatos() {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("No tienes ningún plato preparado!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de plato entregado
+	 * @param c Cliente
+	 * @param p Plato
+	 */
 	public void mensajePlatoEntregado(Cliente c, Plato p) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Has entregado " + p.getNombre() + " a " + c.getNombre() + "!");
 	}
 
+	/**
+	 * Metodo para imprimir el mensaje de turno de comidas finalizado
+	 * @param j Jugador
+	 */
 	public void mensajeFin(Jugador j) {
 		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("=== TURNO DE COMIDAS FINALIZADO ===");
