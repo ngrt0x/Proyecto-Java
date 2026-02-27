@@ -25,7 +25,7 @@ import vista.VistaCombate;
  * @version 1.0
  */
 public class GestorCombate implements Minijuego {
-	/** Instancia de Random de la clase java.util. */
+	/** Instancia de Random del paquete java.util. */
 	private final Random ALEATORIO = new Random();
 	/**
 	 * Instancia de VistaCombate, la vista correspondiente a los eventos de combate.
@@ -54,7 +54,7 @@ public class GestorCombate implements Minijuego {
 	/**
 	 * Constructor de la clase GestorCombate.
 	 * 
-	 * @param jugador El Jugador que va a participar en el combate
+	 * @param jugador Recibe el Jugador que va a participar en el combate
 	 */
 	public GestorCombate(Jugador jugador) {
 		this.jugador = jugador;

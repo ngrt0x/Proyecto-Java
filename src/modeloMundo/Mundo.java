@@ -42,7 +42,7 @@ public class Mundo {
 	/** Caña reforzada */
 	private CanaPescar canaReforzada = new CanaPescar("Caña reforzada", "cana_reforzada", 150, 15);
 	/** Caña flexible */
-	private CanaPescar canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 17);
+	private CanaPescar canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 15);
 	/** Cebo bueno */
 	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
 	/** Cañones oxidados */
@@ -79,12 +79,12 @@ public class Mundo {
 
 	// TIENDAS
 	/** Tienda de la isla 1 */
-	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaReforzada, brebajeSalud, brebajeDefensa,
+	private Tienda tiendaIsla1 = new Tienda(tenderoIsla1, canaFlexible, brebajeSalud, brebajeDefensa,
 			brebajeIniciativa, ceboBueno);
 	/** Astillero de la isla 1 */
 	private Astillero mejorasIsla1 = new Astillero(astilleroIsla1, canonesOxi, armamentoReforzado);
 	/** Tienda de la isla 2 */
-	private Tienda tiendaIsla2 = new Tienda(tenderoIsla2, canaFlexible, brebajeSalud, brebajeDefensa, brebajeIniciativa,
+	private Tienda tiendaIsla2 = new Tienda(tenderoIsla2, canaReforzada, brebajeSalud, brebajeDefensa, brebajeIniciativa,
 			ceboBueno);
 	/** Astillero de la isla 2 */
 	private Astillero mejorasIsla2 = new Astillero(astilleroIsla2, canonesReacond, armamentoMili);

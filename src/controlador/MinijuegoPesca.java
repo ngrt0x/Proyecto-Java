@@ -11,21 +11,44 @@ import modeloObjetos.Item;
 import modeloObjetos.Pez;
 import vista.VistaPesca;
 
+/**
+ * Controlador del minijuego de pesca. Gestiona todo lo relacionado con éste
+ * sistema.
+ * 
+ * @author Jesús Manrique, Marcos Villagómez.
+ * @version 1.0
+ */
 public class MinijuegoPesca implements Minijuego {
-	// atributos
+	/**
+	 * Instancia de VistaPesca, la vista encargada de imprimir y pedir la
+	 * información relacionada con éste minijuego.
+	 */
 	private VistaPesca vistaPesca = new VistaPesca();
+	/** Instancia de Random del paquete java.util. */
 	private final Random ALEATORIO = new Random();
+	/** Resistencia de la linea. */
 	private int resistenciaLinea;
+	/** Referencia al objeto Jugador */
 	private Jugador j;
+	/**
+	 * Booleano para comprobar que el usuario tiene el Item cebo bueno en su
+	 * inventario.
+	 */
 	boolean tieneCeboBueno;
 
-	// constructor
+	/**
+	 * Contructor de la clase MinijuegoPesca.
+	 * 
+	 * @param jugador Recibe el Jugador que va a participar en la pesca.
+	 */
 	public MinijuegoPesca(Jugador jugador) {
 		j = jugador;
 	}
 
-	// metodos
 	@Override
+	/**
+	 * Método de la interfaz Minijuego. Comienza el minijuego.
+	 */
 	public void comenzar() {
 		// muestra el menu inicial
 		int opcion;
@@ -59,6 +82,14 @@ public class MinijuegoPesca implements Minijuego {
 		}
 	}
 
+	/**
+	 * Comprueba que el usuario tenga un Item de la clase CanaPescar. En el caso de
+	 * que tenga varias, las guarda en un ArrayList, lo ordena en base a la línea de
+	 * la caña y devuelve la linea de la caña con más línea.
+	 * 
+	 * @return La linea del objeto CanaPescar con más línea en el inventario del
+	 *         Jugador.
+	 */
 	private int comprobarCana() {
 		Map<String, Item> inventario = j.getInventario().getItems();
 		List<CanaPescar> canas = new ArrayList<>();
@@ -71,6 +102,13 @@ public class MinijuegoPesca implements Minijuego {
 		return canas.get(0).getLinea();
 	}
 
+	/**
+	 * Genera un Pez aleatorio de entre los peces disponibles, instanciados en este
+	 * mismo método. Cuanto más bajo sea el número correspondiente a la rareza del
+	 * pez, saldrá con menos frecuencia.
+	 * 
+	 * @return Devuelve un Pez.
+	 */
 	private Pez generarPezRandom() {
 		// peces disponibles, para añadir mas peces simplemente crea un pez nuevo y
 		// añádelo a la lista de peces
@@ -103,10 +141,26 @@ public class MinijuegoPesca implements Minijuego {
 		return null;
 	}
 
+	/**
+	 * Conecta con la VistaPesca para imprimir un mensaje para indicar que el
+	 * usuario lanza el anzuelo.
+	 */
 	private void lanzarAnzuelo() {
 		vistaPesca.imprimirMensaje("Lanzas el anzuelo lo más fuerte que puedes, a ver si pica algo...");
 	}
 
+	/**
+	 * Genera un número aleatorio entre 2 y 6 si el usuario no tiene cebo bueno en
+	 * su inventario, o entre 1 y 3 si tiene. Este número corresponderá a los turnos
+	 * que tiene que se hará esperar al usuario hasta que "pique" un pez. A cada
+	 * turno se conectará con VistaPesca para imprimir un mensaje de espera y de
+	 * dormirá al hilo durante 3000 milisegundos. Cuando acaben esos turnos
+	 * VistaPesca pedirá al usuario que introduzca TIRAR por teclado.
+	 * 
+	 * @return Devuelve true si el usuario consigue escribir TIRAR bien, false si
+	 *         no.
+	 * @throws InterruptedException
+	 */
 	private boolean esperar() throws InterruptedException {
 		int turnosAEsperar = generarAleatorioEntre(2, 6);
 		// chequea si el jugador ha comprado cebo bueno, si es verdad reduce los turnos
@@ -134,6 +188,19 @@ public class MinijuegoPesca implements Minijuego {
 		}
 	}
 
+	/**
+	 * Método principal del minijuego. Gestiona el minijuego de lucha entre el
+	 * jugador y un pez una vez que ha mordido el anzuelo. Durante la lucha se
+	 * controlan 3 variables principales: La resistencia de linea, la energia del
+	 * pez, y la distancia entre el pez y el jugador. El minijuego termina cuando la
+	 * resistencia de linea llega a 0 o la distancia del pez supera la distancia
+	 * tope, enconces el pez se escapa y el jugador pierde la lucha. También puede
+	 * terminar si la energía del pez y la distancia llegan a 0, entonces el jugador
+	 * gana la lucha y se añade el Pez a su Inventario.
+	 * 
+	 * @param pez Recibe el Pez contra el que se va a luchar. Su fuerza determina la
+	 *            dificultad de la lucha.
+	 */
 	private void lucha(Pez pez) {
 		// atributos
 		final int LINEA_TOPE = resistenciaLinea;
@@ -195,6 +262,17 @@ public class MinijuegoPesca implements Minijuego {
 		}
 	}
 
+	/**
+	 * Genera un número aleatorio entre un número mímino y un número máximo que
+	 * recibe.
+	 * 
+	 * @param min Integer correspondiente al número mínimo que quieres que se
+	 *            genere.
+	 * @param max Integer correspondiente al número máximo que quieres que se
+	 *            genere.
+	 * @return Devuelve un Integer aleatorio entre el número mínimo y el número
+	 *         máximo que le has pasado.
+	 */
 	private int generarAleatorioEntre(int min, int max) {
 		return ALEATORIO.nextInt(max - min + 1) + min;
 	}

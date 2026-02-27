@@ -63,6 +63,9 @@ public class VistaNPC {
 					+ "Ves a varias personas que te llaman la atención. Con quién quieres hablar?");
 			break;
 		case "Refugio Sombrío":
+			gestorVista.imprimirMensaje("Rondando " + isla.getNombre()
+					+ " te da la sensación de que esta isla está desierta. Fuera de la zona del puerto, las calles se vuelven cada vez\n"
+					+ "más oscuras. Intentas tomar un atajo para llegar a la plaza pero te encuentras a:");
 			break;
 		}
 		for (int i = 0; i < habitantes.length; i++) {

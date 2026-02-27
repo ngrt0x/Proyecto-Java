@@ -7,21 +7,46 @@ import java.util.Random;
 
 import modeloJugador.Jugador;
 
+/**
+ * Controlador del sistema de navegación y generación del mapa.
+ * 
+ * @author Jesús Manrique, Marcos Villagómez
+ */
 public class GestorMundo {
-	// atributos
+	/** Instancia de Random de la clase java.util. */
 	private final Random ALEATORIO = new Random();
+	/**
+	 * Instancia de GestorCombate, el controlador correspondiente al sistema de
+	 * combate.
+	 */
 	private GestorCombate combate;
+	/**
+	 * Instancia de VistaNavegacion, la vista encargada de mostrar la información de
+	 * la navegación.
+	 */
 	private VistaNavegacion vistaNavegacion = new VistaNavegacion();
-
+	/** Referencia al objeto Mundo a gestionar. */
 	private Mundo mundo;
 
-	// Constructor
+	/**
+	 * Constructor de la clase GestorMundo.
+	 * 
+	 * @param mundo Recibe el objeto Mundo sobre el que realizar las funciones.
+	 * @param j     Recibe el Jugador del usuario.
+	 */
 	public GestorMundo(Mundo mundo, Jugador j) {
 		this.mundo = mundo;
 		combate = new GestorCombate(j);
 	}
 
-	// metodos propios
+	/**
+	 * Este método inicia el sistema de navegación. Tiene unas variables locales
+	 * distancia y dirección que se le pedirán al usuario. También una variable
+	 * booleana echarAncla que determinará si el usuairo sigue navegando o termina
+	 * de navegar.
+	 * 
+	 * @return Devuelve el objeto Isla al que ha navegado el usuario.
+	 */
 	public Isla navegar() {
 		int distancia;
 		int direccion;
@@ -60,6 +85,12 @@ public class GestorMundo {
 		return isla;
 	}
 
+	/**
+	 * Método para pausar la ejecución del hilo mediante un Thread.sleep().
+	 * 
+	 * @param ms Recibe un Integer correspondiente a los milisegundos que va a
+	 *           dormir la ejecución del hilo.
+	 */
 	public void dormir(int ms) {
 		try {
 			Thread.sleep(ms);
@@ -68,6 +99,19 @@ public class GestorMundo {
 		}
 	}
 
+	/**
+	 * Éste método crea referencias del objeto Isla en la matriz de Isla que hay en
+	 * la clase Mundo. No crea una una sola referencia en la coordenada que se le de
+	 * sino que crea referencias con una forma "circular" en el mapa para darles más
+	 * cuerpo a las Islas de cara a mostrarlas en el mapa durante la navegación.
+	 * 
+	 * @param mapa Recibe una matriz de objetos Isla.
+	 * @param x    Integer correspondiente a la coordenada X donde se va a colocar
+	 *             el centro de la Isla.
+	 * @param y    Integer correspondiente a la coordenada Y donde se va a colocar
+	 *             el centro de la Isla.
+	 * @param isla Recibe el objeto Isla a referenciar dentro del mapa.
+	 */
 	public void hacerFormaIsla(Isla[][] mapa, int x, int y, Isla isla) {
 		mapa[x][y] = isla;
 		mapa[x + 1][y] = isla;
@@ -84,6 +128,16 @@ public class GestorMundo {
 		mapa[x][y - 2] = isla;
 	}
 
+	/**
+	 * Reparte una cantidad de Islas correspondiente a la variable local numIslas
+	 * por el mapa de forma aleatoria. Comprueba que la Isla que va a colocar no se
+	 * sale de los límites del mapa. Luego le pasa la funcion sePuedeColocar() para
+	 * comprobar que no haya ninguna otra Isla donde se va a colocar ésta, y que
+	 * haya cierto margen entre las Islas.
+	 * 
+	 * @param isla Recibe la Isla que va a repartir por el mapa.
+	 * @param mapa Recibe la matriz de Isla, representante del mapa.
+	 */
 	public void repartirIslas(Isla isla, Isla[][] mapa) {
 		int numIslas = 10;
 		for (int i = 0; i < numIslas; i++) {
@@ -108,7 +162,20 @@ public class GestorMundo {
 		}
 	}
 
-	// COMPROBACION SI LA ISLA SE PUEDE COLOCAR, INCLUYENDO MARGEN
+	/**
+	 * Comprueba que no haya ninguna otra Isla donde se va a colocar ésta, y que
+	 * haya cierto margen entre las Islas.
+	 * 
+	 * @param mapa   Matriz de Isla
+	 * @param margen Integer correspondiente al margen que va a haber entre Isla e
+	 *               Isla
+	 * @param x      Integer correspondiente a la coordenada X donde se va a colocar
+	 *               el centro de la Isla.
+	 * @param y      Integer correspondiente a la coordenada Y donde se va a colocar
+	 *               el centro de la Isla.
+	 * @return Devuelve un booleano. True si la Isla se puede colocar en esas
+	 *         coordenadas, false si no.
+	 */
 	private boolean sePuedeColocar(Isla[][] mapa, int margen, int x, int y) {
 		if (mapa[x][y] != null)
 			return false;
@@ -126,6 +193,15 @@ public class GestorMundo {
 		return true;
 	}
 
+	/**
+	 * Método para repartir los encuentros con enemigos durante la navegación de
+	 * forma aleatoria. Muy parecido al método para repartir islas solo que que los
+	 * encuentros con enemigos solo ocupan una casilla y no se preocupan por margen
+	 * entre otros objetos. La cantidad de enemigos en el mapa la determina la
+	 * variable local numEncuentros.
+	 * 
+	 * @param mapa Matriz de Isla
+	 */
 	public void repartirEncuentrosEnemigos(Isla[][] mapa) {
 		Isla encuentroEnem = new Isla("encuentroEnem");
 		int numEncuentros = 150;
@@ -133,16 +209,11 @@ public class GestorMundo {
 			int x = ALEATORIO.nextInt(mapa.length);
 			int y = ALEATORIO.nextInt(mapa.length);
 
-			// comprobar posicionamiento
-			// primero que la isla quepa entera en el mapa, osea que si x o y resulta estar
-			// pegado con algun borde del mapa como la isla no se puede generar entera
-			// porque ocupa un espacio de 5x5, la isla no se genera
 			if (x < 0 || y < 0 || x >= mapa.length || y >= mapa[0].length) {
 				i--;
 				continue;
 			}
-			// si no existe nada en el espacio donde se generara la isla, la genera en ese
-			// espacio, sino, no se genera
+
 			if (mapa[x][y] == null) {
 				mapa[x][y] = encuentroEnem;
 			} else {
@@ -151,6 +222,13 @@ public class GestorMundo {
 		}
 	}
 
+	/**
+	 * Desplaza la posición actual del jugador en el mapa 1 posición, en una
+	 * dirección.
+	 * 
+	 * @param direccion Integer representante de la dirección que el jugador se va a
+	 *                  mover.
+	 */
 	private void moverUnaUnidad(int direccion) {
 		int x = mundo.getPosicionX();
 		int y = mundo.getPosicionY();

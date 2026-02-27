@@ -11,29 +11,65 @@ import modeloObjetos.Item;
 import vista.VistaJuego;
 import vista.VistaTienda;
 
+/**
+ * Controlador del sistema de Tienda.
+ * 
+ * @author Jesús Manrique, Marcos Villagómez
+ * @version 1.0
+ */
 public class GestorTienda {
-	// atributos
+	/**
+	 * Instancia de VistaJuego.
+	 */
 	private VistaJuego vistaJuego = new VistaJuego();
+	/**
+	 * Instancia de VistaTienda, la vista correspondiente a los menús e información
+	 * de la Tienda.
+	 */
 	private VistaTienda vistaTienda = new VistaTienda();
+	/**
+	 * Referencia al objeto Jugador.
+	 */
 	private Jugador j;
+	/**
+	 * Referencia al objeto Tienda a gestionar.
+	 */
 	private Tienda t;
 
-	// constructor
+	/**
+	 * Constructor de la clase GestorTienda.
+	 * 
+	 * @param jugador El Jugador que va a interactuar con la Tienda.
+	 * @param tienda  La Tienda a gestionar.
+	 */
 	public GestorTienda(Jugador jugador, Tienda tienda) {
 		j = jugador;
 		t = tienda;
 	}
 
 	// getters y setters
+	/**
+	 * Devuelve la referencia al Jugador que está interactuando con la Tienda.
+	 * 
+	 * @return j
+	 */
 	public Jugador getJugador() {
 		return j;
 	}
 
+	/**
+	 * Devuelve la referencia a la Tienda que se está gestionando.
+	 * 
+	 * @return t
+	 */
 	public Tienda getTienda() {
 		return t;
 	}
 
-	// metodos propios
+	/**
+	 * Inicia la lógica de la Tienda. Conecta con vistaTienda para mostrar los menús
+	 * y gestionar las opciones introducidas por el usuario.
+	 */
 	public void entrarTienda() {
 		int opcion;
 		opcion = vistaTienda.hablarTendero1(j.getIslaActual());
@@ -57,6 +93,14 @@ public class GestorTienda {
 		}
 	}
 
+	/**
+	 * Gestiona la compra de Item. Conecta con el stock de la Tienda, crea una copia
+	 * del Item seleccionado y lo añade al Inventario del jugador a la vez que lo
+	 * resta o borra del stock de la tienda.
+	 * 
+	 * @param opcion Corresponde al index del objeto a comprar del stock de la
+	 *               Tienda + 1.
+	 */
 	private void comprarItem(int opcion) {
 		int confirmacion;
 		int contador = 1;
@@ -98,6 +142,14 @@ public class GestorTienda {
 		}
 	}
 
+	/**
+	 * Gestiona la venta de Item. Conecta con el Inventario del Jugador, resta o
+	 * borra el Item del Inventario y le suma el oro correspondiente al valor del
+	 * Item.
+	 * 
+	 * @return Integer correspondiente a la opción que seleccione el usuario en el
+	 *         menú ventanaVenta.
+	 */
 	private int venderItem() {
 		int opcionInventario = vistaJuego.menuInventarios(); // ELIGE ENTRE ITEMS O PECES
 

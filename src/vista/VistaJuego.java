@@ -371,7 +371,7 @@ public class VistaJuego {
 		switch (islaActual.getNombre()) {
 		case "Isla Langosta":
 			gestorVista.imprimirMensaje(
-					"Rondando la zona del puerto ubicas una especie 'nave' si se puede llamar de alguna forma. Asumes que es el astillero local\n"
+					"Rondando la zona del puerto ubicas una especie de 'nave' si se puede llamar de alguna forma. Asumes que es el astillero local\n"
 							+ "por el dique seco que se encuentra dentro de ésta estructura, pero las instalaciones dejan que desear. Igualmente, a tu barco no le vendrían\n"
 							+ "mal un par de capas de pintura.");
 			break;

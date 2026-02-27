@@ -14,20 +14,22 @@ public class MinijuegoRestaurante implements Minijuego {
 	private final Random ALEATORIO = new Random();
 	private VistaRestaurante vistaRestaurante = new VistaRestaurante();
 	private CombateRestaurante combateRestaurante;
+	private JuegoControlador jc;
 	private final String[] INGREDIENTES = { "Pan", "Carne", "Pescado", "Pulpo", "Agua", "Arroz", "Patatas", "Especias",
 			"Alga" };
 	private ArrayList<Cliente> clientes = new ArrayList<>();
 	private ArrayList<Plato> platosPreparados = new ArrayList<>();
 	private ArrayList<Plato> platosDisponibles = new ArrayList<>();
 	private Jugador j;
-	private int duracionTurno = 20;
+	private int duracionTurno;
 	private int turnoActual;
 	private int contadorClientes;
 
 	// constructor
-	public MinijuegoRestaurante(Jugador j) {
+	public MinijuegoRestaurante(Jugador j, JuegoControlador jc) {
 		this.j = j;
 		combateRestaurante = new CombateRestaurante(j);
+		this.jc = jc;
 		platosDisponibles = crearPlatosDisponibles();
 	}
 
@@ -52,7 +54,8 @@ public class MinijuegoRestaurante implements Minijuego {
 	@Override
 	public void comenzar() {
 		boolean consumirTurno = true;
-		// resetear todos los atributos cuando comienza el minijuego
+		// establecer todos los atributos cuando comienza el minijuego
+		duracionTurno = Math.min(25, 10 + (2 * jc.getDiaActual()));
 		turnoActual = 1;
 		contadorClientes = 0;
 		clientes.clear();
@@ -262,9 +265,17 @@ public class MinijuegoRestaurante implements Minijuego {
 
 	private ArrayList<Plato> generarPedido() {
 		ArrayList<Plato> pedido = new ArrayList<>();
-
+		int tamano;
 		// determinar el tamano del pedido, entre 1 y 3 platos
-		int tamano = generarAleatorioEntre(1, 3);
+		if (jc.getDiaActual() == 1) {
+			if (ALEATORIO.nextInt(3) == 0) {
+				tamano = 2;
+			} else {
+				tamano = 1;
+			}
+		} else {
+			tamano = generarAleatorioEntre(1, 3);
+		}
 		for (int i = 0; i < tamano; i++) {
 			pedido.add(platosDisponibles.get(generarAleatorioEntre(0, (platosDisponibles.size() - 1))));
 		}

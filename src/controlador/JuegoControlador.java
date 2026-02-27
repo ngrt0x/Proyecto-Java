@@ -48,10 +48,14 @@ public class JuegoControlador {
 		}
 		pesca = new MinijuegoPesca(jugador);
 		combate = new GestorCombate(jugador);
-		comidas = new MinijuegoRestaurante(jugador);
+		comidas = new MinijuegoRestaurante(jugador, this);
 		mundo = new Mundo(jugador);
 		gestorMundo = new GestorMundo(mundo, jugador);
 		gestorNPC = new GestorNPC();
+	}
+
+	public int getDiaActual() {
+		return diaActual;
 	}
 
 	// metodos
