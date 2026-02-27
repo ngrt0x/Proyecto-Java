@@ -144,6 +144,76 @@ public class GestorCombate implements Minijuego {
 	}
 
 	/**
+	 * Función comenzar específicamente para los combates que se den durante el
+	 * minijuego de restaurante.
+	 * <p>
+	 * No comprueba ni hace uso de los cañones del barco en ningún momento. También,
+	 * el encuentro que se genera es predeterminado.
+	 * </p>
+	 */
+	public void comenzarCombateRestaurante() {
+		vistaCombate.mensajeCombateRestaurante();
+
+		// gestiona la salud de los tripulantes en base al armamento equipado en el
+		// barco
+		prepararTripulantes();
+
+		// genera un grupo de piratas predeterminado
+		enemigos = generarEncuentroRestaurante();
+
+		// mostrar los enemigos que te encuentras
+		vistaCombate.estadoEnemigos(enemigos);
+
+		// determinar la iniciativa de cada tripulante dentro de un rango determinado
+		// para el rol de dicho tripulante
+		for (Tripulante t : aliados) {
+			switch (t.getRol()) {
+			case 1:
+				t.setIniciativa(generarAleatorioEntre(7, 10));
+				break;
+			case 2:
+				t.setIniciativa(generarAleatorioEntre(12, 15));
+				break;
+			case 3:
+				t.setIniciativa(generarAleatorioEntre(15, 18));
+				break;
+			case 4:
+				t.setIniciativa(generarAleatorioEntre(10, 13));
+				break;
+			}
+		}
+
+		// crear array conjunto de combatientes
+		List<ICombatiente> combatientes = new ArrayList<>();
+		combatientes.addAll(Arrays.asList(aliados));
+		combatientes.addAll(Arrays.asList(enemigos));
+
+		// comienza el bucle de combate
+		while (aliadosVivos() && enemigosVivos()) {
+			// ordenar por iniciativa a cada turno por si la iniciativa cambia en medio del
+			// combate
+			combatientes
+					.sort((a, b) -> b.getIniciativa() - a.getIniciativa() != 0 ? b.getIniciativa() - a.getIniciativa()
+							: ALEATORIO.nextInt(3) - 1);
+
+			// turnos infividuales de cada combatiente
+			for (int i = 0; i < combatientes.size(); i++) {
+				turno(combatientes.get(i));
+				if (!aliadosVivos() || !enemigosVivos()) {
+					if (!aliadosVivos()) {
+						vistaCombate.mensajeDerrota();
+					} else if (!enemigosVivos()) {
+						int oro = generarGaussOro();
+						jugador.sumarOro(oro);
+						vistaCombate.mensajeVictoria(oro);
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Coge el array de Tripulante y comprueba si hay algún Tripulante vivo dentro
 	 * de ese array.
 	 * 
@@ -184,11 +254,14 @@ public class GestorCombate implements Minijuego {
 	}
 
 	/**
-	 * Método que gestiona la lógica de los turnos individuales de cada ICombatiente
-	 * que participe en el combate.
+	 * Gestiona el turno de un combatiente durante el combate.
+	 * <p>
+	 * Si es un tripulante, permite elegir entre atacar, defender o usar
+	 * consumibles. Si es un enemigo, selecciona automáticamente un objetivo y
+	 * ejecuta su acción.
+	 * </p>
 	 * 
-	 * @param c Recibe una instancia de un objeto que herede de la interfaz
-	 *          ICombatiente.
+	 * @param c Combatiente al que le corresponde actuar en el turno.
 	 */
 	private void turno(ICombatiente c) {
 		if (c instanceof Tripulante) {
@@ -297,10 +370,12 @@ public class GestorCombate implements Minijuego {
 	}
 
 	/**
-	 * Método para gestionar el ataque de los cañones. Crea un ArrayList local al
-	 * que se le añaden los objetos de la clase Canon. Los ordena en base al tier, y
-	 * los Enemigos del array reciben el daño del cañón de mayor tier tras aplicarle
-	 * la dispersión.
+	 * Método para gestionar el ataque de los cañones.
+	 * <p>
+	 * Crea un ArrayList local al que se le añaden los objetos de la clase Canon.
+	 * Los ordena en base al tier, y los Enemigos del array reciben el daño del
+	 * cañón de mayor tier tras aplicarle la dispersión.
+	 * </p>
 	 * 
 	 * @param enemigos Recibe un array de Enemigo
 	 */
@@ -328,12 +403,15 @@ public class GestorCombate implements Minijuego {
 
 	/**
 	 * Crea un ArrayList con los objetos del Inventario de Barco que no son Canon,
-	 * osea que son armamentos. Ordena esta lista por tier, y aplica las
-	 * estadísticas correspondientes del equipamiento de mayor tier a todos los
-	 * Tripulante del array aliados.
-	 * 
+	 * osea que son armamentos.
+	 * <p>
+	 * Ordena esta lista por tier, y aplica las estadísticas correspondientes del
+	 * equipamiento de mayor tier a todos los Tripulante del array aliados.
+	 * </p>
+	 * <p>
 	 * También restaura los estados y la salud de todos los Tripulante a su estado
 	 * base.
+	 * </p>
 	 */
 	private void prepararTripulantes() {
 		Map<String, ArmamentoBarco> equipamientoBarco = barco.getInventarioB().getArmamentos();
@@ -398,14 +476,18 @@ public class GestorCombate implements Minijuego {
 	}
 
 	/**
-	 * Genera un encuentro aleatorio de enemigos. La pool de enemigos de la que va a
-	 * sacar los enemigos se selecciona de forma aleatoria. Cuanto menos rango
-	 * abarca una pool más rara es. Después de seleccionar la pool de enemigos
-	 * determina de forma aleatoria el tamaño del array, entre 2 y 4, y rellena el
-	 * array con enemigos seleccionados de forma aleatoria de la pool que se haya
-	 * seleccionado.
+	 * Genera un encuentro aleatorio de enemigos.
+	 * <p>
+	 * La pool de enemigos de la que va a sacar los enemigos se selecciona de forma
+	 * aleatoria. Cuanto menos rango abarca una pool más rara es.
+	 * </p>
+	 * <p>
+	 * Después de seleccionar la pool de enemigos determina de forma aleatoria el
+	 * tamaño del array, entre 2 y 4, y rellena el array con enemigos seleccionados
+	 * de forma aleatoria de la pool que se haya seleccionado.
+	 * </p>
 	 * 
-	 * @return Devuelve un array de Enemigo.
+	 * @return Array de Enemigo.
 	 */
 	private Enemigo[] generarEncuentro() {
 		int random;
@@ -482,13 +564,49 @@ public class GestorCombate implements Minijuego {
 	}
 
 	/**
-	 * Gestiona el uso de consumibles en combate. Aplica el efecto del Consumible
-	 * seleccionado al Tripulante seleccionado y lo resta del Inventario del
-	 * Jugador.
+	 * Genera un encuentro aleatorio de enemigos.
+	 * <p>
+	 * Los enemigos usados para el encuentro del restaurante se sacan unicamente de
+	 * la pool de piratas normales. Les cambia el nombre a los enemigos creados para
+	 * que vayan un poco más acorde con el contexto del combate en el restaurante.
+	 * </p>
 	 * 
-	 * @param c Recibe un objeto de clase Consumible, que será el Consumible a usar.
-	 * @param t Recibe un objeto de clase Tripulante, que será el Tripulante
-	 *          objetivo del efecto del Consumible.
+	 * @return Array de Enemigo.
+	 */
+	private Enemigo[] generarEncuentroRestaurante() {
+		int random;
+		Enemigo[] encuentro;
+		encuentro = new Enemigo[generarAleatorioEntre(1, 4)];
+		for (int i = 0; i < encuentro.length; i++) {
+			random = generarAleatorioEntre(1, 3);
+			switch (random) {
+			case 1:
+				Enemigo pirataNormal = new Enemigo("Pirata Hambriento", 55, 20, generarAleatorioEntre(10, 13));
+				encuentro[i] = pirataNormal;
+				break;
+			case 2:
+				Enemigo canonero = new Enemigo("Cañonero Descontento", 45, 35, generarAleatorioEntre(14, 17));
+				encuentro[i] = canonero;
+				break;
+			case 3:
+				Enemigo capitan = new Enemigo("Capitán Enfadado", 85, 28, generarAleatorioEntre(11, 14));
+				encuentro[i] = capitan;
+				break;
+			}
+		}
+
+		return encuentro;
+	}
+
+	/**
+	 * Gestiona el uso de consumibles en combate.
+	 * <p>
+	 * Aplica el efecto del Consumible seleccionado al Tripulante seleccionado y lo
+	 * resta del Inventario del Jugador.
+	 * </p>
+	 * 
+	 * @param c Consumible a usar.
+	 * @param t Tripulante objetivo del efecto del Consumible.
 	 */
 	private void gestionarConsumibles(Consumible c, Tripulante t) {
 		if (c.getEfecto() == "curar") {
@@ -513,9 +631,8 @@ public class GestorCombate implements Minijuego {
 	/**
 	 * Aplica al daño que se le pase una dispersión del 15%.
 	 * 
-	 * @param danio Recibe un Integer correspondiente al daño base.
-	 * @return Devuelve un Integer correspondiente al daño tras aplicar la
-	 *         dispersión.
+	 * @param danio Integer correspondiente al daño base.
+	 * @return Integer correspondiente al daño tras aplicar la dispersión.
 	 */
 	private int dispersion(int danio) {
 		int variacion = (int) (danio * (ALEATORIO.nextDouble() * 0.3 - 0.15));

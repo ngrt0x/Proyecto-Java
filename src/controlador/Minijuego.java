@@ -8,7 +8,7 @@ package controlador;
  */
 public interface Minijuego {
 	/**
-	 * Función para comenzar el Minijuego.
+	 * Comienza el minijuego.
 	 */
 	public abstract void comenzar();
 }

@@ -21,9 +21,9 @@ public class GestorNPC {
 	NPC[] habitantesIsla1;
 	NPC[] habitantesIsla2;
 
-	// constructor
 	/**
-	 * Constructor de 
+	 * Constructor de la clase GestorNPC. Crea los NPCs y los mete en sus
+	 * correspondientes Arrays.
 	 */
 	public GestorNPC() {
 		habitantesIsla1 = new NPC[5];
@@ -38,18 +38,23 @@ public class GestorNPC {
 		habitantesIsla2[2] = crearSabrina();
 	}
 
-	// getters
+	/** Devuelve el Array de NPCs correspondiente a la isla 1. */
 	public NPC[] getHabitantesIsla1() {
 		return habitantesIsla1;
 	}
 
+	/** Devuelve el Array de NPCs correspondiente a la isla 2. */
 	public NPC[] getHabitantesIsla2() {
 		return habitantesIsla2;
 	}
 
-
 	// ========== ISLA 1 ==========
 	// Richard Enepece
+	/**
+	 * Instancia los atributos y crea el NPC Richard.
+	 * 
+	 * @return Devuelve el NPC Richard.
+	 */
 	private NPC crearRichard() {
 		String[] frasesRichard = { "'Hola muy buenos dias.'", "'Te veo bien el dia de hoy.'", "'Ten un buen día.'" };
 		String opcionesDialogoRichard = "1. Qué me puedes decir de esta isla?\n2. Mola tu camiseta\n3. Qué haces aquí?\n0. Dejar de hablar";
@@ -63,6 +68,11 @@ public class GestorNPC {
 	}
 
 	// Antonio el Amargao TIENE PISTA
+	/**
+	 * Instancia los atributos y crea el NPC Antonio.
+	 * 
+	 * @return Devuelve el NPC Antonio.
+	 */
 	private NPC crearAntonio() {
 		String opcionesDialogoAntonio = "1. Sabes dónde conseguir provisiones?\n2. Has probado alguna vez la carne de gamusino?\n"
 				+ "3. Vaya apodo te has ganado en esta isla eh?\n4. Mirar fijamente\n5. Has escuchado algo sobre algún tesoro?\n0. Dejar de hablar";
@@ -82,6 +92,11 @@ public class GestorNPC {
 	}
 
 	// Manuela
+	/**
+	 * Instancia los atributos y crea el NPC Manuela.
+	 * 
+	 * @return Devuelve el NPC Manuela.
+	 */
 	private NPC crearManuela() {
 		String opcionesDialogoManuela = "1. Toma un cigarrillo\n2. Has escuchado algo de algún tesoro?\n3. Eres de por aquí?\n0. Dejar de hablar";
 		String[] respuestasManuela = { "'Como te pasas, mil gracias jefe.'",
@@ -99,6 +114,11 @@ public class GestorNPC {
 	}
 
 	// Josefina
+	/**
+	 * Instancia los atributos y crea el NPC Josefina.
+	 * 
+	 * @return Devuelve el NPC Josefina.
+	 */
 	private NPC crearJosefina() {
 		String opcionesDialogoJosefina = "1. Qué flores tienes en tu jardín?\n2. Conoces al amargado ese?\n3. Abrazar a la abuelita\n0. Dejar de hablar";
 		String[] respuestasJosefina = {
@@ -117,6 +137,11 @@ public class GestorNPC {
 	}
 
 	// Moises el tabernero TIENE PISTA
+	/**
+	 * Instancia los atributos y crea el NPC Moisés.
+	 * 
+	 * @return Devuelve el NPC Moisés.
+	 */
 	private NPC crearMoises() {
 		String opcionesDialogoMoises = "1. Por qué abriste una taberna aquí?\n2. Tienes muchos clientes?\n3. Te ves cansado.\n"
 				+ "4. Tienes algo de información valiosa que me puedas compartir? Llevo un tiempo ya detrás de cierto tesoro.\n0. Dejar de hablar";
@@ -142,6 +167,11 @@ public class GestorNPC {
 	// ========== ISLA 2 ==========
 
 	// Gato
+	/**
+	 * Instancia los atributos y crea el NPC Piti.
+	 * 
+	 * @return Devuelve el NPC Piti.
+	 */
 	private NPC crearPiti() {
 		String[] frasesPiti = { "'Mrrrrow'", "'Miau miau miau'", "'Mew'", "Se está lamiendo la entrepierna..." };
 		String primeraPiti = "Mrrrow miau miau miau";
@@ -154,6 +184,11 @@ public class GestorNPC {
 	}
 
 	// Encapuchado
+	/**
+	 * Instancia los atributos y crea el NPC Encapuchado.
+	 * 
+	 * @return Devuelve el NPC Encapuchado.
+	 */
 	private NPC crearEncapuchado() {
 		String[] frasesEncapuchado = { "'Qué me andas mirando? Buscas un puñal en el pecho?'", "'Aire.'",
 				"'No me suena tu cara y no me gusta eso.'" };
@@ -169,6 +204,11 @@ public class GestorNPC {
 	}
 
 	// Mujer desmayada TIENE PISTA
+	/**
+	 * Instancia los atributos y crea el NPC Sabrina.
+	 * 
+	 * @return Devuelve el NPC Sabrina.
+	 */
 	private NPC crearSabrina() {
 		String[] frasesSabrina = { "'...' La mujer sigue tendida en el suelo." };
 		String primeraSabrina = "'...' La mujer está tendida en el suelo, inmóvil.";
@@ -182,6 +222,17 @@ public class GestorNPC {
 	// ============================
 
 	// metodos propios
+	/**
+	 * Es el primer paso para hablar con un NPC. Muestra la lista de NPCs de la isla
+	 * correspondiente y te da a seleccionar uno.
+	 * <p>
+	 * Si no has interactuado con el NPC antes, éste dirá su primera frase, y
+	 * cambiará su estado a conocido. Si ya has hablado con el NPC antes, dirá una
+	 * frase aleatoria de su pool de frases.
+	 * </p>
+	 * 
+	 * @param j Recibe el Jugador que está interactuando con el NPC.
+	 */
 	public void hablarNpc(Jugador j) {
 		int opcionH;
 		opcionH = vistaNpc.menuHabitantes1(j.getIslaActual());
@@ -199,7 +250,21 @@ public class GestorNPC {
 		}
 	}
 
-	public boolean interactuarNpc(NPC objetivo, Jugador j) {
+	/**
+	 * Gestiona el diálogo con los NPCs.
+	 * <p>
+	 * Se le mostrará al usuario una lista de opciones de diálogo de las cuales
+	 * tendrá que seleccionar una y el NPC responderá acorde.
+	 * </p>
+	 * <p>
+	 * Si el NPC tiene una pista se ejecutará la función pistaNpc() que gestionará
+	 * la lógica del diálogo para recibir la pista.
+	 * </p>
+	 * 
+	 * @param objetivo NPC con el que estás interactuando.
+	 * @param j        Jugador que está interactuando.
+	 */
+	public void interactuarNpc(NPC objetivo, Jugador j) {
 		int opcionDialogo;
 		boolean dejarDeHablar = false;
 		while (!dejarDeHablar) {
@@ -224,10 +289,15 @@ public class GestorNPC {
 				}
 			}
 		}
-		return false;
 	}
 
 	// hacer una interaccion un poco mas currada para algunas pistas
+	/**
+	 * Gestiona la lógica única de los diálogos para recibir la pista.
+	 * 
+	 * @param objetivo NPC con pista con el que estás interactuando.
+	 * @param j        Jugador que está interactuando.
+	 */
 	private void pistaNpc(NPC objetivo, Jugador j) {
 		int opcion;
 		switch (objetivo.getNombre()) {

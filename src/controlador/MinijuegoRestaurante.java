@@ -9,49 +9,111 @@ import modeloObjetos.Plato;
 import modeloPersonajes.Cliente;
 import vista.VistaRestaurante;
 
+/**
+ * Controlador del minijuego de restaurante.
+ * <p>
+ * Gestiona todo lo relacionado con éste sistema.
+ * </p>
+ * 
+ * @author Jesús Manrique, Marcos Villagómez.
+ * @version 1.0
+ */
 public class MinijuegoRestaurante implements Minijuego {
-	// atributos propios
+	/** Instancia de Random del paquete java.util. */
 	private final Random ALEATORIO = new Random();
+	/**
+	 * Instancia de VistaRestaurante, encargada de imprimir y pedir la información
+	 * relacionada al minijuego de restaurante.
+	 */
 	private VistaRestaurante vistaRestaurante = new VistaRestaurante();
-	private CombateRestaurante combateRestaurante;
+	/**
+	 * Instancia del controlador GestorCombate para gestionar los combates que se
+	 * dan durante este minijuego.
+	 */
+	private GestorCombate gestorCombate;
+	/**
+	 * Referencia al controlador JuegoControlador para poder usar datos como la
+	 * isla, o el día actual.
+	 */
 	private JuegoControlador jc;
+	/**
+	 * Array de String constante, que contiene los ingredientes disponibles.
+	 */
 	private final String[] INGREDIENTES = { "Pan", "Carne", "Pescado", "Pulpo", "Agua", "Arroz", "Patatas", "Especias",
 			"Alga" };
+	/**
+	 * ArrayList de Cliente que almacena los clientes que se van generando para
+	 * atender.
+	 */
 	private ArrayList<Cliente> clientes = new ArrayList<>();
+	/**
+	 * ArrayList de Plato que almacena los platos que prepara el usuario para poder
+	 * entregarlos a los clietes.
+	 */
 	private ArrayList<Plato> platosPreparados = new ArrayList<>();
+	/**
+	 * ArrayList de Plato que almacena los platos disponibles para preparar.
+	 */
 	private ArrayList<Plato> platosDisponibles = new ArrayList<>();
+	/** Referencia al objeto Jugador. */
 	private Jugador j;
+	/** Duración en turnos del minijuego de restaurante. */
 	private int duracionTurno;
+	/** Turno actual */
 	private int turnoActual;
+	/** Contador de los clientes que llegan al restaurante */
 	private int contadorClientes;
 
-	// constructor
+	/**
+	 * Constructor de la clase MinijuegoRestaurante.
+	 * <p>
+	 * Hace uso de la función crearPlatosDisponibles() para crear los objetos Plato
+	 * correspondientes a los platos disponibles y los mete en el ArrayList
+	 * platosDisponibles.
+	 * </p>
+	 * 
+	 * @param j  Recibe el Jugador participando en el minijuego.
+	 * @param jc Recibe el JuegoControlador que está gestionando la partida actual.
+	 */
 	public MinijuegoRestaurante(Jugador j, JuegoControlador jc) {
 		this.j = j;
-		combateRestaurante = new CombateRestaurante(j);
+		gestorCombate = new GestorCombate(j);
 		this.jc = jc;
 		platosDisponibles = crearPlatosDisponibles();
 	}
 
 	// getters y setters
+	/** Devuelve la duración total del turno de comidas */
 	public int getDuracionTurno() {
 		return duracionTurno;
 	}
 
+	/** Setter de duracionTurno. */
 	public void setDuracionTurno(int duracionTurno) {
 		this.duracionTurno = duracionTurno;
 	}
 
+	/** Devuelve el turno actual */
 	public int getTurnoActual() {
 		return turnoActual;
 	}
 
+	/** Setter de turnoActual */
 	public void setTurnoActual(int turnoActual) {
 		this.turnoActual = turnoActual;
 	}
 
-	// metodos de la interfaz
 	@Override
+	/**
+	 * Método de la interfaz Minijuego. Inicia y gestiona el minijuego del
+	 * restaurante.
+	 * <p>
+	 * Controla el flujo de turnos, la llegada de clientes, la preparación y
+	 * servicio de platos, así como la paciencia de los clientes. El turno avanza
+	 * según las acciones realizadas por el jugador y finaliza cuando se alcanza la
+	 * duración máxima establecida.
+	 * </p>
+	 */
 	public void comenzar() {
 		boolean consumirTurno = true;
 		// establecer todos los atributos cuando comienza el minijuego
@@ -166,7 +228,7 @@ public class MinijuegoRestaurante implements Minijuego {
 						vistaRestaurante.mensajePacienciaAgotada(c);
 						it.remove();
 						if (ALEATORIO.nextInt(4) == 0) {
-							combateRestaurante.comenzar();
+							gestorCombate.comenzarCombateRestaurante();
 						}
 					}
 				}
@@ -177,6 +239,15 @@ public class MinijuegoRestaurante implements Minijuego {
 		vistaRestaurante.mensajeFin(j);
 	}
 
+	/**
+	 * Permite seleccionar ingredientes y preparar un plato.
+	 * <p>
+	 * Comprueba si la combinación coincide con algún plato disponible y lo
+	 * devuelve. En caso contrario, se prepara un bodrio.
+	 * </p>
+	 * 
+	 * @return Plato resultante de la preparación.
+	 */
 	private Plato prepararPlato() {
 		ArrayList<String> preparacion = new ArrayList<>();
 		int opcionI;
@@ -229,6 +300,15 @@ public class MinijuegoRestaurante implements Minijuego {
 		return platoPreparado;
 	}
 
+	/**
+	 * Finaliza la comanda de un cliente.
+	 * <p>
+	 * Si el pedido es correcto, el jugador recibe el pago. Si no, el cliente se
+	 * marcha y puede comenzar un combate.
+	 * </p>
+	 * 
+	 * @param clienteAServir Cliente cuya comanda se desea cerrar.
+	 */
 	private void terminarComanda(Cliente clienteAServir) {
 		if (clienteAServir.getPlatosRecibidos().containsAll(clienteAServir.getPedido())) {
 			int pago = 0;
@@ -242,11 +322,18 @@ public class MinijuegoRestaurante implements Minijuego {
 			vistaRestaurante.mensajesPedidoIncorrecto(clienteAServir);
 			quitarCliente(clienteAServir);
 			if (ALEATORIO.nextInt(4) == 0) {
-				combateRestaurante.comenzar();
+				gestorCombate.comenzarCombateRestaurante();
 			}
 		}
 	}
 
+	/**
+	 * Entrega un plato preparado a un cliente y lo elimina de la lista de platos
+	 * preparados para servir.
+	 * 
+	 * @param clienteAServir Cliente que recibe el plato.
+	 * @param plato          Índice del plato seleccionado + 1.
+	 */
 	private void entregarPlato(Cliente clienteAServir, int plato) {
 		Plato platoAServir = platosPreparados.get(plato - 1);
 		clienteAServir.addPlatosRecibidos(platoAServir);
@@ -254,6 +341,11 @@ public class MinijuegoRestaurante implements Minijuego {
 		restarPlatoPreparado(platoAServir);
 	}
 
+	/**
+	 * Genera un nuevo cliente con un pedido aleatorio.
+	 * 
+	 * @return Cliente creado.
+	 */
 	private Cliente generarCliente() {
 		ArrayList<Plato> pedido = generarPedido();
 		String nombreCliente;
@@ -263,6 +355,12 @@ public class MinijuegoRestaurante implements Minijuego {
 		return c;
 	}
 
+	/**
+	 * Genera un pedido aleatorio de entre 1 y 3 platos disponibles, ajustado según
+	 * el día actual, para aumentar progresivamente la dificultad del minijuego.
+	 * 
+	 * @return Lista de platos que componen el pedido.
+	 */
 	private ArrayList<Plato> generarPedido() {
 		ArrayList<Plato> pedido = new ArrayList<>();
 		int tamano;
@@ -282,6 +380,12 @@ public class MinijuegoRestaurante implements Minijuego {
 		return pedido;
 	}
 
+	/**
+	 * Crea e inicializa la lista de platos disponibles en el restaurante junto con
+	 * sus ingredientes y precios.
+	 * 
+	 * @return Lista de platos base disponibles.
+	 */
 	private ArrayList<Plato> crearPlatosDisponibles() {
 		Plato estofadoCapitan = new Plato("Estofado del Capitán", "estofado_cap", 10);
 		estofadoCapitan.addIngredientes(INGREDIENTES[4]);
@@ -323,6 +427,12 @@ public class MinijuegoRestaurante implements Minijuego {
 		return platosDisponibles;
 	}
 
+	/**
+	 * Añade un plato a la lista de preparados. Si ya existe, incrementa su cantidad
+	 * en lugar de duplicarlo.
+	 * 
+	 * @param plato Plato a añadir.
+	 */
 	private void addPlatoPreparado(Plato plato) {
 		for (int i = 0; i < platosPreparados.size(); i++) {
 			Plato p = platosPreparados.get(i);
@@ -334,6 +444,12 @@ public class MinijuegoRestaurante implements Minijuego {
 		platosPreparados.add(plato);
 	}
 
+	/**
+	 * Reduce la cantidad de un plato preparado. Si su cantidad llega a cero, se
+	 * elimina de la lista.
+	 * 
+	 * @param plato Plato que se quiere restar.
+	 */
 	private void restarPlatoPreparado(Plato plato) {
 		Iterator<Plato> it = platosPreparados.iterator();
 		while (it.hasNext()) {
@@ -348,6 +464,13 @@ public class MinijuegoRestaurante implements Minijuego {
 		}
 	}
 
+	/**
+	 * Elimina un cliente de la lista de clientes activos. Ya sea porque se le haya
+	 * acabado la paciencia, se le haya entregado un plato incorrecto, o su comanda
+	 * se ha cerrado correctamente.
+	 * 
+	 * @param cliente Cliente a eliminar de la lista de clientes activos.
+	 */
 	private void quitarCliente(Cliente cliente) {
 		Iterator<Cliente> it = clientes.iterator();
 		while (it.hasNext()) {
@@ -358,6 +481,17 @@ public class MinijuegoRestaurante implements Minijuego {
 		}
 	}
 
+	/**
+	 * Genera un número aleatorio entre un número mímino y un número máximo que
+	 * recibe.
+	 * 
+	 * @param min Integer correspondiente al número mínimo que quieres que se
+	 *            genere.
+	 * @param max Integer correspondiente al número máximo que quieres que se
+	 *            genere.
+	 * @return Devuelve un Integer aleatorio entre el número mínimo y el número
+	 *         máximo que le has pasado.
+	 */
 	private int generarAleatorioEntre(int min, int max) {
 		return ALEATORIO.nextInt(max - min + 1) + min;
 	}

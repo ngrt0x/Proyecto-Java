@@ -83,9 +83,11 @@ public class MinijuegoPesca implements Minijuego {
 	}
 
 	/**
-	 * Comprueba que el usuario tenga un Item de la clase CanaPescar. En el caso de
-	 * que tenga varias, las guarda en un ArrayList, lo ordena en base a la línea de
-	 * la caña y devuelve la linea de la caña con más línea.
+	 * Comprueba que el usuario tenga un Item de la clase CanaPescar.
+	 * <p>
+	 * En el caso de que tenga varias, las guarda en un ArrayList, lo ordena en base
+	 * a la línea de la caña y devuelve la linea de la caña con más línea.
+	 * </p>
 	 * 
 	 * @return La linea del objeto CanaPescar con más línea en el inventario del
 	 *         Jugador.
@@ -104,8 +106,11 @@ public class MinijuegoPesca implements Minijuego {
 
 	/**
 	 * Genera un Pez aleatorio de entre los peces disponibles, instanciados en este
-	 * mismo método. Cuanto más bajo sea el número correspondiente a la rareza del
-	 * pez, saldrá con menos frecuencia.
+	 * mismo método.
+	 * <p>
+	 * Cuanto más bajo sea el número correspondiente a la rareza del pez, saldrá con
+	 * menos frecuencia.
+	 * </p>
 	 * 
 	 * @return Devuelve un Pez.
 	 */
@@ -152,10 +157,12 @@ public class MinijuegoPesca implements Minijuego {
 	/**
 	 * Genera un número aleatorio entre 2 y 6 si el usuario no tiene cebo bueno en
 	 * su inventario, o entre 1 y 3 si tiene. Este número corresponderá a los turnos
-	 * que tiene que se hará esperar al usuario hasta que "pique" un pez. A cada
-	 * turno se conectará con VistaPesca para imprimir un mensaje de espera y de
-	 * dormirá al hilo durante 3000 milisegundos. Cuando acaben esos turnos
+	 * que tiene que se hará esperar al usuario hasta que "pique" un pez.
+	 * <p>
+	 * A cada turno se conectará con VistaPesca para imprimir un mensaje de espera y
+	 * de dormirá al hilo durante 3000 milisegundos. Cuando acaben esos turnos
 	 * VistaPesca pedirá al usuario que introduzca TIRAR por teclado.
+	 * </p>
 	 * 
 	 * @return Devuelve true si el usuario consigue escribir TIRAR bien, false si
 	 *         no.
@@ -190,13 +197,20 @@ public class MinijuegoPesca implements Minijuego {
 
 	/**
 	 * Método principal del minijuego. Gestiona el minijuego de lucha entre el
-	 * jugador y un pez una vez que ha mordido el anzuelo. Durante la lucha se
-	 * controlan 3 variables principales: La resistencia de linea, la energia del
-	 * pez, y la distancia entre el pez y el jugador. El minijuego termina cuando la
-	 * resistencia de linea llega a 0 o la distancia del pez supera la distancia
-	 * tope, enconces el pez se escapa y el jugador pierde la lucha. También puede
-	 * terminar si la energía del pez y la distancia llegan a 0, entonces el jugador
-	 * gana la lucha y se añade el Pez a su Inventario.
+	 * jugador y un pez una vez que ha mordido el anzuelo.
+	 * <p>
+	 * Durante la lucha se controlan 3 variables principales: La resistencia de
+	 * linea, la energia del pez, y la distancia entre el pez y el jugador.
+	 * </p>
+	 * <p>
+	 * El minijuego termina cuando la resistencia de linea llega a 0 o la distancia
+	 * del pez supera la distancia tope, enconces el pez se escapa y el jugador
+	 * pierde la lucha.
+	 * </p>
+	 * <p>
+	 * También puede terminar si la energía del pez y la distancia llegan a 0,
+	 * entonces el jugador gana la lucha y se añade el Pez a su Inventario.
+	 * </p>
 	 * 
 	 * @param pez Recibe el Pez contra el que se va a luchar. Su fuerza determina la
 	 *            dificultad de la lucha.

@@ -40,12 +40,14 @@ public class GestorMundo {
 	}
 
 	/**
-	 * Este método inicia el sistema de navegación. Tiene unas variables locales
-	 * distancia y dirección que se le pedirán al usuario. También una variable
-	 * booleana echarAncla que determinará si el usuairo sigue navegando o termina
-	 * de navegar.
+	 * Inicia el sistema de navegación.
+	 * <p>
+	 * Tiene unas variables locales distancia y dirección que se le pedirán al
+	 * usuario. También una variable booleana echarAncla que determinará si el
+	 * usuairo sigue navegando o termina de navegar.
+	 * </p>
 	 * 
-	 * @return Devuelve el objeto Isla al que ha navegado el usuario.
+	 * @return Isla al que ha navegado el usuario.
 	 */
 	public Isla navegar() {
 		int distancia;
@@ -101,16 +103,19 @@ public class GestorMundo {
 
 	/**
 	 * Éste método crea referencias del objeto Isla en la matriz de Isla que hay en
-	 * la clase Mundo. No crea una una sola referencia en la coordenada que se le de
-	 * sino que crea referencias con una forma "circular" en el mapa para darles más
-	 * cuerpo a las Islas de cara a mostrarlas en el mapa durante la navegación.
+	 * la clase Mundo.
+	 * <p>
+	 * No crea una una sola referencia en la coordenada que se le de sino que crea
+	 * referencias con una forma "circular" en el mapa para darles más cuerpo a las
+	 * Islas de cara a mostrarlas en el mapa durante la navegación.
+	 * </p>
 	 * 
-	 * @param mapa Recibe una matriz de objetos Isla.
+	 * @param mapa Matriz de objetos Isla.
 	 * @param x    Integer correspondiente a la coordenada X donde se va a colocar
 	 *             el centro de la Isla.
 	 * @param y    Integer correspondiente a la coordenada Y donde se va a colocar
 	 *             el centro de la Isla.
-	 * @param isla Recibe el objeto Isla a referenciar dentro del mapa.
+	 * @param isla Isla a referenciar dentro del mapa.
 	 */
 	public void hacerFormaIsla(Isla[][] mapa, int x, int y, Isla isla) {
 		mapa[x][y] = isla;
@@ -130,13 +135,16 @@ public class GestorMundo {
 
 	/**
 	 * Reparte una cantidad de Islas correspondiente a la variable local numIslas
-	 * por el mapa de forma aleatoria. Comprueba que la Isla que va a colocar no se
-	 * sale de los límites del mapa. Luego le pasa la funcion sePuedeColocar() para
-	 * comprobar que no haya ninguna otra Isla donde se va a colocar ésta, y que
-	 * haya cierto margen entre las Islas.
+	 * por el mapa de forma aleatoria.
+	 * <p>
+	 * Comprueba que la Isla que va a colocar no se sale de los límites del mapa.
+	 * Luego le pasa la funcion sePuedeColocar() para comprobar que no haya ninguna
+	 * otra Isla donde se va a colocar ésta, y que haya cierto margen entre las
+	 * Islas.
+	 * </p>
 	 * 
-	 * @param isla Recibe la Isla que va a repartir por el mapa.
-	 * @param mapa Recibe la matriz de Isla, representante del mapa.
+	 * @param isla Isla que va a repartir por el mapa.
+	 * @param mapa Matriz de Isla, representante del mapa.
 	 */
 	public void repartirIslas(Isla isla, Isla[][] mapa) {
 		int numIslas = 10;
@@ -173,8 +181,8 @@ public class GestorMundo {
 	 *               el centro de la Isla.
 	 * @param y      Integer correspondiente a la coordenada Y donde se va a colocar
 	 *               el centro de la Isla.
-	 * @return Devuelve un booleano. True si la Isla se puede colocar en esas
-	 *         coordenadas, false si no.
+	 * @return Booleano. True si la Isla se puede colocar en esas coordenadas, false
+	 *         si no.
 	 */
 	private boolean sePuedeColocar(Isla[][] mapa, int margen, int x, int y) {
 		if (mapa[x][y] != null)
@@ -195,10 +203,13 @@ public class GestorMundo {
 
 	/**
 	 * Método para repartir los encuentros con enemigos durante la navegación de
-	 * forma aleatoria. Muy parecido al método para repartir islas solo que que los
-	 * encuentros con enemigos solo ocupan una casilla y no se preocupan por margen
-	 * entre otros objetos. La cantidad de enemigos en el mapa la determina la
-	 * variable local numEncuentros.
+	 * forma aleatoria.
+	 * <p>
+	 * Muy parecido al método para repartir islas solo que que los encuentros con
+	 * enemigos solo ocupan una casilla y no se preocupan por margen entre otros
+	 * objetos. La cantidad de enemigos en el mapa la determina la variable local
+	 * numEncuentros.
+	 * </p>
 	 * 
 	 * @param mapa Matriz de Isla
 	 */

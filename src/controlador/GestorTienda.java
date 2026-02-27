@@ -39,8 +39,8 @@ public class GestorTienda {
 	/**
 	 * Constructor de la clase GestorTienda.
 	 * 
-	 * @param jugador El Jugador que va a interactuar con la Tienda.
-	 * @param tienda  La Tienda a gestionar.
+	 * @param jugador Jugador que va a interactuar con la Tienda.
+	 * @param tienda  Tienda a gestionar.
 	 */
 	public GestorTienda(Jugador jugador, Tienda tienda) {
 		j = jugador;
@@ -94,12 +94,14 @@ public class GestorTienda {
 	}
 
 	/**
-	 * Gestiona la compra de Item. Conecta con el stock de la Tienda, crea una copia
-	 * del Item seleccionado y lo añade al Inventario del jugador a la vez que lo
-	 * resta o borra del stock de la tienda.
+	 * Gestiona la compra de Item.
+	 * <p>
+	 * Conecta con el stock de la Tienda, crea una copia del Item seleccionado y lo
+	 * añade al Inventario del jugador a la vez que lo resta o borra del stock de la
+	 * tienda, y le resta al Jugador el oro correspondiente al valor del objeto.
+	 * </p>
 	 * 
-	 * @param opcion Corresponde al index del objeto a comprar del stock de la
-	 *               Tienda + 1.
+	 * @param opcion Index del objeto a comprar del stock de la Tienda + 1.
 	 */
 	private void comprarItem(int opcion) {
 		int confirmacion;
@@ -143,9 +145,11 @@ public class GestorTienda {
 	}
 
 	/**
-	 * Gestiona la venta de Item. Conecta con el Inventario del Jugador, resta o
-	 * borra el Item del Inventario y le suma el oro correspondiente al valor del
-	 * Item.
+	 * Gestiona la venta de Item.
+	 * <p>
+	 * Conecta con el Inventario del Jugador, resta o borra el Item del Inventario y
+	 * le suma el oro correspondiente al valor del Item.
+	 * </p>
 	 * 
 	 * @return Integer correspondiente a la opción que seleccione el usuario en el
 	 *         menú ventanaVenta.

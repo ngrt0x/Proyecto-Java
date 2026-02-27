@@ -33,8 +33,8 @@ public class GestorAstillero {
 	/**
 	 * Constructor de la clase GestorAstillero.
 	 * 
-	 * @param jugador El Jugador que va a interactuar con la Tienda.
-	 * @param ast     El Astillero a gestionar.
+	 * @param jugador Jugador que va a interactuar con la Tienda.
+	 * @param ast     Astillero a gestionar.
 	 */
 	public GestorAstillero(Jugador jugador, Astillero ast) {
 		j = jugador;
@@ -59,7 +59,6 @@ public class GestorAstillero {
 		return ast;
 	}
 
-	// metodos propios
 	/**
 	 * Inicia la lógica del Astillero. Conecta con vistaTienda para mostrar los
 	 * menús y gestionar las opciones introducidas por el usuario.
@@ -78,12 +77,14 @@ public class GestorAstillero {
 	}
 
 	/**
-	 * Gestiona la compra de Item. Conecta con el stock del Astillero, crea una
-	 * copia del Item seleccionado y lo añade al Inventario del jugador a la vez que
-	 * lo resta o borra del stock de la tienda.
+	 * Gestiona la compra de mejoras para el Barco.
+	 * <p>
+	 * Conecta con el stock del Astillero, crea una copia del Item seleccionado y lo
+	 * añade al Inventario del Barco a la vez que lo resta o borra del stock de la
+	 * tienda, y le resta al Jugador el oro correspondiente al valor del objeto.
+	 * </p>
 	 * 
-	 * @param opcion Corresponde al index del objeto a comprar del stock del
-	 *               Astillero + 1.
+	 * @param opcion Index del objeto a comprar del stock del Astillero + 1.
 	 */
 	private void comprarMejora(int opcion) {
 		int confirmacion;

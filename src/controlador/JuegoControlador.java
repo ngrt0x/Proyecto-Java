@@ -9,30 +9,89 @@ import modeloPersonajes.Tripulante;
 import vista.VistaJuego;
 import vista.VistaNPC;
 
+/**
+ * Controlador principal del juego. Inicia la partida, gestiona la creación del
+ * Jugador y su tripulación, controla el flujo de días y de turnos del día.
+ * 
+ * @author Jesús Manrique, Marcos Villagómez.
+ * @version 1.0
+ */
 public class JuegoControlador {
 	// atributos
+	/**
+	 * Instancia de VistaJuego, encargada de imprimir y pedir la información
+	 * relacionada con el flujo principal de la partida.
+	 */
 	private VistaJuego vistaJuego = new VistaJuego();
+	/**
+	 * Instancia de VistaNPC, encargada de imprimir y pedir la información
+	 * relacionada a los NPCs.
+	 */
 	private VistaNPC vistaNpc = new VistaNPC();
+	/** Jugador que va a participar en la partida. */
 	private Jugador jugador;
+	/** Mundo donde se va a desarrollar la partida. */
 	private Mundo mundo;
+	/**
+	 * Instancia de GestorMundo, controlador encargado de gestionar la navegación y
+	 * la generación del Mundo.
+	 */
 	private GestorMundo gestorMundo;
+	/**
+	 * Instancia de GestorNPC, controlador encargado de la creación e interacción
+	 * con los NPCs.
+	 */
 	private GestorNPC gestorNPC;
+	/**
+	 * Instancia de GestorTienda, controlador encargado de la compra y venta de
+	 * Items.
+	 */
 	private GestorTienda gestorTienda;
+	/**
+	 * Instancia de GestorAstillero, controlador encargado de la compra de mejoras
+	 * para el Barco.
+	 */
 	private GestorAstillero gestorAstillero;
+	/** Instancia de MinijuegoPesca, controlador del minijuego de pesca. */
 	private MinijuegoPesca pesca;
+	/** Instancia de GestorCombate, controlador del sistema de combate. */
 	private GestorCombate combate;
+	/**
+	 * Instancia de MinijuegoRestaurante, controlador del minijuego de restaurante.
+	 */
 	private MinijuegoRestaurante comidas;
+	/**
+	 * Modo de juego en el que se va a iniciar la partida. 1 es modo debug para
+	 * probar los sistemas. 2 es modo normal para la experiencia éstandar del juego.
+	 */
 	private int opcionModo;
 
+	/**
+	 * Representa las distintas fases que puede tener un día dentro del juego.
+	 */
 	public static enum FaseDia {
-		MANANA, COMIDA, TARDENOCHE, NAVEGACION;
+		/** Fase de la mañana para la pesca. */
+		MANANA,
+		/** Fase principal de comida para el minijuego de restaurante. */
+		COMIDA,
+		/** Fase de la tarde, para bajar a la isla e interactuar con ella. */
+		TARDENOCHE,
+		/** Fase dedicada a la navegación. */
+		NAVEGACION;
 	}
 
+	/** Día actual en el progreso del juego. */
 	private int diaActual;
+	/** Fase del día en la que se encuentra actualmente el juego. */
 	public static FaseDia faseActual;
 
-	// constructor
-	// en el constructor se puede elegir el modo de juego que quieres inicializar
+	/**
+	 * Constructor principal del controlador del juego.
+	 * <p>
+	 * Inicializa el modo seleccionado (debug o normal), crea el jugador y prepara
+	 * todos los sistemas y gestores necesarios.
+	 * </p>
+	 */
 	public JuegoControlador() {
 		opcionModo = vistaJuego.elegirModo();
 		switch (opcionModo) {
@@ -54,11 +113,23 @@ public class JuegoControlador {
 		gestorNPC = new GestorNPC();
 	}
 
+	/**
+	 * Devuelve el día actual dentro del progreso del juego.
+	 * 
+	 * @return Número del día actual.
+	 */
 	public int getDiaActual() {
 		return diaActual;
 	}
 
-	// metodos
+	/**
+	 * Inicia el bucle principal del juego.
+	 * <p>
+	 * Gestiona el flujo según el modo seleccionado y controla las distintas fases
+	 * del día, permitiendo al jugador interactuar con los diferentes sistemas y
+	 * minijuegos.
+	 * </p>
+	 */
 	public void iniciarJuego() {
 		switch (opcionModo) {
 		// case 1 inicia el juego en modo debug, para probar los sistemas del juego
@@ -248,6 +319,13 @@ public class JuegoControlador {
 		vistaJuego.mensajeDespedida(jugador);
 	}
 
+	/**
+	 * Crea el jugador y configura su tripulación.
+	 * <p>
+	 * Permite asignar nombres y roles a los tripulantes, estableciendo sus
+	 * atributos base según el rol seleccionado.
+	 * </p>
+	 */
 	public void crearJugador() {
 		// variables
 		String nombreJugador;
@@ -319,6 +397,9 @@ public class JuegoControlador {
 		jugador.getBarco().setTripulacion(tripulacion);
 	}
 
+	/**
+	 * Avanza a la siguiente fase del día siguiendo el orden establecido.
+	 */
 	private void avanzarFase() {
 		switch (faseActual) {
 		case MANANA:
