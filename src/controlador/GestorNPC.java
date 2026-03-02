@@ -332,6 +332,10 @@ public class GestorNPC {
 							+ "supuesto 'Fuego del Paraiso' o algo así. Yo creo que era una historieta que algún pirata pasajero le contaría, pero yo qué sé, cada uno que haga lo que quiera\n"
 							+ "con su vida. Lo último que me dijo es que iba a zarpar en viaje hacia las islas del norte. Igual se lo ha comido una ballena de camino o algo.'");
 
+					objetivo.setOpcionesDialogo(
+							"1. Sabes dónde conseguir provisiones?\n2. Has probado alguna vez la carne de gamusino?\n"
+									+ "3. Vaya apodo te has ganado en esta isla eh?\n4. Mirar fijamente\n0. Dejar de hablar");
+
 					// tras la interaccion se guardan las pistas en el diario
 					j.getDiario().agregarPista(
 							"En Isla Langosa he escuchado algo sobre un tesoro llamado 'Fuego del Paraiso'.");
