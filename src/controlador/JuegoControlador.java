@@ -162,7 +162,7 @@ public class JuegoControlador {
 			break;
 		// case 2 inicia el juego en modo normal, la experiencia estandar
 		case 2:
-			int accion;
+			int accion = -1;
 			boolean salir = false;
 			while (!salir) {
 				jugador.setIslaActual(mundo.getUbicacionActual());
@@ -212,7 +212,7 @@ public class JuegoControlador {
 					break;
 				case COMIDA:
 					accion = vistaJuego.menuComida1(jugador);
-					while (accion != 1) {
+					while (accion != 1 && accion != 5) {
 						switch (accion) {
 						// hablar con los tripulantes
 						case 2 -> {
@@ -236,16 +236,19 @@ public class JuegoControlador {
 						case 4 -> vistaJuego.mostrarDiario(jugador.getDiario());
 						}
 						accion = vistaJuego.menuComida2(jugador);
-
 					}
 					// si el usuario selecciona abrir restaurante inicia el minijuego de restaurante
 					// y despues de eso avanza el dia
-					comidas.comenzar();
-					vistaJuego.mensajeTerminarComidas(jugador);
+					if (accion == 1) {
+						comidas.comenzar();
+						vistaJuego.mensajeTerminarComidas(jugador);
+					} else if (accion == 5) {
+						vistaJuego.mensajeNoAbrir(jugador);
+					}
 					avanzarFase();
 					break;
 				case TARDENOCHE:
-					accion = vistaJuego.menuTardenoche1(jugador);
+					accion = vistaJuego.menuTardenoche1(jugador, accion);
 					while (accion != 5) {
 						switch (accion) {
 						// baja a la isla
