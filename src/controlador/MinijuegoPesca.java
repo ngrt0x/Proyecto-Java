@@ -56,29 +56,33 @@ public class MinijuegoPesca implements Minijuego {
 
 		// comprueba las cañas de pescar que tenga el jugador
 		resistenciaLinea = comprobarCana();
-		while (opcion != 0) {
-			tieneCeboBueno = false;
-			switch (opcion) {
-			case 1:
-				if (resistenciaLinea == 0) {
-					vistaPesca.mensajeNoCana();
-				} else {
-					lanzarAnzuelo();
-					try {
-						if (esperar()) {
-							lucha(generarPezRandom());
+		if (resistenciaLinea == 0) {
+			vistaPesca.mensajeNoCana();
+		} else {
+			while (opcion != 0) {
+				tieneCeboBueno = false;
+				switch (opcion) {
+				case 1:
+					if (resistenciaLinea == 0) {
+						vistaPesca.mensajeNoCana();
+					} else {
+						lanzarAnzuelo();
+						try {
+							if (esperar()) {
+								lucha(generarPezRandom());
+							}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
 					}
+					break;
+				case 2:
+					vistaPesca.mostrarReglas(j);
+					break;
 				}
-				break;
-			case 2:
-				vistaPesca.mostrarReglas(j);
-				break;
-			}
 
-			opcion = vistaPesca.menuInicial();
+				opcion = vistaPesca.menuInicial();
+			}
 		}
 	}
 
@@ -100,8 +104,11 @@ public class MinijuegoPesca implements Minijuego {
 				canas.add((CanaPescar) inventario.get(i));
 			}
 		}
-		canas.sort((a, b) -> b.getLinea() - a.getLinea());
-		return canas.get(0).getLinea();
+		if (!canas.isEmpty()) {
+			canas.sort((a, b) -> b.getLinea() - a.getLinea());
+			return canas.get(0).getLinea();
+		}
+		return 0;
 	}
 
 	/**
