@@ -42,25 +42,25 @@ public class Mundo {
 	/** Caña reforzada */
 	private CanaPescar canaReforzada = new CanaPescar("Caña reforzada", "cana_reforzada", 150, 15);
 	/** Caña flexible */
-	private CanaPescar canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 100, 15);
+	private CanaPescar canaFlexible = new CanaPescar("Caña flexible", "cana_flexible", 75, 15);
 	/** Cebo bueno */
-	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 50);
+	private Item ceboBueno = new Item("Cebo de alta calidad", "cebo_bueno", 20);
 	/** Cañones oxidados */
-	private Canon canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 200, 15, 1);
+	private Canon canonesOxi = new Canon("Cañones oxidados", "canones_oxi", 175, 15, 1);
 	/** Cañones reacondicionados */
-	private Canon canonesReacond = new Canon("Cañones reacondicionados", "canones_reacond", 300, 25, 2);
+	private Canon canonesReacond = new Canon("Cañones reacondicionados", "canones_reacond", 250, 25, 2);
 	/** Armamento reforzado */
-	private ArmamentoBarco armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 150, 20,
+	private ArmamentoBarco armamentoReforzado = new ArmamentoBarco("Armamento Reforzado", "armamento_refor", 140, 20,
 			2);
 	/** Armamento grado militar */
 	private ArmamentoBarco armamentoMili = new ArmamentoBarco("Armamento de Grado Militar", "armamento_mili", 200, 25,
 			3);
 	/** Poción de salud */
-	private Consumible brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 75, "curar");
+	private Consumible brebajeSalud = new Consumible("Brebaje de Salud", "pot_salud", 35, "curar");
 	/** Poción de defensa */
-	private Consumible brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 75, "defensa");
+	private Consumible brebajeDefensa = new Consumible("Brebaje de Defensa", "pot_defensa", 35, "defensa");
 	/** Poción de iniciativa */
-	private Consumible brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 75, "iniciativa");
+	private Consumible brebajeIniciativa = new Consumible("Brebaje de Iniciativa", "pot_init", 35, "iniciativa");
 
 	// TENDEROS
 	/** NPC en la tienda de la isla1 */
