@@ -27,6 +27,8 @@ public class GestorMundo {
 	private VistaNavegacion vistaNavegacion = new VistaNavegacion();
 	/** Referencia al objeto Mundo a gestionar. */
 	private Mundo mundo;
+	/** Referencia al objeto Jugador. */
+	private Jugador j;
 
 	/**
 	 * Constructor de la clase GestorMundo.
@@ -36,6 +38,7 @@ public class GestorMundo {
 	 */
 	public GestorMundo(Mundo mundo, Jugador j) {
 		this.mundo = mundo;
+		this.j = j;
 		combate = new GestorCombate(j);
 	}
 
@@ -53,8 +56,9 @@ public class GestorMundo {
 		int distancia;
 		int direccion;
 		boolean echarAncla = false;
+		boolean combateGanado = true;
 		Isla isla = new Isla("isla");
-		while (!echarAncla) {
+		while (!echarAncla && combateGanado) {
 			vistaNavegacion.imprimirMapa(mundo.getPosicionX(), mundo.getPosicionY(), mundo.getMapa());
 			direccion = vistaNavegacion.seleccionarDireccion();
 			distancia = vistaNavegacion.seleccionarDistancia();
@@ -67,11 +71,12 @@ public class GestorMundo {
 
 				if (isla == null) {
 					dormir(150);
+					vistaNavegacion.limpiarPantalla();
 					continue;
 				}
 
 				if (isla.getNombre().equals("encuentroEnem")) {
-					combate.comenzar();
+					combateGanado = combate.comenzar();
 					mundo.getMapa()[mundo.getPosicionX()][mundo.getPosicionY()] = null;
 					break;
 				}
@@ -82,8 +87,14 @@ public class GestorMundo {
 				echarAncla = vistaNavegacion.confirmarEntrarIsla(isla);
 				break;
 			}
-			vistaNavegacion.limpiarPantalla();
 		}
+		// Si el jugador pierde el combate se le manda de vuelva a la última isla en la
+		// que ha echado ancla.
+		if (!combateGanado) {
+			vistaNavegacion.mensajeDerrota(j);
+			return j.getIslaActual();
+		}
+
 		return isla;
 	}
 

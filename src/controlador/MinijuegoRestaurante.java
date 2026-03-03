@@ -18,7 +18,7 @@ import vista.VistaRestaurante;
  * @author Jesús Manrique, Marcos Villagómez.
  * @version 1.0
  */
-public class MinijuegoRestaurante implements Minijuego {
+public class MinijuegoRestaurante {
 	/** Instancia de Random del paquete java.util. */
 	private final Random ALEATORIO = new Random();
 	/**
@@ -103,10 +103,8 @@ public class MinijuegoRestaurante implements Minijuego {
 		this.turnoActual = turnoActual;
 	}
 
-	@Override
 	/**
-	 * Método de la interfaz Minijuego. Inicia y gestiona el minijuego del
-	 * restaurante.
+	 * Inicia y gestiona el minijuego del restaurante.
 	 * <p>
 	 * Controla el flujo de turnos, la llegada de clientes, la preparación y
 	 * servicio de platos, así como la paciencia de los clientes. El turno avanza
@@ -116,6 +114,12 @@ public class MinijuegoRestaurante implements Minijuego {
 	 */
 	public void comenzar() {
 		boolean consumirTurno = true;
+		// comanda terminada se refiere a si has entregado la comanda correctamente o si
+		// en caso contrario y se ha dado un combate si has ganado o perdido el combate.
+		boolean comandaTerminada = true;
+		// boolean para representar si se ha ganado el combate en el caso de que un
+		// cliente se quede sin paciencia.
+		boolean combateGanado = true;
 		// establecer todos los atributos cuando comienza el minijuego
 		duracionTurno = Math.min(25, 10 + (2 * jc.getDiaActual()));
 		turnoActual = 1;
@@ -124,7 +128,7 @@ public class MinijuegoRestaurante implements Minijuego {
 		platosPreparados.clear();
 		vistaRestaurante.mensajeInicio(j);
 
-		while (turnoActual < duracionTurno) {
+		while (turnoActual < duracionTurno && comandaTerminada && combateGanado) {
 			// resetear opciones
 			int opcion = -1;
 			int opcionC = -1; // opcion cliente
@@ -211,13 +215,13 @@ public class MinijuegoRestaurante implements Minijuego {
 						}
 						break;
 					case 2:
-						terminarComanda(clienteAServir);
+						comandaTerminada = terminarComanda(clienteAServir);
 						break;
 					}
 				}
-
 				break;
 			}
+
 			if (consumirTurno) {
 				Iterator<Cliente> it = clientes.iterator();
 				while (it.hasNext()) {
@@ -228,15 +232,18 @@ public class MinijuegoRestaurante implements Minijuego {
 						vistaRestaurante.mensajePacienciaAgotada(c);
 						it.remove();
 						if (ALEATORIO.nextInt(4) == 0) {
-							gestorCombate.comenzarCombateRestaurante();
+							combateGanado = gestorCombate.comenzarCombateRestaurante();
 						}
 					}
 				}
 				turnoActual++;
 			}
-
 		}
-		vistaRestaurante.mensajeFin(j);
+		if (!combateGanado || !comandaTerminada) {
+			vistaRestaurante.mensajeCombatePerdido(j);
+		} else {
+			vistaRestaurante.mensajeFin(j);
+		}
 	}
 
 	/**
@@ -308,8 +315,12 @@ public class MinijuegoRestaurante implements Minijuego {
 	 * </p>
 	 * 
 	 * @param clienteAServir Cliente cuya comanda se desea cerrar.
+	 * @return Boolean indicando, en el caso de que se de un combate, si el jugador
+	 *         gana o pierde el combate. Devuelve true si gana, false si pierde. Si
+	 *         no se da un combate devuelve true directamente.
 	 */
-	private void terminarComanda(Cliente clienteAServir) {
+	private boolean terminarComanda(Cliente clienteAServir) {
+		boolean combateGanado = true;
 		if (clienteAServir.getPlatosRecibidos().containsAll(clienteAServir.getPedido())) {
 			int pago = 0;
 			for (int i = 0; i < clienteAServir.getPedido().size(); i++) {
@@ -318,12 +329,20 @@ public class MinijuegoRestaurante implements Minijuego {
 			j.sumarOro(pago);
 			vistaRestaurante.mensajesPedidoCorrecto(clienteAServir, pago);
 			quitarCliente(clienteAServir);
+			return true;
 		} else {
 			vistaRestaurante.mensajesPedidoIncorrecto(clienteAServir);
 			quitarCliente(clienteAServir);
 			if (ALEATORIO.nextInt(4) == 0) {
-				gestorCombate.comenzarCombateRestaurante();
+				combateGanado = gestorCombate.comenzarCombateRestaurante();
 			}
+		}
+		// comprueba si el combate se ha ganado o se ha perdido, y devuelve true o false
+		// depende del resultado
+		if (combateGanado) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

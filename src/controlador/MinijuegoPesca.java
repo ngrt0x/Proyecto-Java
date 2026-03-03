@@ -18,7 +18,7 @@ import vista.VistaPesca;
  * @author Jesús Manrique, Marcos Villagómez.
  * @version 1.0
  */
-public class MinijuegoPesca implements Minijuego {
+public class MinijuegoPesca {
 	/**
 	 * Instancia de VistaPesca, la vista encargada de imprimir y pedir la
 	 * información relacionada con éste minijuego.
@@ -45,9 +45,8 @@ public class MinijuegoPesca implements Minijuego {
 		j = jugador;
 	}
 
-	@Override
 	/**
-	 * Método de la interfaz Minijuego. Comienza el minijuego.
+	 * Comienza el minijuego de pesca.
 	 */
 	public void comenzar() {
 		// muestra el menu inicial
@@ -196,6 +195,7 @@ public class MinijuegoPesca implements Minijuego {
 		// no comienza la pesca
 		if (!texto.toLowerCase().equals("tirar")) {
 			vistaPesca.imprimirMensaje("Vaya, parece que se ha ido... A la próxima tendré que estar más atento.");
+			j.getInventario().restarItem("cebo_bueno", 1);
 			return false;
 		} else {
 			return true;

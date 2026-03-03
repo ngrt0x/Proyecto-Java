@@ -1,9 +1,11 @@
 package vista;
 
+import modeloJugador.Jugador;
 import modeloMundo.Isla;
 
 /**
- * Clase vista navegacion, contiene los mensajes para cuendo vas a navegar, a parte del mapa
+ * Clase vista navegacion, contiene los mensajes para cuendo vas a navegar, a
+ * parte del mapa
  * 
  * @author Jesús Manrique y Marcos Villagómez
  * @version 1.0
@@ -18,6 +20,7 @@ public class VistaNavegacion {
 	// metodos propios
 	/**
 	 * Metodo para seleccionar la distancia que quieres viajar
+	 * 
 	 * @return Numero de tiles que vas a desplazarte
 	 */
 	public int seleccionarDistancia() {
@@ -33,6 +36,7 @@ public class VistaNavegacion {
 
 	/**
 	 * Metodo para seleccionar la dirección en la que quieres viajar
+	 * 
 	 * @return Dirección
 	 */
 	public int seleccionarDireccion() {
@@ -49,12 +53,14 @@ public class VistaNavegacion {
 
 	/**
 	 * Metodo para imprimir el mapa
+	 * 
 	 * @param xPersonaje Coordenada x del jugador
 	 * @param yPersonaje Coordenada y del jugador
-	 * @param mapa Mapa
+	 * @param mapa       Mapa
 	 */
 	public void imprimirMapa(int xPersonaje, int yPersonaje, Isla[][] mapa) {
 		int radio = 19;
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensajePegado("\t\t\t");
 		for (int y = yPersonaje - radio; y <= yPersonaje + radio; y++) {
 			for (int x = xPersonaje - radio; x <= xPersonaje + radio; x++) {
@@ -83,6 +89,7 @@ public class VistaNavegacion {
 
 	/**
 	 * Metodo para imprimir el mensaje de isla descubierta
+	 * 
 	 * @param i Isla
 	 */
 	public void mensajeDescubrirIsla(Isla i) {
@@ -91,6 +98,7 @@ public class VistaNavegacion {
 
 	/**
 	 * Metodo para imprimir el mensaje de llegada a isla
+	 * 
 	 * @param i Isla
 	 */
 	public void mensajeLlegarIsla(Isla i) {
@@ -99,6 +107,7 @@ public class VistaNavegacion {
 
 	/**
 	 * Metodo para confirmar la entrada a la isla
+	 * 
 	 * @param isla Isla
 	 * @return True si quieres entrar false si no
 	 */
@@ -117,6 +126,15 @@ public class VistaNavegacion {
 			opcion = gestorVista.pedirNum();
 		}
 		return opcion == 1;
+	}
+
+	public void mensajeDerrota(Jugador j) {
+		gestorVista.imprimirEspacio();
+		gestorVista.imprimirMensaje(
+				j.getNombre() + ": 'Nos retiramos chicos! No podemos seguir navegando en estas condiciones!'");
+		gestorVista.imprimirEspacio();
+		gestorVista.imprimirMensaje(
+				"Tras haber sido derrotados en batalla, os dirigís a la útlima isla donde echasteis ancla con intención de descansar y reponer fuerzas...");
 	}
 
 	/**

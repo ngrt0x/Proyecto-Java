@@ -206,7 +206,7 @@ public class VistaCombate {
 	 * Metodo para imprimir el mensaje de derrota
 	 */
 	public void mensajeDerrota() {
-		gestorVista.imprimirMensaje("Tu tripulación ha sido derrotada, volviendo a la última isla que visitaste...");
+		gestorVista.imprimirMensaje("Tu tripulación ha sido derrotada...");
 	}
 
 	/**

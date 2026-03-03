@@ -92,7 +92,7 @@ public class VistaPesca {
 	 */
 	public int menuLucha() {
 		int opcion;
-
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje("Qué quieres hacer?");
 		gestorVista.imprimirMensaje("1. Tirar con fuerza");
 		gestorVista.imprimirMensaje("2. Aflojar un poco");
@@ -175,6 +175,7 @@ public class VistaPesca {
 		gestorVista.imprimirMensaje("");
 
 		// energia del pez
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensajePegado("Energía del pez: \t");
 		bloquesLlenos = (int) ((double) pezActual / pezTope * longitudBarra);
 		bloquesVacios = longitudBarra - bloquesLlenos;
@@ -187,6 +188,7 @@ public class VistaPesca {
 		gestorVista.imprimirMensaje("");
 
 		// distancia del pez
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensajePegado("Distancia del pez: \t");
 		bloquesLlenos = (int) ((double) distanciaActual / distanciaTope * longitudBarra);
 		bloquesVacios = longitudBarra - bloquesLlenos;

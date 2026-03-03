@@ -24,7 +24,7 @@ import vista.VistaCombate;
  * @author Jesús Manrique y Marcos Villagómez
  * @version 1.0
  */
-public class GestorCombate implements Minijuego {
+public class GestorCombate {
 	/** Instancia de Random del paquete java.util. */
 	private final Random ALEATORIO = new Random();
 	/**
@@ -71,11 +71,13 @@ public class GestorCombate implements Minijuego {
 		}
 	}
 
-	@Override
 	/**
-	 * Método de la interfaz Minijuego. Comienza el minijuego.
+	 * Comienza el combate.
+	 * 
+	 * @return Boolean indicando el resultado del combate. Si el combate se ha
+	 *         ganado duelve true, sino devuelve false.
 	 */
-	public void comenzar() {
+	public boolean comenzar() {
 		int contadorRondas = 1;
 
 		// gestiona la salud de los tripulantes en base al armamento equipado en el
@@ -131,16 +133,19 @@ public class GestorCombate implements Minijuego {
 				if (!aliadosVivos() || !enemigosVivos()) {
 					if (!aliadosVivos()) {
 						vistaCombate.mensajeDerrota();
+						return false;
 					} else if (!enemigosVivos()) {
 						int oro = generarGaussOro();
 						jugador.sumarOro(oro);
 						vistaCombate.mensajeVictoria(oro);
+						return true;
 					}
 					break;
 				}
 			}
 			contadorRondas++;
 		}
+		return true;
 	}
 
 	/**
@@ -150,8 +155,11 @@ public class GestorCombate implements Minijuego {
 	 * No comprueba ni hace uso de los cañones del barco en ningún momento. También,
 	 * el encuentro que se genera es predeterminado.
 	 * </p>
+	 * 
+	 * @return Boolean indicando el resultado del combate. Si el combate se ha
+	 *         ganado duelve true, sino devuelve false.
 	 */
-	public void comenzarCombateRestaurante() {
+	public boolean comenzarCombateRestaurante() {
 		vistaCombate.mensajeCombateRestaurante();
 
 		// gestiona la salud de los tripulantes en base al armamento equipado en el
@@ -202,15 +210,18 @@ public class GestorCombate implements Minijuego {
 				if (!aliadosVivos() || !enemigosVivos()) {
 					if (!aliadosVivos()) {
 						vistaCombate.mensajeDerrota();
+						return false;
 					} else if (!enemigosVivos()) {
 						int oro = generarGaussOro();
 						jugador.sumarOro(oro);
 						vistaCombate.mensajeVictoria(oro);
+						return true;
 					}
 					break;
 				}
 			}
 		}
+		return true;
 	}
 
 	/**

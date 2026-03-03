@@ -148,6 +148,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para mostrar el menu de agregacion de ingredientes
+	 * 
 	 * @param ingredientes Ingredientes
 	 * @return Opcion
 	 */
@@ -167,6 +168,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para mostrar el menu de preparacion de platos
+	 * 
 	 * @return Opcion
 	 */
 	public int menuPreparacion() {
@@ -182,6 +184,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para mostrar los clinetes a servir
+	 * 
 	 * @param clientes Clientes
 	 * @return Cliente a servir
 	 */
@@ -207,6 +210,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para mostrar el menu de entrega de platos
+	 * 
 	 * @param platosPreparados Platos Preparados
 	 * @return Opcion
 	 */
@@ -230,6 +234,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para mostrar el menu de servir a clientes
+	 * 
 	 * @return Opcion
 	 */
 	public int menuServir() {
@@ -245,7 +250,8 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para imprimir el mensaje de pedido correcto
-	 * @param c Cliente
+	 * 
+	 * @param c   Cliente
 	 * @param oro Oro obtenido
 	 */
 	public void mensajesPedidoCorrecto(Cliente c, int oro) {
@@ -262,6 +268,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para imprimir el mensaje de pedido erroneo
+	 * 
 	 * @param c Cliente
 	 */
 	public void mensajesPedidoIncorrecto(Cliente c) {
@@ -278,6 +285,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para impirmir el mensaje de paciencia agotada
+	 * 
 	 * @param c Cliente
 	 */
 	public void mensajePacienciaAgotada(Cliente c) {
@@ -312,6 +320,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para imprimir el mensaje de plato cocinado
+	 * 
 	 * @param p Plato
 	 */
 	public void mensajePlatoCocinado(Plato p) {
@@ -329,6 +338,7 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para imprimir el mensaje de plato entregado
+	 * 
 	 * @param c Cliente
 	 * @param p Plato
 	 */
@@ -339,12 +349,28 @@ public class VistaRestaurante {
 
 	/**
 	 * Metodo para imprimir el mensaje de turno de comidas finalizado
+	 * 
 	 * @param j Jugador
 	 */
 	public void mensajeFin(Jugador j) {
 		gestorVista.imprimirEspacio();
-		gestorVista.imprimirMensaje("=== TURNO DE COMIDAS FINALIZADO ===");
+		gestorVista.imprimirMensaje("\t\t\t=== TURNO DE COMIDAS FINALIZADO ===");
+		gestorVista.imprimirEspacio();
 		gestorVista.imprimirMensaje(j.getNombre()
 				+ ": 'Restaurante cerrado canallas! El que se haya quedado con hambre que hubiera venido antes!'");
+	}
+
+	/**
+	 * Método para imprimir el mensaje de turno de comidas finalizado, en caso de
+	 * que el jugador pierda un combate
+	 * 
+	 * @param j Jugador
+	 */
+	public void mensajeCombatePerdido(Jugador j) {
+		gestorVista.imprimirEspacio();
+		gestorVista.imprimirMensaje("\t\t\t=== TURNO DE COMIDAS FINALIZADO ===");
+		gestorVista.imprimirEspacio();
+		gestorVista.imprimirMensaje(j.getNombre()
+				+ ": 'Vaya tunda nos han dado, no podemos seguir trabajando así! Deberíamos cerrar antes de buscarnos más problemas...");
 	}
 }
