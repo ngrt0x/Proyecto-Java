@@ -6,7 +6,8 @@ import java.util.Map;
 
 import modeloJugador.Jugador;
 import modeloMundo.Tienda;
-import modeloObjetos.ArmamentoBarco;
+import modeloObjetos.CanaPescar;
+import modeloObjetos.Consumible;
 import modeloObjetos.Item;
 import vista.VistaJuego;
 import vista.VistaTienda;
@@ -104,6 +105,7 @@ public class GestorTienda {
 	 * @param opcion Index del objeto a comprar del stock de la Tienda + 1.
 	 */
 	private void comprarItem(int opcion) {
+		Item itemAComprar;
 		int confirmacion;
 		int contador = 1;
 		Map<String, Item> itemsALaVenta = t.getStock().getItems();
@@ -113,7 +115,15 @@ public class GestorTienda {
 		for (String i : itemsALaVenta.keySet()) {
 			if (opcion == contador) {
 				Item itemOriginal = itemsALaVenta.get(i);
-				Item itemAComprar = new Item(itemOriginal);
+				// depende del tipo de item que sea, itemAComprar crea una copia de ese item del
+				// tipo de item correspondiente
+				if (itemOriginal instanceof CanaPescar) {
+					itemAComprar = new CanaPescar((CanaPescar) itemOriginal);
+				} else if (itemOriginal instanceof Consumible) {
+					itemAComprar = new Consumible((Consumible) itemOriginal);
+				} else {
+					itemAComprar = new Item(itemOriginal);
+				}
 				// comprueba que el jugador tenga suficiente dinero para comprar el item
 				if (j.getOro() - itemOriginal.getPrecio() < 0) {
 					vistaTienda.imprimirMensaje("No tienes suficiente dinero para comprar eso!");
@@ -126,13 +136,7 @@ public class GestorTienda {
 					if (confirmacion != 1) {
 						return;
 					} else {
-						// comprueba a ver si el item comprado es equipamiento de barco u otro tipo de
-						// item, para anadirlo al inventario del barco o al del jugador
-						if (itemOriginal instanceof ArmamentoBarco) {
-							j.getBarco().getInventarioB().anadirArmamento((ArmamentoBarco) itemAComprar);
-						} else {
-							j.getInventario().anadirItem(itemAComprar);
-						}
+						j.getInventario().anadirItem(itemAComprar);
 						vistaTienda.mensajeCompra(this);
 						// tras la compra se resta 1 al stock
 						j.restarOro(itemAComprar.getPrecio());
